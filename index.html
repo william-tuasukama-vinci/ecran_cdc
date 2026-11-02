@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InsideBox - Enterprise Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            navy: {
+              950: '#070c18',
+              900: '#0b1329',
+              850: '#0f1a38',
+              800: '#15244c',
+              700: '#1e346b',
+            },
+            electric: {
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            }
+          },
+          boxShadow: {
+            'neon': '0 0 20px rgba(59, 130, 246, 0.35)',
+            'neon-strong': '0 0 30px rgba(59, 130, 246, 0.6)',
+            'card-glow': '0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 0 15px rgba(59, 130, 246, 0.05)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Animations fluides personnalisées */
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.4; filter: blur(20px); }
+      50% { opacity: 0.8; filter: blur(25px); }
+    }
+    
+    .glow-bg {
+      animation: pulseGlow 6s infinite ease-in-out;
+    }
+
+    /* Scrollbar élégante */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(241, 245, 249, 0.5);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 99px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Glassmorphism sidebar */
+    .glass-sidebar-item {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-sidebar-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.12);
+      transform: translateX(4px);
+    }
+    .glass-sidebar-item.active {
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.22) 0%, rgba(30, 58, 138, 0.08) 100%);
+      border-color: rgba(59, 130, 246, 0.5);
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+    }
+
+    /* Custom Transitions */
+    .drawer-open {
+      transform: translateX(0%);
+    }
+    .drawer-closed {
+      transform: translateX(100%);
+    }
+
+    .modal-open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+    .modal-closed {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body class="bg-[#0b1220] text-slate-800 font-sans min-h-screen flex items-center justify-center p-3 sm:p-6 antialiased selection:bg-blue-500 selection:text-white">
+
+  <!-- Container Principal -->
+  <div class="w-full max-w-[1500px] h-[920px] max-h-[92vh] bg-white rounded-3xl overflow-hidden shadow-2xl flex relative border border-slate-800/10">
+
+    <!-- ========================================== -->
+    <!-- 1. SIDEBAR FUTURISTE (BLEU FONCÉ #0b1329)  -->
+    <!-- ========================================== -->
+    <aside class="w-72 sm:w-80 bg-navy-900 flex flex-col p-6 relative z-20 border-r border-slate-800/40 select-none flex-shrink-0">
+      
+      <!-- Effet de halo bleu futuriste -->
+      <div class="absolute -top-10 -left-10 w-48 h-48 bg-blue-600/20 rounded-full glow-bg pointer-events-none"></div>
+      <div class="absolute bottom-10 -right-10 w-48 h-48 bg-indigo-600/15 rounded-full glow-bg pointer-events-none"></div>
+
+      <!-- Logo InsideBox -->
+      <div class="flex items-center gap-3.5 mb-8 relative z-10">
+        <div class="w-11 h-11 bg-gradient-to-br from-electric-500 to-electric-700 rounded-2xl flex items-center justify-center shadow-neon">
+          <i data-lucide="box" class="w-6 h-6 text-white"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-xl font-extrabold text-white tracking-tight flex items-center gap-1">
+            Inside<span class="text-electric-400">Box</span>
+          </span>
+          <span class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Enterprise Hub</span>
+        </div>
+      </div>
+
+      <!-- Barre de recherche réactive -->
+      <div class="relative mb-8 z-10">
+        <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 transition-colors pointer-events-none" id="search-icon"></i>
+        <input 
+          type="text" 
+          id="search-input"
+          placeholder="recherche des entreprises"
+          class="w-full bg-slate-800/60 border border-slate-700/60 rounded-xl py-2.5 pl-10 pr-9 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-electric-500 focus:ring-1 focus:ring-electric-500 focus:bg-slate-800/90 transition-all duration-300"
+        />
+        <button id="clear-search" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs">
+          <i data-lucide="x" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+
+      <!-- Navigation principale (3 menus seulement) -->
+      <nav class="flex flex-col gap-2.5 z-10">
+        
+        <!-- Menu 1 : Entreprises -->
+        <button id="nav-entreprises" onclick="switchTab('entreprises')" class="glass-sidebar-item active w-full flex items-center gap-3.5 px-4 py-3 rounded-xl border border-transparent text-sm font-medium text-slate-300 hover:text-white group text-left">
+          <i data-lucide="building-2" class="w-4 h-4 text-electric-400"></i>
+          <span class="flex-1">Entreprises</span>
+          <span id="company-count-badge" class="bg-gradient-to-r from-electric-500 to-electric-700 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-neon transition-all duration-300">10</span>
+        </button>
+
+        <!-- Menu 2 : Contact en cours -->
+        <button id="nav-contacts" onclick="switchTab('contacts')" class="glass-sidebar-item w-full flex items-center gap-3.5 px-4 py-3 rounded-xl border border-transparent text-sm font-medium text-slate-400 hover:text-white group text-left">
+          <i data-lucide="phone-call" class="w-4 h-4 text-slate-400 group-hover:text-electric-400 transition-colors"></i>
+          <span class="flex-1">Contact en cours</span>
+          <span id="active-contacts-badge" class="bg-amber-500/20 text-amber-400 border border-amber-500/30 text-[10px] font-bold px-2 py-0.5 rounded-full">2</span>
+        </button>
+
+        <!-- Menu 3 : Ajouter une entreprise -->
+        <button onclick="openAddModal()" class="w-full flex items-center gap-3.5 px-4 py-3.5 mt-2 rounded-xl bg-gradient-to-r from-electric-600 to-electric-700 hover:from-electric-500 hover:to-electric-600 text-white text-sm font-semibold shadow-neon hover:shadow-neon-strong transition-all duration-300 active:scale-[0.98]">
+          <i data-lucide="plus-circle" class="w-4 h-4"></i>
+          <span>Ajouter une entreprise</span>
+        </button>
+      </nav>
+
+      <!-- Statut système bas de page -->
+      <div class="mt-auto pt-6 border-t border-slate-800/60 flex items-center justify-between text-[11px] text-slate-400 z-10">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Réseau Belgique actif</span>
+        </div>
+        <span class="text-slate-400 font-mono">v2.4.0</span>
+      </div>
+    </aside>
+
+    <!-- ========================================== -->
+    <!-- 2. MAIN CONTENT (BLANC & ÉPURÉ)           -->
+    <!-- ========================================== -->
+    <main class="flex-1 flex flex-col min-w-0 bg-slate-50/50 overflow-hidden relative">
+
+      <!-- TOPBAR : Uniquement Droite (Calendrier, Notifs, Profil) -->
+      <header class="h-20 px-8 flex items-center justify-end bg-white/80 backdrop-blur-md border-b border-slate-100 z-10">
+        
+        <div class="flex items-center gap-4">
+          
+          <!-- Bouton Agenda / Calendrier -->
+          <div class="relative">
+            <button id="agenda-btn" onclick="toggleDropdown('agenda-dropdown')" class="w-10 h-10 rounded-xl bg-slate-100/80 hover:bg-slate-200/80 text-slate-600 hover:text-blue-600 flex items-center justify-center transition-all duration-200 active:scale-95">
+              <i data-lucide="calendar" class="w-5 h-5"></i>
+            </button>
+            
+            <!-- Dropdown Agenda -->
+            <div id="agenda-dropdown" class="hidden absolute right-0 mt-3 w-80 bg-white rounded-2xl shadow-xl border border-slate-100 p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+              <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
+                <span class="font-bold text-sm text-slate-800 flex items-center gap-2">
+                  <i data-lucide="calendar-days" class="w-4 h-4 text-blue-600"></i> Événements à venir
+                </span>
+                <span class="text-[11px] text-slate-400">Aujourd'hui</span>
+              </div>
+              <div class="space-y-2.5 text-xs">
+                <div class="p-2.5 rounded-xl bg-blue-50/60 border border-blue-100/80">
+                  <div class="font-semibold text-blue-900">Rendez-vous Infrabel</div>
+                  <div class="text-slate-500 mt-0.5">14:30 - Discussion projet I-ICT Ring</div>
+                </div>
+                <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                  <div class="font-semibold text-slate-800">Appel Sopra Steria</div>
+                  <div class="text-slate-500 mt-0.5">16:00 - Suivi de contrat</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bouton Cloche de Notification -->
+          <div class="relative">
+            <button id="notif-btn" onclick="toggleDropdown('notif-dropdown')" class="w-10 h-10 rounded-xl bg-slate-100/80 hover:bg-slate-200/80 text-slate-600 hover:text-blue-600 flex items-center justify-center transition-all duration-200 active:scale-95 relative">
+              <i data-lucide="bell" class="w-5 h-5"></i>
+              <!-- Badge rouge animé -->
+              <span class="absolute top-2 right-2 w-2.5 h-2.5 bg-rose-500 rounded-full ring-2 ring-white animate-pulse"></span>
+            </button>
+
+            <!-- Dropdown Notifications -->
+            <div id="notif-dropdown" class="hidden absolute right-0 mt-3 w-80 bg-white rounded-2xl shadow-xl border border-slate-100 p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+              <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
+                <span class="font-bold text-sm text-slate-800 flex items-center gap-2">
+                  <i data-lucide="bell-ring" class="w-4 h-4 text-blue-600"></i> Notifications
+                </span>
+                <button onclick="clearNotifs()" class="text-[11px] text-blue-600 hover:underline">Tout lire</button>
+              </div>
+              <div id="notif-list" class="space-y-2 text-xs">
+                <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100 flex gap-3 items-start">
+                  <div class="w-2 h-2 rounded-full bg-blue-600 mt-1.5 flex-shrink-0"></div>
+                  <div>
+                    <span class="font-medium text-slate-800">Nouveau message de LetsBuild</span>
+                    <p class="text-slate-400 mt-0.5">Il y a 10 min</p>
+                  </div>
+                </div>
+                <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100 flex gap-3 items-start">
+                  <div class="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></div>
+                  <div>
+                    <span class="font-medium text-slate-800">Mise à jour Fiche AXIS SRL</span>
+                    <p class="text-slate-400 mt-0.5">Il y a 1 heure</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <div class="h-6 w-px bg-slate-200"></div>
+
+          <!-- Photo de profil Utilisateur (William - Étudiant) -->
+          <div class="relative">
+            <button onclick="toggleDropdown('profile-dropdown')" class="flex items-center gap-3 p-1 rounded-full hover:bg-slate-100 transition-colors">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Avatar William" class="w-10 h-10 rounded-full object-cover ring-2 ring-blue-500/30">
+              <div class="hidden sm:flex flex-col text-left pr-1">
+                <span class="text-xs font-bold text-slate-800 leading-none">William</span>
+                <span class="text-[11px] text-blue-600 font-medium mt-1">Étudiant</span>
+              </div>
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 hidden sm:block"></i>
+            </button>
+
+            <!-- Dropdown Profil -->
+            <div id="profile-dropdown" class="hidden absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50">
+              <div class="px-3 py-2 border-b border-slate-100 mb-1">
+                <p class="text-xs font-bold text-slate-800">William</p>
+                <p class="text-[11px] text-blue-600 font-semibold">Étudiant</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">william@student.be</p>
+              </div>
+              <a href="#" class="flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 rounded-xl transition-colors">
+                <i data-lucide="user" class="w-3.5 h-3.5"></i> Mon Profil
+              </a>
+              <a href="#" class="flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 rounded-xl transition-colors">
+                <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i> Statut Étudiant
+              </a>
+              <a href="#" class="flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 rounded-xl transition-colors">
+                <i data-lucide="settings" class="w-3.5 h-3.5"></i> Paramètres
+              </a>
+              <div class="my-1 border-t border-slate-100"></div>
+              <a href="#" class="flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-rose-600 hover:bg-rose-50 rounded-xl transition-colors">
+                <i data-lucide="log-out" class="w-3.5 h-3.5"></i> Déconnexion
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+      <!-- SECTION DYNAMIQUE DE CONTENU -->
+      <div class="flex-1 p-8 overflow-y-auto">
+
+        <!-- Vue 1 : Annuaire des Entreprises (Par défaut) -->
+        <div id="view-entreprises" class="space-y-6">
+          
+          <!-- Titre principal & Badges récapitulatifs -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
+                Annuaire des entreprises
+                <span id="results-count" class="text-xs font-semibold px-3 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-100">
+                  10 entreprises
+                </span>
+              </h1>
+              <p class="text-xs text-slate-400 mt-1">Liste des partenaires enregistrés en Belgique (Bruxelles, Wallonie, Flandre)</p>
+            </div>
+
+            <!-- Filtres rapides par ville -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
+              <button onclick="filterByCity('all')" class="city-filter active-filter px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white transition-all">Toutes</button>
+              <button onclick="filterByCity('Bruxelles')" class="city-filter px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:border-slate-300 transition-all">Bruxelles</button>
+              <button onclick="filterByCity('Braine-l\'Alleud')" class="city-filter px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:border-slate-300 transition-all">Braine</button>
+              <button onclick="filterByCity('La Hulpe')" class="city-filter px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-slate-200 text-slate-600 hover:border-slate-300 transition-all">La Hulpe</button>
+            </div>
+          </div>
+
+          <!-- TABLEAU DES ENTREPRISES -->
+          <div class="bg-white rounded-2xl border border-slate-200/80 shadow-card-glow overflow-hidden transition-all">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-slate-50/80 border-b border-slate-200/80 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                    <th class="py-4 px-6">Entreprise - Nom</th>
+                    <th class="py-4 px-4">Mot-clé</th>
+                    <th class="py-4 px-4">Tél</th>
+                    <th class="py-4 px-4">Email</th>
+                    <th class="py-4 px-4">Adresse</th>
+                    <th class="py-4 px-4">Ville</th>
+                    <th class="py-4 px-6 text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="company-table-body" class="divide-y divide-slate-100 text-xs">
+                  <!-- Les lignes sont générées dynamiquement en JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Message si aucun résultat -->
+            <div id="no-results" class="hidden p-12 text-center">
+              <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                <i data-lucide="search-x" class="w-6 h-6"></i>
+              </div>
+              <h3 class="text-sm font-bold text-slate-800">Aucune entreprise trouvée</h3>
+              <p class="text-xs text-slate-400 mt-1">Essayez de modifier votre recherche ou ajoutez une nouvelle entreprise.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Vue 2 : Contact en cours -->
+        <div id="view-contacts" class="hidden space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Contacts en cours</h1>
+              <p class="text-xs text-slate-400 mt-1">Historique des demandes d'échanges avec les entreprises</p>
+            </div>
+          </div>
+
+          <div id="contacts-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Rempli en JS -->
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- ========================================== -->
+    <!-- 3. DRAWER SLIDE-OVER (PRENDRE CONTACT)     -->
+    <!-- ========================================== -->
+    <div id="contact-drawer-overlay" onclick="closeContactDrawer()" class="fixed inset-0 bg-slate-950/40 backdrop-blur-sm z-40 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+    
+    <aside id="contact-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl flex flex-col drawer-closed transition-transform duration-300 ease-out border-l border-slate-100">
+      <div class="p-6 bg-navy-900 text-white flex items-center justify-between relative overflow-hidden">
+        <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-blue-600/20 rounded-full blur-xl pointer-events-none"></div>
+        <div class="flex items-center gap-3.5 relative z-10">
+          <img id="drawer-company-logo" src="" alt="Logo" class="w-11 h-11 rounded-xl bg-white p-1 object-contain border border-white/20">
+          <div>
+            <h3 id="drawer-company-name" class="font-bold text-base text-white">Nom Entreprise</h3>
+            <p id="drawer-company-city" class="text-xs text-slate-300 flex items-center gap-1 mt-0.5">
+              <i data-lucide="map-pin" class="w-3 h-3 text-blue-400"></i> <span id="drawer-city-text">Ville</span>
+            </p>
+          </div>
+        </div>
+        <button onclick="closeContactDrawer()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="drawer-contact-form" onsubmit="sendContactMessage(event)" class="p-6 flex-1 flex flex-col justify-between overflow-y-auto space-y-4">
+        <div class="space-y-4">
+          <div class="p-3 bg-blue-50/70 border border-blue-100 rounded-xl text-xs text-blue-900 flex items-start gap-2.5">
+            <i data-lucide="info" class="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5"></i>
+            <span>Un email et une notification directe seront transmis au responsable de compte.</span>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Objet de la prise de contact</label>
+            <select id="drawer-subject" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500 focus:bg-white transition-all">
+              <option value="Demande de partenariat">Demande de partenariat</option>
+              <option value="Proposition commerciale">Proposition commerciale</option>
+              <option value="Suivi de projet I-ICT">Suivi de projet I-ICT</option>
+              <option value="Autre demande">Autre demande</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Nom de votre contact référent</label>
+            <input type="text" id="drawer-contact-person" placeholder="ex: Jean Dupont" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500 focus:bg-white transition-all">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Message</label>
+            <textarea id="drawer-message" rows="4" placeholder="Rédigez votre message ici..." required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500 focus:bg-white transition-all resize-none"></textarea>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex gap-3">
+          <button type="button" onclick="closeContactDrawer()" class="flex-1 py-3 px-4 rounded-xl border border-slate-200 text-slate-600 font-semibold text-xs hover:bg-slate-50 transition-colors">
+            Annuler
+          </button>
+          <button type="submit" class="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-electric-600 to-electric-700 hover:from-electric-500 hover:to-electric-600 text-white font-semibold text-xs shadow-neon transition-all flex items-center justify-center gap-2">
+            <i data-lucide="send" class="w-3.5 h-3.5"></i> Envoyer
+          </button>
+        </div>
+      </form>
+    </aside>
+
+    <!-- ========================================== -->
+    <!-- 4. MODALE AJOUTER UNE ENTREPRISE          -->
+    <!-- ========================================== -->
+    <div id="add-modal" class="fixed inset-0 bg-navy-950/60 backdrop-blur-md z-50 flex items-center justify-center p-4 modal-closed transition-all duration-300">
+      <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden border border-slate-100 transform transition-all">
+        
+        <div class="p-6 bg-navy-900 text-white flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-electric-500/20 text-electric-400 border border-electric-500/30 flex items-center justify-center">
+              <i data-lucide="building-2" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-base">Ajouter une entreprise</h3>
+              <p class="text-xs text-slate-400">Renseignez les détails du nouveau partenaire belge</p>
+            </div>
+          </div>
+          <button onclick="closeAddModal()" class="text-slate-400 hover:text-white transition-colors">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <form id="add-company-form" onsubmit="handleAddCompany(event)" class="p-6 space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Nom de l'entreprise *</label>
+            <input type="text" id="new-name" required placeholder="ex: Odoo SRL" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500 focus:bg-white transition-all">
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Téléphone</label>
+              <input type="text" id="new-phone" placeholder="ex: 02 800 00 00" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500 focus:bg-white transition-all">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Email</label>
+              <input type="email" id="new-email" placeholder="contact@entreprise.be" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500 focus:bg-white transition-all">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-3">
+            <div class="col-span-2">
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Adresse</label>
+              <input type="text" id="new-address" placeholder="ex: Rue Neuve 12" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500 focus:bg-white transition-all">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Ville *</label>
+              <input type="text" id="new-city" required placeholder="ex: Bruxelles" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500 focus:bg-white transition-all">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Mot-clé / Département</label>
+            <input type="text" id="new-keyword" placeholder="ex: IT Services, Logistique..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500 focus:bg-white transition-all">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Domaine (pour le logo)</label>
+            <input type="text" id="new-domain" placeholder="ex: odoo.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500 focus:bg-white transition-all">
+          </div>
+
+          <div class="pt-3 flex gap-3">
+            <button type="button" onclick="closeAddModal()" class="flex-1 py-3 rounded-xl border border-slate-200 text-slate-600 font-semibold text-xs hover:bg-slate-50 transition-colors">
+              Annuler
+            </button>
+            <button type="submit" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-electric-600 to-electric-700 hover:from-electric-500 hover:to-electric-600 text-white font-semibold text-xs shadow-neon transition-all">
+              Enregistrer l'entreprise
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  </div>
+
+  <!-- SCRIPT JAVASCRIPT DYNAMIQUE -->
+  <script>
+    // Données initiales des entreprises belges
+    let companies = [
+      {
+        id: '1',
+        name: 'Assyst Europe',
+        keyword: '',
+        phone: '02.609.25.00',
+        email: '',
+        address: 'Avenue du Japon, 1/B9',
+        city: "1420 Braine-l'Alleud",
+        domain: 'assyst-europe.com'
+      },
+      {
+        id: '2',
+        name: 'AXIS SRL',
+        keyword: '',
+        phone: '02 752 17 60',
+        email: '',
+        address: "Avenue de l'Hélianthe, 63",
+        city: '1180 Uccle',
+        domain: 'axis.be'
+      },
+      {
+        id: '3',
+        name: 'Infrabel',
+        keyword: '',
+        phone: '02 525 22 11',
+        email: '',
+        address: 'Rue Bara, 135',
+        city: '1070 Bruxelles',
+        domain: 'infrabel.be'
+      },
+      {
+        id: '4',
+        name: 'La route du papier',
+        keyword: '',
+        phone: '02 586 16 65',
+        email: 'hr@laroutedupapier.com',
+        address: 'Avenue des Mimosas, 83',
+        city: '1150 Woluwe-Saint-Pierre',
+        domain: 'laroutedupapier.com'
+      },
+      {
+        id: '5',
+        name: 'LetsBuild',
+        keyword: '',
+        phone: '',
+        email: 'hr@letsbuild.be',
+        address: 'Chaussée de Bruxelles, 135A',
+        city: '1310 La Hulpe',
+        domain: 'letsbuild.com'
+      },
+      {
+        id: '6',
+        name: 'Niboo',
+        keyword: '',
+        phone: '0487 02 79 13',
+        email: '',
+        address: 'Boulevard du Souverain, 24',
+        city: '1170 Watermael-Boitsfort',
+        domain: 'niboo.be'
+      },
+      {
+        id: '7',
+        name: 'Sopra Steria',
+        keyword: '',
+        phone: '02 566 66 66',
+        email: '',
+        address: 'Avenue Arnaud Fraiteur, 15/23',
+        city: '1050 Bruxelles',
+        domain: 'soprasteria.com'
+      },
+      {
+        id: '8',
+        name: 'The Bayard Partnership',
+        keyword: '',
+        phone: '02 309 52 45',
+        email: '',
+        address: 'Grauwmeer, 1/57 bte 55',
+        city: '3001 Leuven',
+        domain: 'bayard-partnership.com'
+      },
+      {
+        id: '9',
+        name: 'Infrabel',
+        keyword: 'I-ICT Ring station',
+        phone: '02.212.88.88',
+        email: '',
+        address: 'Rue des deux gares, 82',
+        city: '1070 Bruxelles',
+        domain: 'infrabel.be'
+      },
+      {
+        id: '10',
+        name: 'Idealis Consulting',
+        keyword: '',
+        phone: '',
+        email: '',
+        address: 'Fond Jean Pâques, 4',
+        city: '1348 Louvain-la-Neuve',
+        domain: 'idealisconsulting.com'
+      }
+    ];
+
+    // Liste des prises de contact en cours
+    let activeContacts = [
+      { company: 'Infrabel', subject: 'Suivi de projet I-ICT', person: 'Marc Willems', date: 'Aujourd\'hui' },
+      { company: 'LetsBuild', subject: 'Demande de partenariat', person: 'Sophie Laurent', date: 'Hier' }
+    ];
+
+    let currentSelectedCompany = null;
+    let selectedCityFilter = 'all';
+
+    // INITIALISATION DE LA PAGE
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      renderTable();
+      renderContactsView();
+      setupSearch();
+    });
+
+    // RECHERCHE EN TEMPS RÉEL SUR LE PLACEHOLDER "recherche des entreprises"
+    function setupSearch() {
+      const searchInput = document.getElementById('search-input');
+      const clearBtn = document.getElementById('clear-search');
+
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.trim();
+        if (query.length > 0) {
+          clearBtn.classList.remove('hidden');
+        } else {
+          clearBtn.classList.add('hidden');
+        }
+        renderTable(query);
+      });
+
+      clearBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        clearBtn.classList.add('hidden');
+        renderTable();
+      });
+    }
+
+    // RENDU DU TABLEAU AVEC FILTRAGE DYNAMIQUE
+    function renderTable(searchQuery = '') {
+      const tbody = document.getElementById('company-table-body');
+      const noResults = document.getElementById('no-results');
+      tbody.innerHTML = '';
+
+      const query = searchQuery.toLowerCase();
+
+      const filtered = companies.filter(c => {
+        // Filtre par ville rapide
+        const matchCity = selectedCityFilter === 'all' || c.city.toLowerCase().includes(selectedCityFilter.toLowerCase());
+        
+        // Filtre de recherche globale
+        const matchSearch = !query || 
+          c.name.toLowerCase().includes(query) ||
+          c.city.toLowerCase().includes(query) ||
+          c.address.toLowerCase().includes(query) ||
+          c.phone.toLowerCase().includes(query) ||
+          c.email.toLowerCase().includes(query) ||
+          c.keyword.toLowerCase().includes(query);
+
+        return matchCity && matchSearch;
+      });
+
+      // Mettre à jour les badges de compteur
+      document.getElementById('company-count-badge').textContent = filtered.length;
+      document.getElementById('results-count').textContent = `${filtered.length} entreprise${filtered.length > 1 ? 's' : ''}`;
+
+      if (filtered.length === 0) {
+        noResults.classList.remove('hidden');
+        return;
+      } else {
+        noResults.classList.add('hidden');
+      }
+
+      filtered.forEach((c) => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-blue-50/40 transition-colors group duration-150";
+
+        // Traitement des logos
+        const logoUrl = c.domain ? `https://logo.clearbit.com/${c.domain}` : '';
+        const fallbackAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(c.name)}&background=0D8ABC&color=fff&bold=true`;
+
+        tr.innerHTML = `
+          <td class="py-3.5 px-6 font-medium text-slate-800">
+            <div class="flex items-center gap-3">
+              <img 
+                src="${logoUrl}" 
+                onerror="this.onerror=null; this.src='${fallbackAvatar}';" 
+                alt="${c.name}" 
+                class="w-9 h-9 rounded-xl object-contain bg-slate-50 border border-slate-200/80 p-1 flex-shrink-0 group-hover:scale-105 transition-transform duration-200"
+              />
+              <span class="font-bold text-slate-900 group-hover:text-blue-600 transition-colors">${c.name}</span>
+            </div>
+          </td>
+          <td class="py-3.5 px-4">
+            ${c.keyword ? `<span class="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-100">${c.keyword}</span>` : '<span class="text-slate-300">-</span>'}
+          </td>
+          <td class="py-3.5 px-4 font-semibold text-blue-600">${c.phone || '<span class="text-slate-300 font-normal">-</span>'}</td>
+          <td class="py-3.5 px-4">
+            ${c.email ? `<a href="mailto:${c.email}" class="text-blue-600 hover:underline font-medium">${c.email}</a>` : '<span class="text-slate-300">-</span>'}
+          </td>
+          <td class="py-3.5 px-4 text-slate-500">${c.address || '<span class="text-slate-300">-</span>'}</td>
+          <td class="py-3.5 px-4 font-medium text-slate-700">${c.city}</td>
+          <td class="py-3.5 px-6 text-right">
+            <button onclick="openContactDrawer('${c.id}')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white font-semibold text-[11px] border border-blue-200/60 transition-all duration-200 shadow-sm active:scale-95">
+              <i data-lucide="send" class="w-3 h-3"></i>
+              Prendre contact
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      lucide.createIcons();
+    }
+
+    // FILTRE PAR VILLE RAPIDE
+    function filterByCity(city) {
+      selectedCityFilter = city;
+      document.querySelectorAll('.city-filter').forEach(btn => {
+        btn.classList.remove('bg-slate-900', 'text-white', 'active-filter');
+        btn.classList.add('bg-white', 'text-slate-600');
+      });
+      event.target.classList.add('bg-slate-900', 'text-white', 'active-filter');
+      event.target.classList.remove('bg-white', 'text-slate-600');
+
+      const searchQuery = document.getElementById('search-input').value;
+      renderTable(searchQuery);
+    }
+
+    // NAVIGATION ENTRE ONGLETS
+    function switchTab(tab) {
+      const viewEntreprises = document.getElementById('view-entreprises');
+      const viewContacts = document.getElementById('view-contacts');
+      const navEntreprises = document.getElementById('nav-entreprises');
+      const navContacts = document.getElementById('nav-contacts');
+
+      if (tab === 'entreprises') {
+        viewEntreprises.classList.remove('hidden');
+        viewContacts.classList.add('hidden');
+        navEntreprises.classList.add('active');
+        navContacts.classList.remove('active');
+      } else if (tab === 'contacts') {
+        viewEntreprises.classList.add('hidden');
+        viewContacts.classList.remove('hidden');
+        navEntreprises.classList.remove('active');
+        navContacts.classList.add('active');
+        renderContactsView();
+      }
+    }
+
+    // RENDU DE LA VUE CONTACTS EN COURS
+    function renderContactsView() {
+      const container = document.getElementById('contacts-list');
+      container.innerHTML = '';
+
+      activeContacts.forEach(c => {
+        const card = document.createElement('div');
+        card.className = "bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-bold text-slate-900 text-sm">${c.company}</span>
+              <span class="text-[10px] bg-amber-50 text-amber-600 font-bold px-2 py-0.5 rounded-full border border-amber-200">En cours</span>
+            </div>
+            <p class="text-xs font-medium text-blue-600 mb-1">${c.subject}</p>
+            <p class="text-xs text-slate-500">Référent : ${c.person}</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
+            <span>Envoyé : ${c.date}</span>
+            <button onclick="showToast('Relance envoyée avec succès', 'info')" class="text-blue-600 font-semibold hover:underline">Relancer</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // DRAWER CONTACT (PRENDRE CONTACT)
+    function openContactDrawer(companyId) {
+      currentSelectedCompany = companies.find(c => c.id === companyId);
+      if (!currentSelectedCompany) return;
+
+      document.getElementById('drawer-company-name').textContent = currentSelectedCompany.name;
+      document.getElementById('drawer-city-text').textContent = currentSelectedCompany.city;
+
+      const logoUrl = currentSelectedCompany.domain ? `https://logo.clearbit.com/${currentSelectedCompany.domain}` : '';
+      const fallbackAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentSelectedCompany.name)}&background=0D8ABC&color=fff`;
+      
+      const img = document.getElementById('drawer-company-logo');
+      img.src = logoUrl;
+      img.onerror = () => { img.src = fallbackAvatar; };
+
+      const overlay = document.getElementById('contact-drawer-overlay');
+      const drawer = document.getElementById('contact-drawer');
+
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      drawer.classList.remove('drawer-closed');
+      drawer.classList.add('drawer-open');
+    }
+
+    function closeContactDrawer() {
+      const overlay = document.getElementById('contact-drawer-overlay');
+      const drawer = document.getElementById('contact-drawer');
+
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      drawer.classList.remove('drawer-open');
+      drawer.classList.add('drawer-closed');
+    }
+
+    function sendContactMessage(e) {
+      e.preventDefault();
+      const subject = document.getElementById('drawer-subject').value;
+      const person = document.getElementById('drawer-contact-person').value;
+
+      activeContacts.unshift({
+        company: currentSelectedCompany.name,
+        subject: subject,
+        person: person,
+        date: 'À l\'instant'
+      });
+
+      document.getElementById('active-contacts-badge').textContent = activeContacts.length;
+
+      closeContactDrawer();
+      showToast(`Prise de contact envoyée à ${currentSelectedCompany.name}!`, 'success');
+      document.getElementById('drawer-contact-form').reset();
+    }
+
+    // MODALE AJOUTER UNE ENTREPRISE
+    function openAddModal() {
+      const modal = document.getElementById('add-modal');
+      modal.classList.remove('modal-closed');
+      modal.classList.add('modal-open');
+    }
+
+    function closeAddModal() {
+      const modal = document.getElementById('add-modal');
+      modal.classList.remove('modal-open');
+      modal.classList.add('modal-closed');
+    }
+
+    function handleAddCompany(e) {
+      e.preventDefault();
+
+      const newComp = {
+        id: Date.now().toString(),
+        name: document.getElementById('new-name').value,
+        phone: document.getElementById('new-phone').value,
+        email: document.getElementById('new-email').value,
+        address: document.getElementById('new-address').value,
+        city: document.getElementById('new-city').value,
+        keyword: document.getElementById('new-keyword').value,
+        domain: document.getElementById('new-domain').value
+      };
+
+      companies.unshift(newComp);
+      renderTable();
+      closeAddModal();
+      showToast(`Entreprise ${newComp.name} ajoutée avec succès!`, 'success');
+      document.getElementById('add-company-form').reset();
+    }
+
+    // DROPDOWNS TOPBAR
+    function toggleDropdown(id) {
+      const dropdown = document.getElementById(id);
+      const allDropdowns = ['agenda-dropdown', 'notif-dropdown', 'profile-dropdown'];
+      
+      allDropdowns.forEach(dId => {
+        if (dId !== id) {
+          document.getElementById(dId)?.classList.add('hidden');
+        }
+      });
+
+      dropdown.classList.toggle('hidden');
+    }
+
+    function clearNotifs() {
+      document.getElementById('notif-list').innerHTML = '<p class="text-slate-400 text-center py-2">Aucune nouvelle notification</p>';
+      showToast('Notifications marquées comme lues', 'info');
+    }
+
+    // TOAST NOTIFICATIONS
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      
+      const bgColor = type === 'success' ? 'bg-slate-900 text-white' : 'bg-blue-600 text-white';
+      
+      toast.className = `${bgColor} text-xs font-semibold px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 transform transition-all duration-300 translate-y-4 opacity-0 pointer-events-auto border border-white/10`;
+      toast.innerHTML = `
+        <i data-lucide="${type === 'success' ? 'check-circle' : 'info'}" class="w-4 h-4 text-electric-400"></i>
+        <span>${message}</span>
+      `;
+
+      container.appendChild(toast);
+      lucide.createIcons();
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-4', 'opacity-0');
+      }, 50);
+
+      setTimeout(() => {
+        toast.classList.add('translate-y-4', 'opacity-0');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // Fermeture des dropdowns si clic extérieur
+    window.addEventListener('click', (e) => {
+      if (!e.target.closest('#agenda-btn') && !e.target.closest('#agenda-dropdown') &&
+          !e.target.closest('#notif-btn') && !e.target.closest('#notif-dropdown') &&
+          !e.target.closest('#profile-dropdown') && !e.target.closest('button[onclick*="profile-dropdown"]')) {
+        document.getElementById('agenda-dropdown')?.classList.add('hidden');
+        document.getElementById('notif-dropdown')?.classList.add('hidden');
+        document.getElementById('profile-dropdown')?.classList.add('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
