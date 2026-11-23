@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration | HE Vinci - My Internship</title>
+  
+  <!-- Feuilles de style & Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Configuration Tailwind -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            navy: {
+              950: '#070c18',
+              900: '#0b1329',
+              850: '#0f1a38',
+              800: '#15244c',
+              700: '#1e346b',
+            },
+            electric: {
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            }
+          },
+          boxShadow: {
+            'neon': '0 0 20px rgba(59, 130, 246, 0.35)',
+            'neon-strong': '0 0 30px rgba(59, 130, 246, 0.6)',
+            'card-glow': '0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 0 15px rgba(59, 130, 246, 0.05)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Fichier CSS externe -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#0b1220] text-slate-800 font-sans min-h-screen flex items-center justify-center p-3 sm:p-6 antialiased selection:bg-blue-500 selection:text-white">
+
+  <!-- ========================================== -->
+  <!-- ÉCRAN DE CONNEXION (SYNCHRONISÉ AVEC UE)   -->
+  <!-- ========================================== -->
+  <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-white p-4 transition-opacity duration-500 overflow-y-auto select-none">
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-blue-100 rounded-full glow-bg pointer-events-none"></div>
+    <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-indigo-100 rounded-full glow-bg pointer-events-none"></div>
+
+    <div class="w-full max-w-xl bg-white rounded-3xl shadow-2xl p-6 sm:p-8 flex flex-col items-center text-center border border-slate-100 relative z-10 my-auto">
+      <div class="mb-4 w-14 h-14 bg-gradient-to-br from-electric-500 to-electric-700 rounded-2xl flex items-center justify-center shadow-neon">
+        <i data-lucide="shield-check" class="w-7 h-7 text-white"></i>
+      </div>
+
+      <h1 class="text-2xl font-bold text-slate-900 tracking-tight mb-1">Portail Administratif HE Vinci</h1>
+      <p class="text-xs text-slate-500 mb-6 max-w-xs leading-relaxed">
+        Membres de l'équipe administrative, connectez-vous avec votre compte Microsoft 365 (@vinci.be).
+      </p>
+
+      <button 
+        onclick="loginAsAdmin()" 
+        class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-electric-600 to-electric-700 hover:from-electric-500 hover:to-electric-600 text-white font-semibold text-xs transition-all duration-300 shadow-neon hover:shadow-neon-strong active:scale-[0.98] flex items-center justify-center gap-2 mb-6"
+      >
+        <i data-lucide="log-in" class="w-4 h-4"></i>
+        <span>Accéder à l'espace Administration</span>
+      </button>
+
+      <!-- Encart U.E & Planning dynamique (Année au format aaaa-aaaa) -->
+      <div class="w-full bg-slate-50 rounded-2xl p-4 sm:p-5 text-left border border-slate-200 space-y-3 mb-6 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-2">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-blue-600">Unité d'Enseignement (U.E)</span>
+            <h2 id="login-ue-title" class="text-xs sm:text-sm font-extrabold text-slate-900">BINV2160-1 Analyse et modélisation - Cahier des charges</h2>
+          </div>
+          <span id="login-ue-year" class="self-start sm:self-auto px-2.5 py-0.5 bg-amber-100 text-amber-800 border border-amber-200 text-[10px] font-extrabold rounded-full">2026-2027</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-[11px]">
+            <thead>
+              <tr class="bg-amber-400 text-slate-900 font-bold uppercase">
+                <th class="py-2 px-3 rounded-l-lg">Date</th>
+                <th class="py-2 px-3 rounded-r-lg">Pendant le cours</th>
+              </tr>
+            </thead>
+            <tbody id="login-planning-tbody" class="divide-y divide-slate-200 text-slate-700">
+              <!-- Injecté dynamiquement par JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="text-[11px] text-slate-500 space-y-1">
+        <p>Support Technique & Secrétariat</p>
+        <p class="text-slate-700 font-medium">
+          <a href="mailto:support@vinci.be" class="hover:underline text-blue-600">support@vinci.be</a> · +32 2 773 67 67
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- APPLICATION PRINCIPALE (ADMINISTRATION)    -->
+  <!-- ========================================== -->
+  <div id="main-app" class="app-container hidden w-[min(96vw,calc(94vh*16/9))] aspect-video bg-white rounded-3xl overflow-hidden shadow-2xl flex relative border border-slate-800/10 opacity-0 transition-opacity duration-500">
+
+    <!-- 1. SIDEBAR -->
+    <aside class="sidebar w-72 sm:w-80 bg-navy-900 flex flex-col p-6 relative z-20 border-r border-slate-800/40 select-none flex-shrink-0">
+      <div class="absolute -top-10 -left-10 w-48 h-48 bg-blue-600/20 rounded-full glow-bg pointer-events-none"></div>
+      
+      <!-- Logo -->
+      <div class="logo flex items-center gap-3.5 mb-6 relative z-10 cursor-pointer" onclick="switchTab('etudiants')">
+        <div class="logo-icon-wrapper w-11 h-11 bg-gradient-to-br from-electric-500 to-electric-700 rounded-2xl flex items-center justify-center shadow-neon">
+          <i data-lucide="box" class="logo-icon w-6 h-6 text-white"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-xl font-extrabold text-white tracking-tight flex items-center gap-1">
+            My <span class="text-electric-400 logo-highlight">Internship</span>
+          </span>
+          <span class="text-[10px] font-bold uppercase tracking-widest text-amber-400">Espace Admin</span>
+        </div>
+      </div>
+
+      <!-- Recherche rapide utilisateur -->
+      <div class="search-box relative mb-6 z-10">
+        <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
+        <input type="text" id="global-user-search" placeholder="Accès rapide étudiant..." class="w-full bg-slate-800/60 border border-slate-700/60 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-electric-500">
+      </div>
+
+      <!-- Navigation -->
+      <nav class="sidebar-menu flex flex-col gap-2.5 z-10">
+        <button id="nav-etudiants" onclick="switchTab('etudiants')" class="menu-item glass-sidebar-item active w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:text-white text-left">
+          <i data-lucide="users" class="w-4 h-4 text-electric-400"></i>
+          <span class="flex-1">Utilisateurs & Étudiants</span>
+          <span id="students-count-badge" class="badge bg-gradient-to-r from-electric-500 to-electric-700 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">4</span>
+        </button>
+
+        <button id="nav-responsables" onclick="switchTab('responsables')" class="menu-item glass-sidebar-item w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white text-left">
+          <i data-lucide="briefcase" class="w-4 h-4"></i>
+          <span class="flex-1">Responsables de stage</span>
+          <span id="supervisors-count-badge" class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold px-2 py-0.5 rounded-full">3</span>
+        </button>
+
+        <button id="nav-ue-planning" onclick="switchTab('ue-planning')" class="menu-item glass-sidebar-item w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white text-left">
+          <i data-lucide="calendar-cog" class="w-4 h-4"></i>
+          <span class="flex-1">Planning & Fiche UE</span>
+        </button>
+
+        <button id="nav-profile" onclick="switchTab('profile')" class="menu-item glass-sidebar-item w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white text-left">
+          <i data-lucide="user-cog" class="w-4 h-4"></i>
+          <span class="flex-1">Mes données personnelles</span>
+        </button>
+      </nav>
+
+      <div class="mt-auto pt-6 border-t border-slate-800/60 flex items-center justify-between text-[11px] text-slate-400 z-10">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          <span>Mode Administration</span>
+        </div>
+        <span class="current-year-label text-amber-400 font-mono font-bold">2026-2027</span>
+      </div>
+    </aside>
+
+    <!-- 2. MAIN CONTENT -->
+    <main class="main-content flex-1 flex flex-col min-w-0 bg-slate-50/50 overflow-hidden relative">
+
+      <!-- TOPBAR -->
+      <header class="topbar h-20 px-8 flex items-center justify-between bg-white/80 backdrop-blur-md border-b border-slate-100 z-10 gap-3">
+        <div class="flex items-center gap-3">
+          <span class="px-2.5 py-1 rounded-lg bg-amber-50 text-amber-700 border border-amber-200/70 font-bold text-xs flex items-center gap-1.5">
+            <i data-lucide="shield" class="w-3.5 h-3.5"></i> Secrétariat & Gestion
+          </span>
+
+          <!-- Sélecteur Année Académique (format aaaa-aaaa, défaut année courante) -->
+          <div class="flex items-center gap-2">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 hidden md:inline">Année académique :</span>
+            <select id="admin-academic-year-select" onchange="changeAdminAcademicYear(this.value)" class="bg-blue-50 border border-blue-200 text-blue-700 font-extrabold text-xs rounded-xl px-3 py-1.5 focus:outline-none">
+              <option value="2026-2027" selected>2026-2027 (Courante)</option>
+              <option value="2025-2026">2025-2026</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <!-- Profil Admin (Utilisateur connecté) -->
+          <div class="user-avatar relative">
+            <button onclick="toggleDropdown('profile-dropdown')" class="flex items-center gap-3 p-1 rounded-full hover:bg-slate-100 transition-colors">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 text-white font-bold text-sm flex items-center justify-center ring-2 ring-amber-500/30">
+                CV
+              </div>
+              <div class="hidden sm:flex flex-col text-left pr-1">
+                <span id="topbar-admin-name" class="text-xs font-bold text-slate-800 leading-none">Claire Vandenberghe</span>
+                <span class="text-[11px] text-amber-600 font-semibold mt-1">Équipe Administrative</span>
+              </div>
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 hidden sm:block"></i>
+            </button>
+
+            <div id="profile-dropdown" class="hidden absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50">
+              <div class="px-3 py-2 border-b border-slate-100 mb-1">
+                <p class="text-xs font-bold text-slate-800">Claire Vandenberghe</p>
+                <p class="text-[11px] text-amber-600 font-semibold">claire.vandenberghe@vinci.be</p>
+              </div>
+              <button onclick="switchTab('profile'); toggleDropdown('profile-dropdown');" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-blue-600 hover:bg-blue-50 rounded-xl transition-colors text-left">
+                <i data-lucide="user" class="w-3.5 h-3.5"></i> Mes données personnelles
+              </button>
+              <div class="my-1 border-t border-slate-100"></div>
+              <button onclick="logout()" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-rose-600 hover:bg-rose-50 rounded-xl transition-colors text-left">
+                <i data-lucide="log-out" class="w-3.5 h-3.5"></i> Déconnexion
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- VUES DYNAMIQUES -->
+      <div class="flex-1 p-8 overflow-y-auto">
+
+        <!-- ========================================================= -->
+        <!-- VUE 1 : RECHERCHE UTILISATEURS & GESTION DOSSIER ÉTUDIANT -->
+        <!-- ========================================================= -->
+        <div id="view-etudiants" class="space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
+                Annuaire des étudiants (<span class="current-year-label">2026-2027</span>)
+                <span id="students-results-count" class="text-xs font-semibold px-3 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-100">4 étudiants</span>
+              </h1>
+              <p class="text-xs text-slate-500 mt-1">Accès rapide aux dossiers de l'année académique sélectionnée et modification instantanée.</p>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button onclick="filterStudents('all')" class="student-filter px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white">Tous</button>
+              <button onclick="filterStudents('accepted')" class="student-filter px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-slate-200 text-slate-600">Stage validé</button>
+              <button onclick="filterStudents('searching')" class="student-filter px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-slate-200 text-slate-600">En recherche</button>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200/80 shadow-card-glow overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                    <th class="py-4 px-6">Année</th>
+                    <th class="py-4 px-4">Étudiant</th>
+                    <th class="py-4 px-4">Email HE Vinci</th>
+                    <th class="py-4 px-4">Contacts pris</th>
+                    <th class="py-4 px-4">État du stage</th>
+                    <th class="py-4 px-6 text-right">Dossier & Encodage</th>
+                  </tr>
+                </thead>
+                <tbody id="students-table-body" class="divide-y divide-slate-100 text-xs"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- VUE 1B : DÉTAIL D'UN ÉTUDIANT & MODIFICATION RAPIDE       -->
+        <!-- ========================================================= -->
+        <div id="view-student-detail" class="hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+            <div class="flex items-center gap-4">
+              <button onclick="switchTab('etudiants')" class="p-2.5 rounded-xl bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 transition-colors">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+              </button>
+              <div>
+                <div class="flex items-center gap-2.5">
+                  <h1 id="detail-student-name" class="text-2xl font-extrabold text-slate-900 tracking-tight">Nom Étudiant</h1>
+                  <span id="detail-student-year" class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 border border-blue-200 text-[10px] font-extrabold">2026-2027</span>
+                  <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200 text-[10px] font-bold">Mode Substitution</span>
+                </div>
+                <p id="detail-student-email" class="text-xs text-blue-600 font-medium mt-0.5">email@student.vinci.be</p>
+              </div>
+            </div>
+
+            <button onclick="openAdminAddContactModal()" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-electric-600 to-electric-700 hover:from-electric-500 hover:to-electric-600 text-white text-xs font-semibold shadow-neon flex items-center gap-2">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i> Encoder un contact pour cet étudiant
+            </button>
+          </div>
+
+          <!-- Bloc Profil (modification rapide) + Stage Validé -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Profil étudiant avec édition rapide -->
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                  <i data-lucide="user-check" class="w-4 h-4 text-blue-600"></i> Profil (Modification rapide)
+                </h2>
+              </div>
+              <div class="space-y-3 text-xs">
+                <div>
+                  <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Section / Bloc</label>
+                  <input type="text" id="detail-student-section-input" onchange="quickUpdateStudentField('section', this.value)" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 font-semibold text-slate-800 focus:border-blue-500 focus:outline-none">
+                </div>
+                <div>
+                  <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Téléphone (Formatage auto)</label>
+                  <input type="text" id="detail-student-phone-input" oninput="formatBelgianPhone(this)" onchange="quickUpdateStudentField('phone', this.value)" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 font-semibold text-slate-800 focus:border-blue-500 focus:outline-none">
+                </div>
+                <div>
+                  <span class="text-[10px] font-bold text-slate-400 uppercase block">Dernière connexion</span>
+                  <span id="detail-student-lastlogin" class="text-slate-600">16 novembre 2026, 12:45</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stage de l'étudiant -->
+            <div id="detail-stage-card" class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
+              <!-- Injecté dynamiquement -->
+            </div>
+          </div>
+
+          <!-- Liste des contacts pris par l'étudiant (avec modification rapide du sujet et substitution) -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                  <i data-lucide="phone-call" class="w-4 h-4 text-blue-600"></i> Contacts pris & Encodage administratif
+                </h2>
+                <p class="text-xs text-slate-500 mt-0.5">Cliquez sur un sujet pour le modifier instantanément ou mettez à jour le statut.</p>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase text-[10px] font-bold">
+                    <th class="py-3 px-4">Entreprise</th>
+                    <th class="py-3 px-4">Référent</th>
+                    <th class="py-3 px-4">Sujet de stage (Modif. rapide)</th>
+                    <th class="py-3 px-4">Statut actuel</th>
+                    <th class="py-3 px-4 text-right">Action Admin (Substitution)</th>
+                  </tr>
+                </thead>
+                <tbody id="detail-contacts-tbody" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- VUE 2 : LISTE DES COORDONNÉES DES RESPONSABLES DE STAGE   -->
+        <!-- ========================================================= -->
+        <div id="view-responsables" class="hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
+                Responsables de stage (<span class="current-year-label">2026-2027</span>)
+                <span id="supervisors-total-badge" class="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">3 responsables</span>
+              </h1>
+              <p class="text-xs text-slate-500 mt-1">Répertoire des maîtres de stage désignés pour les stages validés de l'année sélectionnée.</p>
+            </div>
+
+            <div class="relative w-full sm:w-72">
+              <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+              <input type="text" id="supervisor-search" placeholder="Filtrer responsable ou entreprise..." class="w-full bg-white border border-slate-200 rounded-xl py-2 pl-10 pr-4 text-xs focus:outline-none focus:border-blue-500">
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200/80 shadow-card-glow overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                    <th class="py-4 px-6">Année</th>
+                    <th class="py-4 px-4">Responsable de stage</th>
+                    <th class="py-4 px-4">Entreprise</th>
+                    <th class="py-4 px-4">Email</th>
+                    <th class="py-4 px-4">Téléphone</th>
+                    <th class="py-4 px-4">Étudiant encadré</th>
+                    <th class="py-4 px-6">Sujet du stage</th>
+                  </tr>
+                </thead>
+                <tbody id="supervisors-table-body" class="divide-y divide-slate-100 text-xs"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- VUE 3 : MISE À JOUR DU PLANNING & DE LA FICHE UE          -->
+        <!-- ========================================================= -->
+        <div id="view-ue-planning" class="hidden space-y-6 max-w-5xl">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+            <div>
+              <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Planning & Extrait de la fiche UE</h1>
+              <p class="text-xs text-slate-500 mt-1">Ces informations sont affichées sur la page de connexion des étudiants pour l'année au format aaaa-aaaa.</p>
+            </div>
+            <button onclick="saveUeAndPlanning()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-sm flex items-center gap-2 transition-colors">
+              <i data-lucide="save" class="w-4 h-4"></i> Enregistrer et publier
+            </button>
+          </div>
+
+          <!-- Extrait de la fiche UE -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+            <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="file-text" class="w-4 h-4 text-blue-600"></i> Extrait de la fiche UE de l'année académique
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Code & Intitulé de l'UE</label>
+                <input type="text" id="edit-ue-title" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold text-slate-800">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Année académique (aaaa-aaaa)</label>
+                <input type="text" id="edit-ue-year" pattern="\d{4}-\d{4}" placeholder="2026-2027" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-extrabold text-blue-700">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Crédits ECTS / Quadrimestre</label>
+                <input type="text" id="edit-ue-ects" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold text-slate-800">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Description / Acquis d'apprentissage (Extrait fiche UE)</label>
+              <textarea id="edit-ue-description" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-700 leading-relaxed"></textarea>
+            </div>
+          </div>
+
+          <!-- Planning des séances -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+            <div class="flex items-center justify-between">
+              <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <i data-lucide="calendar" class="w-4 h-4 text-amber-500"></i> Calendrier des séances (Planning UE)
+              </h2>
+              <button onclick="addPlanningRow()" class="px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-semibold flex items-center gap-1.5">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i> Ajouter une date
+              </button>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="bg-amber-400 text-slate-900 font-bold uppercase text-[11px]">
+                    <th class="py-2.5 px-4 rounded-l-lg w-32">Date (JJ/MM)</th>
+                    <th class="py-2.5 px-4">Activité pendant le cours</th>
+                    <th class="py-2.5 px-4 w-48">Mise en évidence</th>
+                    <th class="py-2.5 px-4 rounded-r-lg text-right w-20">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-planning-tbody" class="divide-y divide-slate-200"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========================================================= -->
+        <!-- VUE 4 : MES DONNÉES PERSONNELLES (MODIFICATION RAPIDE)    -->
+        <!-- ========================================================= -->
+        <div id="view-profile" class="hidden space-y-6 max-w-4xl">
+          <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+            <div>
+              <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Mes données personnelles</h1>
+              <p class="text-xs text-slate-500 mt-1">Accès rapide et modification instantanée de vos coordonnées administratives.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="saveAdminProfileQuickEdit()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors">
+                <i data-lucide="save" class="w-3.5 h-3.5"></i> Enregistrer
+              </button>
+              <button onclick="switchTab('etudiants')" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold flex items-center gap-2 transition-colors">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Retour à l'annuaire
+              </button>
+            </div>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-5">
+            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 text-white font-extrabold text-2xl flex items-center justify-center ring-4 ring-amber-500/15">
+              CV
+            </div>
+            <div>
+              <h2 id="admin-profile-header-name" class="text-xl font-bold text-slate-900">Claire Vandenberghe</h2>
+              <div class="flex items-center gap-2 mt-1">
+                <span class="px-3 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 font-semibold text-xs">Membre de l'équipe administrative</span>
+                <span class="text-xs text-slate-400">· Haute École Léonard de Vinci · 2026-2027</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Informations détaillées (éditables rapidement) -->
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden flex flex-col justify-between">
+              <div>
+                <div class="px-6 py-4 bg-slate-50/80 border-b border-slate-100 flex items-center justify-between">
+                  <h3 class="font-bold text-sm text-slate-800 flex items-center gap-2">
+                    <i data-lucide="mail" class="w-4 h-4 text-blue-600"></i> Coordonnées institutionnelles (Modif. rapide)
+                  </h3>
+                </div>
+                <div class="p-6 space-y-4">
+                  <div>
+                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Nom & Prénom</label>
+                    <input type="text" id="edit-admin-name" value="Claire Vandenberghe" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800">
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Adresse de courriel</label>
+                    <p class="text-xs font-medium text-blue-600">claire.vandenberghe@vinci.be</p>
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Service / Département</label>
+                    <input type="text" id="edit-admin-dept" value="Secrétariat des Étudiants & Cellule Stages (Informatique)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800">
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Téléphone interne (formatage auto)</label>
+                    <input type="text" id="edit-admin-phone" oninput="formatBelgianPhone(this)" value="02 773 67 42" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Informations de connexion -->
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden flex flex-col justify-between">
+              <div>
+                <div class="px-6 py-4 bg-slate-50/80 border-b border-slate-100 flex items-center justify-between">
+                  <h3 class="font-bold text-sm text-slate-800 flex items-center gap-2">
+                    <i data-lucide="clock" class="w-4 h-4 text-blue-600"></i> Informations de session
+                  </h3>
+                </div>
+                <div class="p-6 space-y-4">
+                  <div>
+                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Année académique courante</label>
+                    <p class="text-xs font-extrabold text-blue-600">2026-2027</p>
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Droits d'accès</label>
+                    <p class="text-xs font-semibold text-slate-800">Équipe Administrative (Substitution encodage, Gestion UE & Planning)</p>
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Premier accès au site</label>
+                    <p class="text-xs font-semibold text-slate-800">lundi 2 septembre 2024, 08:30</p>
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Dernier accès au site</label>
+                    <p id="admin-last-access" class="text-xs font-semibold text-slate-800">lundi 16 novembre 2026, 14:01</p>
+                    <span class="text-[10px] text-emerald-600 font-semibold">(connecté maintenant)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- ========================================================= -->
+    <!-- MODALE 1 : ENCODER UN CONTACT (AVEC AIDES À L'ENCODAGE)   -->
+    <!-- ========================================================= -->
+    <div id="admin-contact-modal" class="fixed inset-0 bg-navy-950/60 backdrop-blur-md z-50 flex items-center justify-center p-4 modal-closed transition-all duration-300">
+      <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden border border-slate-100">
+        <div class="p-6 bg-navy-900 text-white flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-base">Encoder un contact (Substitution)</h3>
+            <p id="modal-student-target" class="text-[11px] text-amber-400 mt-0.5">Pour : Étudiant</p>
+          </div>
+          <button onclick="closeAdminAddContactModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <form onsubmit="submitAdminContactForStudent(event)" class="p-6 space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Entreprise * <span class="text-[10px] text-blue-600 font-normal">(Suggestions réseau Vinci)</span></label>
+            <input type="text" id="admin-c-company" list="admin-company-suggestions" required placeholder="Choisir ou saisir une entreprise..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs">
+            <datalist id="admin-company-suggestions">
+              <option value="Infrabel">
+              <option value="Idealis Consulting">
+              <option value="Sopra Steria">
+              <option value="LetsBuild">
+              <option value="Assyst Europe">
+              <option value="Niboo">
+              <option value="AXIS SRL">
+            </datalist>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Nom du référent *</label>
+              <input type="text" id="admin-c-person" list="admin-referent-suggestions" required placeholder="ex: Marc Willems" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs">
+              <datalist id="admin-referent-suggestions">
+                <option value="Service Ressources Humaines (RH)">
+                <option value="Marc Willems">
+                <option value="Sophie Laurent">
+                <option value="Claire Martin">
+              </datalist>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">État initial</label>
+              <select id="admin-c-status" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs">
+                <option value="initie">Contact initié</option>
+                <option value="pris">Contact pris</option>
+                <option value="rencontre">Rencontre effectuée</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Sujet de stage * <span class="text-[10px] text-blue-600 font-normal">(Modèles rapides)</span></label>
+            <div class="flex flex-wrap gap-1.5 mb-2">
+              <button type="button" onclick="applyAdminSubjectTemplate('Développement Fullstack React / Node.js')" class="px-2 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 text-[10px] font-semibold">+ Fullstack Web</button>
+              <button type="button" onclick="applyAdminSubjectTemplate('Développement Backend Java / Spring Boot')" class="px-2 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 text-[10px] font-semibold">+ Backend Java</button>
+              <button type="button" onclick="applyAdminSubjectTemplate('Administration Système, Cloud & DevOps')" class="px-2 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 text-[10px] font-semibold">+ Cloud / DevOps</button>
+              <button type="button" onclick="applyAdminSubjectTemplate('Consulting ERP Odoo & Base de données PostgreSQL')" class="px-2 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 text-[10px] font-semibold">+ ERP / SQL</button>
+            </div>
+            <textarea id="admin-c-subject" required rows="2" placeholder="Cliquez sur un modèle ou saisissez le sujet..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs resize-none"></textarea>
+          </div>
+          <div class="pt-2 flex gap-3">
+            <button type="button" onclick="closeAdminAddContactModal()" class="flex-1 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600">Annuler</button>
+            <button type="submit" class="flex-1 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-semibold shadow-neon">Enregistrer pour l'étudiant</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- MODALE 2 : VALIDER LE STAGE AU NOM DE L'ÉTUDIANT          -->
+    <!-- ========================================================= -->
+    <div id="admin-accept-modal" class="fixed inset-0 bg-navy-950/60 backdrop-blur-md z-50 flex items-center justify-center p-4 modal-closed transition-all duration-300">
+      <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <h3 class="font-bold text-base text-slate-900">Valider le stage (Substitution Admin)</h3>
+          <button onclick="closeAdminAcceptModal()" class="text-slate-400 hover:text-slate-700"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <div class="space-y-3">
+          <div>
+            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Nom du responsable de stage *</label>
+            <input type="text" id="admin-sup-name" required placeholder="ex: Marc Willems" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs">
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Email responsable *</label>
+              <input type="email" id="admin-sup-email" required placeholder="marc.willems@entreprise.be" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Téléphone <span class="text-[9px] text-slate-400">(auto-formaté)</span> *</label>
+              <input type="text" id="admin-sup-phone" oninput="formatBelgianPhone(this)" required placeholder="02 525 22 11" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs">
+            </div>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Sujet définitif du stage *</label>
+            <textarea id="admin-final-subject" required rows="2" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs resize-none"></textarea>
+          </div>
+        </div>
+        <div class="flex gap-3 pt-2">
+          <button onclick="closeAdminAcceptModal()" class="flex-1 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold">Annuler</button>
+          <button onclick="confirmAdminStageAcceptance()" class="flex-1 py-2.5 rounded-xl bg-emerald-600 text-white text-xs font-semibold">Valider le stage</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTAINER TOAST -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+  </div>
+
+  <!-- Script JS -->
+  <script>
+    let currentAdminAcademicYear = '2026-2027';
+
+    // 1. DONNÉES FICHE UE & PLANNING (Format aaaa-aaaa)
+    let ueData = {
+      title: 'BINV2160-1 Analyse et modélisation - Cahier des charges',
+      year: '2026-2027',
+      ects: '5 ECTS · Q1 & Q2',
+      description: 'Accompagnement à la recherche de stage en entreprise informatique, rédaction de CV et lettre de motivation, analyse des besoins métiers et formalisation du cahier des charges avant le départ en stage au 2ème quadrimestre.',
+      planning: [
+        { date: '25/09', activity: 'Présentation', highlight: false },
+        { date: '16/10', activity: 'Feedback sur la correction CV (Correction lettres de motivation sur base volontaire)', highlight: false },
+        { date: '20/11', activity: 'Q&R - Etat de la recherche - plan d\'attaque', highlight: false },
+        { date: '11/12', activity: 'Présentation pour préparer le travail du 2ème quadri.', highlight: true }
+      ]
+    };
+
+    // 2. DONNÉES ÉTUDIANTS, CONTACTS & STAGES (Avec année académique aaaa-aaaa)
+    let studentsData = [
+      {
+        id: 'stu1',
+        academicYear: '2026-2027',
+        name: 'Tuasukama-Bongo William',
+        email: 'william.tuasukama@student.vinci.be',
+        section: 'Bloc 3 - Informatique de gestion',
+        phone: '0472 18 45 90',
+        lastLogin: '16 novembre 2026, 12:45',
+        contacts: [
+          { id: 'c101', company: 'Infrabel', person: 'Marc Willems', subject: 'Développement API Java pour I-ICT Ring', status: 'accepte' },
+          { id: 'c102', company: 'LetsBuild', person: 'Sophie Laurent', subject: 'Intégration Dashboard React', status: 'suspendu' }
+        ],
+        stage: {
+          company: 'Infrabel',
+          subject: 'Développement API Java pour I-ICT Ring',
+          supervisorName: 'Marc Willems',
+          supervisorEmail: 'marc.willems@infrabel.be',
+          supervisorPhone: '02 525 22 11'
+        }
+      },
+      {
+        id: 'stu2',
+        academicYear: '2026-2027',
+        name: 'Dupont Camille',
+        email: 'camille.dupont@student.vinci.be',
+        section: 'Bloc 3 - Informatique de gestion',
+        phone: '0485 62 11 04',
+        lastLogin: '15 novembre 2026, 19:10',
+        contacts: [
+          { id: 'c201', company: 'Idealis Consulting', person: 'Claire Martin', subject: 'Consulting ERP Odoo & PostgreSQL', status: 'accepte' },
+          { id: 'c202', company: 'Niboo', person: 'Luc Moreau', subject: 'Développement modules Python', status: 'refuse' }
+        ],
+        stage: {
+          company: 'Idealis Consulting',
+          subject: 'Consulting ERP Odoo & PostgreSQL',
+          supervisorName: 'Claire Martin',
+          supervisorEmail: 'c.martin@idealisconsulting.com',
+          supervisorPhone: '010 45 82 10'
+        }
+      },
+      {
+        id: 'stu3',
+        academicYear: '2026-2027',
+        name: 'El Amrani Yassine',
+        email: 'yassine.elamrani@student.vinci.be',
+        section: 'Bloc 3 - Informatique de gestion',
+        phone: '0491 33 78 21',
+        lastLogin: '14 novembre 2026, 10:05',
+        contacts: [
+          { id: 'c301', company: 'Sopra Steria', person: 'Antoine Dupont', subject: 'Architecture Cloud & DevOps Azure', status: 'rencontre' },
+          { id: 'c302', company: 'AXIS SRL', person: 'Julie Mercier', subject: 'Refonte portail client Angular', status: 'pris' }
+        ],
+        stage: null
+      },
+      {
+        id: 'stu4',
+        academicYear: '2025-2026',
+        name: 'Peeters Thomas',
+        email: 'thomas.peeters@student.vinci.be',
+        section: 'Bloc 3 - Informatique de gestion',
+        phone: '0478 90 12 34',
+        lastLogin: '12 juin 2026, 16:30',
+        contacts: [
+          { id: 'c401', company: 'Assyst Europe', person: 'Thomas Bernard', subject: 'Administration système Linux & Réseau', status: 'accepte' }
+        ],
+        stage: {
+          company: 'Assyst Europe',
+          subject: 'Administration système Linux & Réseau',
+          supervisorName: 'Thomas Bernard',
+          supervisorEmail: 't.bernard@assyst-europe.com',
+          supervisorPhone: '02 609 25 00'
+        }
+      }
+    ];
+
+    let currentStudentId = null;
+    let currentContactIdForAccept = null;
+    let currentStudentFilter = 'all';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderLoginPlanning();
+      lucide.createIcons();
+    });
+
+    function changeAdminAcademicYear(year) {
+      currentAdminAcademicYear = year;
+      document.querySelectorAll('.current-year-label').forEach(el => el.textContent = year);
+      renderStudentsTable(document.getElementById('global-user-search').value);
+      renderSupervisorsTable(document.getElementById('supervisor-search').value);
+      showToast(`Affichage conditionné sur l'année ${year}`);
+    }
+
+    function applyAdminSubjectTemplate(text) {
+      document.getElementById('admin-c-subject').value = text;
+    }
+
+    function formatBelgianPhone(input) {
+      let digits = input.value.replace(/\D/g, '').slice(0, 10);
+      if (digits.startsWith('04') && digits.length > 4) {
+        input.value = digits.replace(/(\d{4})(\d{2})(\d{2})(\d{0,2})/, '$1 $2 $3 $4').trim();
+      } else if (digits.length > 2) {
+        input.value = digits.replace(/(\d{2})(\d{3})(\d{2})(\d{0,2})/, '$1 $2 $3 $4').trim();
+      }
+    }
+
+    // CONNEXION / DÉCONNEXION
+    function loginAsAdmin() {
+      const loginScreen = document.getElementById('login-screen');
+      const mainApp = document.getElementById('main-app');
+      loginScreen.classList.add('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        loginScreen.classList.add('hidden');
+        mainApp.classList.remove('hidden');
+        setTimeout(() => mainApp.classList.remove('opacity-0'), 50);
+        renderStudentsTable();
+        renderSupervisorsTable();
+        renderUeEditor();
+        setupSearchListeners();
+      }, 400);
+    }
+
+    function logout() {
+      renderLoginPlanning();
+      const loginScreen = document.getElementById('login-screen');
+      const mainApp = document.getElementById('main-app');
+      mainApp.classList.add('opacity-0');
+      setTimeout(() => {
+        mainApp.classList.add('hidden');
+        loginScreen.classList.remove('hidden', 'pointer-events-none');
+        setTimeout(() => loginScreen.classList.remove('opacity-0'), 50);
+      }, 400);
+    }
+
+    // NAVIGATION ENTRE ONGLETS
+    function switchTab(tab) {
+      ['view-etudiants', 'view-student-detail', 'view-responsables', 'view-ue-planning', 'view-profile'].forEach(v => {
+        document.getElementById(v).classList.add('hidden');
+      });
+      ['nav-etudiants', 'nav-responsables', 'nav-ue-planning', 'nav-profile'].forEach(n => {
+        const el = document.getElementById(n);
+        if (el) el.classList.remove('active');
+      });
+
+      if (tab === 'etudiants') {
+        document.getElementById('view-etudiants').classList.remove('hidden');
+        document.getElementById('nav-etudiants').classList.add('active');
+        renderStudentsTable();
+      } else if (tab === 'responsables') {
+        document.getElementById('view-responsables').classList.remove('hidden');
+        document.getElementById('nav-responsables').classList.add('active');
+        renderSupervisorsTable();
+      } else if (tab === 'ue-planning') {
+        document.getElementById('view-ue-planning').classList.remove('hidden');
+        document.getElementById('nav-ue-planning').classList.add('active');
+        renderUeEditor();
+      } else if (tab === 'profile') {
+        document.getElementById('view-profile').classList.remove('hidden');
+        document.getElementById('nav-profile').classList.add('active');
+        updateAdminLastAccess();
+      }
+      lucide.createIcons();
+    }
+
+    function updateAdminLastAccess() {
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      const now = new Date().toLocaleDateString('fr-FR', options);
+      const el = document.getElementById('admin-last-access');
+      if (el) el.textContent = now;
+    }
+
+    // =========================================================
+    // 1. RECHERCHE & TABLEAU DES UTILISATEURS (ÉTUDIANTS)
+    // =========================================================
+    function renderStudentsTable(query = '') {
+      const tbody = document.getElementById('students-table-body');
+      tbody.innerHTML = '';
+      const q = query.toLowerCase();
+
+      // Conditionner par défaut à l'année académique courante (2026-2027)
+      const byYear = studentsData.filter(s => s.academicYear === currentAdminAcademicYear);
+
+      const filtered = byYear.filter(s => {
+        const matchFilter = currentStudentFilter === 'all' 
+          || (currentStudentFilter === 'accepted' && s.stage !== null)
+          || (currentStudentFilter === 'searching' && s.stage === null);
+        const matchQuery = !q || s.name.toLowerCase().includes(q) || s.email.toLowerCase().includes(q) || (s.stage && s.stage.company.toLowerCase().includes(q));
+        return matchFilter && matchQuery;
+      });
+
+      document.getElementById('students-count-badge').textContent = byYear.length;
+      document.getElementById('students-results-count').textContent = `${filtered.length} étudiant${filtered.length > 1 ? 's' : ''}`;
+
+      filtered.forEach(s => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-blue-50/40 transition-colors";
+        tr.innerHTML = `
+          <td class="py-4 px-6 font-mono font-bold text-blue-600">${s.academicYear}</td>
+          <td class="py-4 px-4 font-bold text-slate-900">${s.name}</td>
+          <td class="py-4 px-4 text-blue-600 font-medium">${s.email}</td>
+          <td class="py-4 px-4 font-semibold text-slate-700">${s.contacts.length} démarche(s)</td>
+          <td class="py-4 px-4">
+            ${s.stage 
+              ? `<span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold text-[11px]">Validé (${s.stage.company})</span>`
+              : `<span class="px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 font-bold text-[11px]">En recherche</span>`
+            }
+          </td>
+          <td class="py-4 px-6 text-right">
+            <button onclick="openStudentDetail('${s.id}')" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-slate-900 hover:bg-blue-600 text-white font-semibold text-[11px] transition-colors">
+              <i data-lucide="folder-open" class="w-3.5 h-3.5"></i> Consulter / Modifier
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      lucide.createIcons();
+    }
+
+    function filterStudents(type) {
+      currentStudentFilter = type;
+      renderStudentsTable(document.getElementById('global-user-search').value);
+    }
+
+    // =========================================================
+    // 2. VUE DÉTAILLÉE ÉTUDIANT & MODIFICATION RAPIDE
+    // =========================================================
+    function openStudentDetail(studentId) {
+      currentStudentId = studentId;
+      const student = studentsData.find(s => s.id === studentId);
+      if (!student) return;
+
+      document.getElementById('view-etudiants').classList.add('hidden');
+      document.getElementById('view-student-detail').classList.remove('hidden');
+
+      document.getElementById('detail-student-name').textContent = student.name;
+      document.getElementById('detail-student-year').textContent = student.academicYear;
+      document.getElementById('detail-student-email').textContent = student.email;
+      document.getElementById('detail-student-section-input').value = student.section;
+      document.getElementById('detail-student-phone-input').value = student.phone;
+      document.getElementById('detail-student-lastlogin').textContent = student.lastLogin;
+
+      // Bloc Stage
+      const stageCard = document.getElementById('detail-stage-card');
+      if (student.stage) {
+        stageCard.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+              <h2 class="text-sm font-bold text-emerald-700 flex items-center gap-2">
+                <i data-lucide="award" class="w-4 h-4"></i> Stage Validé (${student.academicYear}) : ${student.stage.company}
+              </h2>
+              <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Convention prête</span>
+            </div>
+            <p class="text-xs text-slate-700 font-semibold mb-3">Sujet : "${student.stage.subject}"</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200/70 text-xs">
+              <div>
+                <span class="text-[10px] font-bold text-slate-400 uppercase block">Responsable de stage</span>
+                <span class="font-bold text-slate-800">${student.stage.supervisorName}</span>
+              </div>
+              <div>
+                <span class="text-[10px] font-bold text-slate-400 uppercase block">Email responsable</span>
+                <span class="text-blue-600 font-medium">${student.stage.supervisorEmail}</span>
+              </div>
+              <div>
+                <span class="text-[10px] font-bold text-slate-400 uppercase block">Téléphone</span>
+                <span class="font-semibold text-slate-800">${student.stage.supervisorPhone}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        stageCard.innerHTML = `
+          <div class="h-full flex flex-col items-center justify-center text-center py-6">
+            <div class="w-10 h-10 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mb-2">
+              <i data-lucide="clock" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-sm font-bold text-slate-800">Aucun stage validé pour ${student.academicYear}</h3>
+            <p class="text-xs text-slate-500 max-w-md mt-1">Vous pouvez valider un stage directement depuis la liste des contacts pris ci-dessous si l'étudiant n'a pas encore encodé sa confirmation.</p>
+          </div>
+        `;
+      }
+
+      // Tableau des contacts pris avec modification rapide du sujet
+      const tbody = document.getElementById('detail-contacts-tbody');
+      tbody.innerHTML = '';
+
+      student.contacts.forEach(c => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50/80";
+        tr.innerHTML = `
+          <td class="py-3.5 px-4 font-bold text-slate-900">${c.company}</td>
+          <td class="py-3.5 px-4 text-slate-700">${c.person}</td>
+          <td class="py-3.5 px-4">
+            <input type="text" value="${c.subject}" onchange="quickUpdateAdminContactSubject('${c.id}', this.value)" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-800 focus:border-blue-500 focus:outline-none">
+          </td>
+          <td class="py-3.5 px-4 font-bold uppercase text-[11px]">${c.status}</td>
+          <td class="py-3.5 px-4 text-right space-x-1">
+            ${c.status !== 'accepte' ? `
+              <button onclick="adminUpdateContactStatus('${c.id}', 'pris')" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-[11px]">Contact pris</button>
+              <button onclick="adminUpdateContactStatus('${c.id}', 'rencontre')" class="px-2 py-1 rounded bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold text-[11px]">Rencontre</button>
+              <button onclick="openAdminAcceptModal('${c.id}')" class="px-2.5 py-1 rounded bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-[11px]">Valider Stage</button>
+              <button onclick="adminUpdateContactStatus('${c.id}', 'refuse')" class="px-2 py-1 rounded bg-rose-50 hover:bg-rose-100 text-rose-600 font-semibold text-[11px]">Refus</button>
+            ` : '<span class="text-emerald-600 font-semibold text-[11px]">Stage confirmé</span>'}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      lucide.createIcons();
+    }
+
+    function quickUpdateStudentField(field, value) {
+      const student = studentsData.find(s => s.id === currentStudentId);
+      if (student) {
+        student[field] = value;
+        showToast('Données étudiant mises à jour instantanément !');
+      }
+    }
+
+    function quickUpdateAdminContactSubject(contactId, newSubject) {
+      const student = studentsData.find(s => s.id === currentStudentId);
+      const contact = student.contacts.find(c => c.id === contactId);
+      if (contact) {
+        contact.subject = newSubject;
+        if (contact.status === 'accepte' && student.stage) {
+          student.stage.subject = newSubject;
+          renderSupervisorsTable();
+        }
+        showToast('Sujet de stage mis à jour !');
+      }
+    }
+
+    function saveAdminProfileQuickEdit() {
+      const newName = document.getElementById('edit-admin-name').value.trim();
+      if (newName) {
+        document.getElementById('admin-profile-header-name').textContent = newName;
+        document.getElementById('topbar-admin-name').textContent = newName;
+        showToast('Données personnelles administratives enregistrées !');
+      }
+    }
+
+    // Substitution : Encoder un nouveau contact pour l'étudiant
+    function openAdminAddContactModal() {
+      const student = studentsData.find(s => s.id === currentStudentId);
+      document.getElementById('modal-student-target').textContent = `Encodage (${student.academicYear}) pour : ${student.name}`;
+      document.getElementById('admin-contact-modal').classList.remove('modal-closed');
+      document.getElementById('admin-contact-modal').classList.add('modal-open');
+    }
+
+    function closeAdminAddContactModal() {
+      document.getElementById('admin-contact-modal').classList.remove('modal-open');
+      document.getElementById('admin-contact-modal').classList.add('modal-closed');
+    }
+
+    function submitAdminContactForStudent(e) {
+      e.preventDefault();
+      const student = studentsData.find(s => s.id === currentStudentId);
+      student.contacts.unshift({
+        id: 'c' + Date.now(),
+        company: document.getElementById('admin-c-company').value,
+        person: document.getElementById('admin-c-person').value,
+        subject: document.getElementById('admin-c-subject').value,
+        status: document.getElementById('admin-c-status').value
+      });
+      closeAdminAddContactModal();
+      openStudentDetail(currentStudentId);
+      showToast(`Contact encodé pour ${student.name} (${student.academicYear})`);
+    }
+
+    // Substitution : Changer le statut d'un contact
+    function adminUpdateContactStatus(contactId, newStatus) {
+      const student = studentsData.find(s => s.id === currentStudentId);
+      const contact = student.contacts.find(c => c.id === contactId);
+      if (contact) contact.status = newStatus;
+      openStudentDetail(currentStudentId);
+      showToast(`Statut mis à jour (${newStatus.toUpperCase()}) au nom de l'étudiant`);
+    }
+
+    // Substitution : Valider un stage et enregistrer le responsable
+    function openAdminAcceptModal(contactId) {
+      currentContactIdForAccept = contactId;
+      const student = studentsData.find(s => s.id === currentStudentId);
+      const contact = student.contacts.find(c => c.id === contactId);
+      document.getElementById('admin-sup-name').value = contact.person;
+      document.getElementById('admin-final-subject').value = contact.subject;
+      document.getElementById('admin-accept-modal').classList.remove('modal-closed');
+      document.getElementById('admin-accept-modal').classList.add('modal-open');
+    }
+
+    function closeAdminAcceptModal() {
+      document.getElementById('admin-accept-modal').classList.remove('modal-open');
+      document.getElementById('admin-accept-modal').classList.add('modal-closed');
+    }
+
+    function confirmAdminStageAcceptance() {
+      const student = studentsData.find(s => s.id === currentStudentId);
+      const contact = student.contacts.find(c => c.id === currentContactIdForAccept);
+      
+      contact.status = 'accepte';
+      student.contacts.forEach(c => {
+        if (c.id !== contact.id && c.status !== 'refuse') c.status = 'suspendu';
+      });
+
+      student.stage = {
+        company: contact.company,
+        subject: document.getElementById('admin-final-subject').value,
+        supervisorName: document.getElementById('admin-sup-name').value,
+        supervisorEmail: document.getElementById('admin-sup-email').value,
+        supervisorPhone: document.getElementById('admin-sup-phone').value
+      };
+
+      closeAdminAcceptModal();
+      openStudentDetail(currentStudentId);
+      renderSupervisorsTable();
+      showToast(`Stage validé pour ${student.name} (${student.academicYear}) !`);
+    }
+
+    // =========================================================
+    // 3. LISTE DES COORDONNÉES DES RESPONSABLES DE STAGE
+    // =========================================================
+    function renderSupervisorsTable(query = '') {
+      const tbody = document.getElementById('supervisors-table-body');
+      tbody.innerHTML = '';
+      const q = query.toLowerCase();
+
+      const byYearWithStage = studentsData.filter(s => s.academicYear === currentAdminAcademicYear && s.stage !== null);
+
+      const withStage = byYearWithStage.filter(s => {
+        return !q 
+          || s.stage.supervisorName.toLowerCase().includes(q)
+          || s.stage.company.toLowerCase().includes(q)
+          || s.name.toLowerCase().includes(q);
+      });
+
+      document.getElementById('supervisors-count-badge').textContent = byYearWithStage.length;
+      document.getElementById('supervisors-total-badge').textContent = `${withStage.length} responsable${withStage.length > 1 ? 's' : ''}`;
+
+      withStage.forEach(s => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-blue-50/40 transition-colors";
+        tr.innerHTML = `
+          <td class="py-4 px-6 font-mono font-bold text-blue-600">${s.academicYear}</td>
+          <td class="py-4 px-4 font-bold text-slate-900">${s.stage.supervisorName}</td>
+          <td class="py-4 px-4 font-semibold text-blue-700">${s.stage.company}</td>
+          <td class="py-4 px-4"><a href="mailto:${s.stage.supervisorEmail}" class="text-blue-600 hover:underline font-medium">${s.stage.supervisorEmail}</a></td>
+          <td class="py-4 px-4 font-semibold text-slate-700">${s.stage.supervisorPhone}</td>
+          <td class="py-4 px-4 text-slate-700 font-medium">${s.name}</td>
+          <td class="py-4 px-6 text-slate-500 italic">"${s.stage.subject}"</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // =========================================================
+    // 4. MISE À JOUR DU PLANNING & DE LA FICHE UE
+    // =========================================================
+    function renderUeEditor() {
+      document.getElementById('edit-ue-title').value = ueData.title;
+      document.getElementById('edit-ue-year').value = ueData.year;
+      document.getElementById('edit-ue-ects').value = ueData.ects;
+      document.getElementById('edit-ue-description').value = ueData.description;
+
+      const tbody = document.getElementById('admin-planning-tbody');
+      tbody.innerHTML = '';
+
+      ueData.planning.forEach((item, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="py-2.5 px-4">
+            <input type="text" value="${item.date}" onchange="ueData.planning[${index}].date = this.value" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 font-mono font-bold text-blue-600 text-xs">
+          </td>
+          <td class="py-2.5 px-4">
+            <input type="text" value="${item.activity}" onchange="ueData.planning[${index}].activity = this.value" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-800">
+          </td>
+          <td class="py-2.5 px-4">
+            <label class="inline-flex items-center gap-2 cursor-pointer text-xs text-slate-600">
+              <input type="checkbox" ${item.highlight ? 'checked' : ''} onchange="ueData.planning[${index}].highlight = this.checked" class="rounded text-amber-500">
+              <span>Important (ambre)</span>
+            </label>
+          </td>
+          <td class="py-2.5 px-4 text-right">
+            <button onclick="removePlanningRow(${index})" class="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      lucide.createIcons();
+    }
+
+    function addPlanningRow() {
+      ueData.planning.push({ date: '15/01', activity: 'Nouvelle séance', highlight: false });
+      renderUeEditor();
+    }
+
+    function removePlanningRow(index) {
+      ueData.planning.splice(index, 1);
+      renderUeEditor();
+    }
+
+    function saveUeAndPlanning() {
+      const yearVal = document.getElementById('edit-ue-year').value.trim();
+      if (!/^\d{4}-\d{4}$/.test(yearVal)) {
+        showToast('Format d\'année invalide : utilisez aaaa-aaaa (ex: 2026-2027)');
+        return;
+      }
+      ueData.title = document.getElementById('edit-ue-title').value;
+      ueData.year = yearVal;
+      ueData.ects = document.getElementById('edit-ue-ects').value;
+      ueData.description = document.getElementById('edit-ue-description').value;
+      renderLoginPlanning();
+      showToast(`Fiche UE et planning (${ueData.year}) publiés !`);
+    }
+
+    function renderLoginPlanning() {
+      document.getElementById('login-ue-title').textContent = ueData.title;
+      document.getElementById('login-ue-year').textContent = ueData.year;
+      const tbody = document.getElementById('login-planning-tbody');
+      tbody.innerHTML = '';
+
+      ueData.planning.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-100/60";
+        tr.innerHTML = `
+          <td class="py-2 px-3 font-bold font-mono text-blue-600">${p.date}</td>
+          <td class="py-2 px-3 ${p.highlight ? 'font-semibold text-amber-700' : ''}">${p.activity}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // RECHERCHE & UTILITAIRES
+    function setupSearchListeners() {
+      document.getElementById('global-user-search').addEventListener('input', (e) => {
+        switchTab('etudiants');
+        renderStudentsTable(e.target.value);
+      });
+      document.getElementById('supervisor-search').addEventListener('input', (e) => {
+        renderSupervisorsTable(e.target.value);
+      });
+    }
+
+    function toggleDropdown(id) {
+      const target = document.getElementById(id);
+      if (target) target.classList.toggle('hidden');
+    }
+
+    function showToast(message) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = "bg-slate-900 text-white text-xs font-semibold px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 border border-white/10";
+      toast.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i><span>${message}</span>`;
+      container.appendChild(toast);
+      lucide.createIcons();
+      setTimeout(() => toast.remove(), 3500);
+    }
+  </script>
+</body>
+</html>
