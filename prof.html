@@ -5,16 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Espace Professeur | HE Vinci - My Internship</title>
   
-  <!-- Feuilles de style & Fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   
-  <!-- Configuration Tailwind -->
   <script>
     tailwind.config = {
       theme: {
@@ -47,14 +44,11 @@
     }
   </script>
 
-  <!-- Fichier CSS externe -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-[#0b1220] text-slate-800 font-sans min-h-screen flex items-center justify-center p-3 sm:p-6 antialiased selection:bg-blue-500 selection:text-white">
 
-  <!-- ========================================== -->
-  <!-- ÉCRAN DE CONNEXION PROFESSEUR              -->
-  <!-- ========================================== -->
+  <!-- ÉCRAN DE CONNEXION PROFESSEUR -->
   <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-white p-4 transition-opacity duration-500 overflow-y-auto select-none">
     <div class="absolute -top-24 -left-24 w-96 h-96 bg-blue-100 rounded-full glow-bg pointer-events-none"></div>
     <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-indigo-100 rounded-full glow-bg pointer-events-none"></div>
@@ -126,16 +120,13 @@
     </div>
   </div>
 
-  <!-- ========================================== -->
-  <!-- APPLICATION PRINCIPALE (PROFESSEUR)        -->
-  <!-- ========================================== -->
+  <!-- APPLICATION PRINCIPALE (PROFESSEUR : LEHMANN BRIGITTE) -->
   <div id="main-app" class="app-container hidden w-[min(96vw,calc(94vh*16/9))] aspect-video bg-white rounded-3xl overflow-hidden shadow-2xl flex relative border border-slate-800/10 opacity-0 transition-opacity duration-500">
 
     <!-- 1. SIDEBAR -->
     <aside class="sidebar w-72 sm:w-80 bg-navy-900 flex flex-col p-6 relative z-20 border-r border-slate-800/40 select-none flex-shrink-0">
       <div class="absolute -top-10 -left-10 w-48 h-48 bg-blue-600/20 rounded-full glow-bg pointer-events-none"></div>
       
-      <!-- Logo -->
       <div class="logo flex items-center gap-3.5 mb-6 relative z-10 cursor-pointer" onclick="switchTab('dashboard')">
         <div class="logo-icon-wrapper w-11 h-11 bg-gradient-to-br from-electric-500 to-electric-700 rounded-2xl flex items-center justify-center shadow-neon">
           <i data-lucide="box" class="logo-icon w-6 h-6 text-white"></i>
@@ -148,13 +139,11 @@
         </div>
       </div>
 
-      <!-- Recherche entreprise -->
       <div class="search-box relative mb-6 z-10">
         <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
         <input type="text" id="prof-company-search" placeholder="Accès rapide entreprise..." class="w-full bg-slate-800/60 border border-slate-700/60 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-electric-500">
       </div>
 
-      <!-- Navigation -->
       <nav class="sidebar-menu flex flex-col gap-2.5 z-10">
         <button id="nav-dashboard" onclick="switchTab('dashboard')" class="menu-item glass-sidebar-item active w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:text-white text-left">
           <i data-lucide="layout-dashboard" class="w-4 h-4 text-electric-400"></i>
@@ -164,13 +153,13 @@
         <button id="nav-entreprises" onclick="switchTab('entreprises')" class="menu-item glass-sidebar-item w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white text-left">
           <i data-lucide="building-2" class="w-4 h-4"></i>
           <span class="flex-1">Entreprises & Stages</span>
-          <span id="companies-count-badge" class="badge bg-gradient-to-r from-electric-500 to-electric-700 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">8</span>
+          <span id="companies-count-badge" class="badge bg-gradient-to-r from-electric-500 to-electric-700 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">10</span>
         </button>
 
         <button id="nav-notifications" onclick="switchTab('notifications')" class="menu-item glass-sidebar-item w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white text-left">
           <i data-lucide="moon" class="w-4 h-4"></i>
           <span class="flex-1">Stages hors bureau</span>
-          <span id="offhours-badge" class="bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[10px] font-bold px-2 py-0.5 rounded-full">3</span>
+          <span id="offhours-badge" class="bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
         </button>
       </nav>
 
@@ -188,7 +177,6 @@
 
       <!-- TOPBAR -->
       <header class="topbar h-20 px-8 flex items-center justify-between bg-white/80 backdrop-blur-md border-b border-slate-100 z-10 gap-3">
-        <!-- Sélecteur Année Académique (format aaaa-aaaa, défaut année courante) -->
         <div class="flex items-center gap-2.5">
           <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 hidden sm:inline">Année académique :</span>
           <select id="prof-academic-year-select" onchange="changeProfAcademicYear(this.value)" class="bg-indigo-50 border border-indigo-200 text-indigo-700 font-extrabold text-xs rounded-xl px-3 py-2 focus:outline-none">
@@ -199,49 +187,22 @@
         </div>
 
         <div class="flex items-center gap-3">
-          <!-- Notifications stages hors heures de bureau -->
-          <div class="relative">
-            <button onclick="toggleDropdown('notifications-dropdown')" class="p-2.5 rounded-xl hover:bg-slate-100 text-slate-600 hover:text-blue-600 transition-colors border border-slate-200/60 relative flex items-center gap-2 text-xs font-semibold">
-              <i data-lucide="bell" class="w-4 h-4"></i>
-              <span class="hidden md:inline">Hors bureau</span>
-              <span id="offhours-dot" class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
-            </button>
-
-            <div id="notifications-dropdown" class="hidden absolute right-0 mt-3 w-96 bg-white rounded-2xl shadow-xl border border-slate-100 p-4 z-50">
-              <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
-                <span class="font-bold text-xs text-slate-900 flex items-center gap-2">
-                  <i data-lucide="clock-alert" class="w-4 h-4 text-rose-600"></i> Stages hors bureau (<span class="current-year-label">2026-2027</span>)
-                </span>
-                <span id="dropdown-offhours-count" class="text-[10px] bg-rose-50 text-rose-600 px-2 py-0.5 rounded-full font-bold">3 alertes</span>
-              </div>
-              <div id="dropdown-offhours-list" class="space-y-2.5 max-h-64 overflow-y-auto">
-                <!-- Injecté par JS -->
-              </div>
-              <button onclick="switchTab('notifications'); toggleDropdown('notifications-dropdown');" class="w-full mt-3 pt-2 border-t border-slate-100 text-center text-[11px] font-bold text-blue-600 hover:underline">
-                Voir toutes les notifications hors bureau
-              </button>
-            </div>
-          </div>
-
-          <div class="h-6 w-px bg-slate-200 mx-1"></div>
-
-          <!-- Utilisateur connecté (Professeur) -->
           <div class="user-avatar relative">
             <button onclick="toggleDropdown('profile-dropdown')" class="flex items-center gap-3 p-1 rounded-full hover:bg-slate-100 transition-colors">
               <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-600 to-blue-700 text-white font-bold text-sm flex items-center justify-center ring-2 ring-indigo-500/30">
-                BL
+                LB
               </div>
               <div class="hidden sm:flex flex-col text-left pr-1">
-                <span id="topbar-prof-name" class="text-xs font-bold text-slate-800 leading-none">Brigitte Lehmann</span>
+                <span id="topbar-prof-name" class="text-xs font-bold text-slate-800 leading-none">Lehmann Brigitte</span>
                 <span class="text-[11px] text-indigo-600 font-semibold mt-1">Professeur</span>
               </div>
               <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 hidden sm:block"></i>
             </button>
 
-            <div id="profile-dropdown" class="hidden absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50">
+            <div id="profile-dropdown" class="hidden absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50">
               <div class="px-3 py-2 border-b border-slate-100 mb-1">
-                <p class="text-xs font-bold text-slate-800">Brigitte Lehmann</p>
-                <p class="text-[11px] text-indigo-600 font-semibold">brigitte.lehmann@vinci.be</p>
+                <p class="text-xs font-bold text-slate-800">Lehmann Brigitte</p>
+                <p class="text-[11px] text-indigo-600 font-semibold">Brigitte.Lehmann@vinci.be</p>
               </div>
               <button onclick="switchTab('profile'); toggleDropdown('profile-dropdown');" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-blue-600 hover:bg-blue-50 rounded-xl transition-colors text-left">
                 <i data-lucide="user" class="w-3.5 h-3.5"></i> Mes données personnelles
@@ -258,26 +219,22 @@
       <!-- VUES DYNAMIQUES -->
       <div class="flex-1 p-8 overflow-y-auto">
 
-        <!-- ========================================================= -->
-        <!-- VUE 1 : TABLEAU DE BORD & STATISTIQUES PAR ANNÉE          -->
-        <!-- ========================================================= -->
+        <!-- VUE 1 : TABLEAU DE BORD & STATISTIQUES PAR ANNÉE -->
         <div id="view-dashboard" class="space-y-8">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Tableau de bord des stages (<span class="current-year-label">2026-2027</span>)</h1>
-              <p class="text-xs text-slate-500 mt-1">Indicateurs conditionnés par défaut sur l'année académique courante et comparatif historique.</p>
+              <p class="text-xs text-slate-500 mt-1">Données consolidées à partir du fichier Excel HE Vinci.</p>
             </div>
           </div>
 
-          <!-- Cartes KPI dynamiques selon l'année sélectionnée -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Nombre d'étudiants ayant trouvé un stage -->
             <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-card-glow flex items-center justify-between">
               <div>
-                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Étudiants avec un stage</span>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Stages acceptés</span>
                 <div class="flex items-baseline gap-2 mt-2">
-                  <span id="kpi-students-found" class="text-3xl font-extrabold text-slate-900">42</span>
-                  <span id="kpi-students-ratio" class="text-xs font-semibold text-emerald-600">/ 58 étudiants (72,4%)</span>
+                  <span id="kpi-students-found" class="text-3xl font-extrabold text-slate-900">4</span>
+                  <span id="kpi-students-ratio" class="text-xs font-semibold text-emerald-600">/ 6 étudiants (66,7%)</span>
                 </div>
                 <p class="text-[11px] text-slate-500 mt-1">Année académique <span class="current-year-label font-bold">2026-2027</span></p>
               </div>
@@ -286,13 +243,12 @@
               </div>
             </div>
 
-            <!-- Entreprises ayant accepté un stage -->
             <div onclick="switchTab('entreprises')" class="cursor-pointer bg-white p-6 rounded-2xl border border-slate-200/80 shadow-card-glow flex items-center justify-between hover:border-blue-300 transition-colors">
               <div>
-                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Entreprises partenaires actives</span>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Entreprises ayant accepté</span>
                 <div class="flex items-baseline gap-2 mt-2">
-                  <span id="kpi-companies-accepted" class="text-3xl font-extrabold text-blue-600">5</span>
-                  <span class="text-xs font-semibold text-slate-500">ont accepté un stage</span>
+                  <span id="kpi-companies-accepted" class="text-3xl font-extrabold text-blue-600">4</span>
+                  <span class="text-xs font-semibold text-slate-500">sur 10 entreprises</span>
                 </div>
                 <p class="text-[11px] text-blue-600 font-semibold mt-1">Consulter l'annuaire (<span class="current-year-label">2026-2027</span>) →</p>
               </div>
@@ -301,30 +257,27 @@
               </div>
             </div>
 
-            <!-- Stages encodés hors heures de bureau -->
-            <div onclick="switchTab('notifications')" class="cursor-pointer bg-white p-6 rounded-2xl border border-rose-200/80 shadow-card-glow flex items-center justify-between hover:border-rose-400 transition-colors">
+            <div onclick="switchTab('notifications')" class="cursor-pointer bg-white p-6 rounded-2xl border border-slate-200/80 shadow-card-glow flex items-center justify-between hover:border-blue-300 transition-colors">
               <div>
-                <span class="text-[11px] font-bold uppercase tracking-wider text-rose-500">Stages hors heures bureau</span>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total démarches encodées</span>
                 <div class="flex items-baseline gap-2 mt-2">
-                  <span id="kpi-offhours-count" class="text-3xl font-extrabold text-rose-600">3</span>
-                  <span class="text-xs font-semibold text-slate-500">notifications (<span class="current-year-label">2026-2027</span>)</span>
+                  <span id="kpi-contacts-count" class="text-3xl font-extrabold text-indigo-600">18</span>
+                  <span class="text-xs font-semibold text-slate-500">lignes (<span class="current-year-label">2026-2027</span>)</span>
                 </div>
-                <p class="text-[11px] text-blue-600 font-semibold mt-1">Cliquer pour consulter →</p>
+                <p class="text-[11px] text-slate-500 mt-1">Suivi Excel synchronisé</p>
               </div>
-              <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center border border-rose-100">
-                <i data-lucide="moon-star" class="w-6 h-6"></i>
+              <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center border border-indigo-100">
+                <i data-lucide="file-spreadsheet" class="w-6 h-6"></i>
               </div>
             </div>
           </div>
 
-          <!-- Tableau des statistiques par année académique (format aaaa-aaaa) -->
           <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
             <div class="flex items-center justify-between border-b border-slate-100 pb-4">
               <div>
                 <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
-                  <i data-lucide="bar-chart-3" class="w-4 h-4 text-blue-600"></i> Statistiques des stages par année académique
+                  <i data-lucide="bar-chart-3" class="w-4 h-4 text-blue-600"></i> Statistiques par année académique (Données Excel)
                 </h2>
-                <p class="text-xs text-slate-500 mt-0.5">Comparatif du nombre d'étudiants inscrits, de contacts initiés et de stages validés.</p>
               </div>
             </div>
 
@@ -334,31 +287,27 @@
                   <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase text-[11px] font-bold">
                     <th class="py-3.5 px-4">Année académique</th>
                     <th class="py-3.5 px-4">Étudiants inscrits</th>
-                    <th class="py-3.5 px-4">Contacts pris (Total)</th>
-                    <th class="py-3.5 px-4">Étudiants ayant trouvé un stage</th>
+                    <th class="py-3.5 px-4">Contacts encodés</th>
+                    <th class="py-3.5 px-4">Stages acceptés</th>
                     <th class="py-3.5 px-4">Entreprises d'accueil</th>
                     <th class="py-3.5 px-4">Taux de placement</th>
                   </tr>
                 </thead>
-                <tbody id="stats-years-tbody" class="divide-y divide-slate-100">
-                  <!-- Injecté dynamiquement par JS -->
-                </tbody>
+                <tbody id="stats-years-tbody" class="divide-y divide-slate-100"></tbody>
               </table>
             </div>
           </div>
         </div>
 
-        <!-- ========================================================= -->
-        <!-- VUE 2 : LISTE DES ENTREPRISES & FILTRAGE ACCEPTÉ / NON    -->
-        <!-- ========================================================= -->
+        <!-- VUE 2 : LISTE DES ENTREPRISES & FILTRAGE ACCEPTÉ / NON -->
         <div id="view-entreprises" class="hidden space-y-6">
           <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             <div>
               <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
                 Entreprises (<span class="current-year-label">2026-2027</span>)
-                <span id="prof-companies-count" class="text-xs font-semibold px-3 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-100">8 entreprises</span>
+                <span id="prof-companies-count" class="text-xs font-semibold px-3 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-100">10 entreprises</span>
               </h1>
-              <p class="text-xs text-slate-500 mt-1">Filtrez les entreprises selon leur statut sur l'année sélectionnée et accédez rapidement aux informations.</p>
+              <p class="text-xs text-slate-500 mt-1">Filtrez les entreprises selon les stages acceptés sur l'année sélectionnée.</p>
             </div>
 
             <div class="flex flex-wrap items-center gap-2">
@@ -380,10 +329,10 @@
                 <thead>
                   <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                     <th class="py-4 px-6">Entreprise</th>
+                    <th class="py-4 px-4">Mot-clé</th>
                     <th class="py-4 px-4">Ville</th>
-                    <th class="py-4 px-4">Contact</th>
+                    <th class="py-4 px-4">Tél / Email</th>
                     <th class="py-4 px-4">Statut (<span class="current-year-label">2026-2027</span>)</th>
-                    <th class="py-4 px-4">Contacts pris / Stages</th>
                     <th class="py-4 px-6 text-right">Informations & Suivi</th>
                   </tr>
                 </thead>
@@ -393,32 +342,25 @@
           </div>
         </div>
 
-        <!-- ========================================================= -->
-        <!-- VUE 3 : NOTIFICATIONS STAGES EN-DEHORS HEURES DE BUREAU   -->
-        <!-- ========================================================= -->
+        <!-- VUE 3 : STAGES HORS BUREAU -->
         <div id="view-notifications" class="hidden space-y-6 max-w-5xl">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
-            <div>
-              <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
-                <i data-lucide="moon" class="w-6 h-6 text-rose-600"></i> Stages encodés hors heures de bureau (<span class="current-year-label">2026-2027</span>)
-              </h1>
-              <p class="text-xs text-slate-500 mt-1">Alertes générées lorsqu'un stage est validé ou déclaré avant 08h00, après 18h00 ou durant le week-end.</p>
-            </div>
+          <div class="border-b border-slate-200 pb-4">
+            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
+              <i data-lucide="moon" class="w-6 h-6 text-rose-600"></i> Stages encodés hors heures de bureau (<span class="current-year-label">2026-2027</span>)
+            </h1>
+            <p class="text-xs text-slate-500 mt-1">Les dates de signature dans le fichier Excel sont au format JJ/MM/AA sans horodatage.</p>
           </div>
-
-          <div id="offhours-cards-container" class="space-y-4">
-            <!-- Injecté par JS -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 text-xs text-slate-500 italic">
+            Aucun horodatage hors heures de bureau relevé dans les données Excel pour <span class="current-year-label font-bold">2026-2027</span>.
           </div>
         </div>
 
-        <!-- ========================================================= -->
-        <!-- VUE 4 : PROFIL & DONNÉES PERSONNELLES (MODIF. RAPIDE)     -->
-        <!-- ========================================================= -->
+        <!-- VUE 4 : PROFIL & DONNÉES PERSONNELLES -->
         <div id="view-profile" class="hidden space-y-6 max-w-4xl">
           <div class="flex items-center justify-between border-b border-slate-200 pb-4">
             <div>
               <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Mes données personnelles</h1>
-              <p class="text-xs text-slate-500 mt-1">Accès rapide et modification instantanée de vos coordonnées d'enseignant.</p>
+              <p class="text-xs text-slate-500 mt-1">Profil enseignant issu du registre Excel HE Vinci.</p>
             </div>
             <div class="flex items-center gap-2">
               <button onclick="saveProfProfileQuickEdit()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors">
@@ -432,13 +374,13 @@
 
           <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-5">
             <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-600 to-blue-700 text-white font-extrabold text-2xl flex items-center justify-center ring-4 ring-indigo-500/10">
-              BL
+              LB
             </div>
             <div>
-              <h2 id="prof-profile-header-name" class="text-xl font-bold text-slate-900">Brigitte Lehmann</h2>
+              <h2 id="prof-profile-header-name" class="text-xl font-bold text-slate-900">Lehmann Brigitte</h2>
               <div class="flex items-center gap-2 mt-1">
-                <span class="px-3 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 font-semibold text-xs">Professeur · Responsable UE Stages</span>
-                <span class="text-xs text-slate-400">· Haute École Léonard de Vinci · 2026-2027</span>
+                <span class="px-3 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 font-semibold text-xs">Professeur</span>
+                <span class="text-xs text-slate-400">· Haute École Léonard de Vinci</span>
               </div>
             </div>
           </div>
@@ -446,28 +388,19 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
               <h3 class="font-bold text-sm text-slate-800 border-b border-slate-100 pb-3 flex items-center gap-2">
-                <i data-lucide="mail" class="w-4 h-4 text-blue-600"></i> Coordonnées institutionnelles (Modif. rapide)
+                <i data-lucide="mail" class="w-4 h-4 text-blue-600"></i> Coordonnées institutionnelles
               </h3>
               <div>
                 <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Nom & Prénom</label>
-                <input type="text" id="edit-prof-name" value="Brigitte Lehmann" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800">
+                <input type="text" id="edit-prof-name" value="Lehmann Brigitte" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800">
               </div>
               <div>
                 <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Adresse de courriel</label>
-                <p class="text-xs font-semibold text-blue-600">brigitte.lehmann@vinci.be</p>
+                <p class="text-xs font-semibold text-blue-600">Brigitte.Lehmann@vinci.be</p>
               </div>
               <div>
-                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Département / Implantation <span class="text-[9px] text-blue-600 font-normal">(Suggestions)</span></label>
-                <input type="text" id="edit-prof-dept" list="vinci-dept-suggestions" value="Informatique · Paul Lambin (Woluwe)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800">
-                <datalist id="vinci-dept-suggestions">
-                  <option value="Informatique · Paul Lambin (Woluwe)">
-                  <option value="Informatique de gestion · Woluwe">
-                  <option value="Informatique industrielle · Louvain-la-Neuve">
-                </datalist>
-              </div>
-              <div>
-                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Téléphone interne <span class="text-[9px] text-slate-400 font-normal">(formatage auto)</span></label>
-                <input type="text" id="edit-prof-phone" oninput="formatBelgianPhone(this)" value="02 773 67 18" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800">
+                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Rôle</label>
+                <p class="text-xs font-semibold text-slate-800">Professeur</p>
               </div>
             </div>
 
@@ -476,20 +409,12 @@
                 <i data-lucide="shield-check" class="w-4 h-4 text-blue-600"></i> Session & Accès
               </h3>
               <div>
-                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Année académique courante</label>
-                <p class="text-xs font-extrabold text-indigo-600">2026-2027</p>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Date de première connexion</label>
+                <p class="text-xs font-semibold text-slate-800">18/08/24</p>
               </div>
               <div>
-                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Rôle actif</label>
-                <p class="text-xs font-semibold text-slate-800">Professeur (Supervision académique & Suivi entreprises)</p>
-              </div>
-              <div>
-                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Fuseau horaire</label>
-                <p class="text-xs text-slate-700">Europe/Brussels</p>
-              </div>
-              <div>
-                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Dernière connexion</label>
-                <p class="text-xs font-semibold text-emerald-600">Aujourd'hui à 14:07 (Connecté)</p>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Collègue enseignant enregistré</label>
+                <p class="text-xs text-slate-700">Ledent Emile (Emile.Ledent@vinci.be · 18/08/24)</p>
               </div>
             </div>
           </div>
@@ -498,9 +423,7 @@
       </div>
     </main>
 
-    <!-- ========================================================= -->
     <!-- DRAWER : TOUTES LES INFOS STAGES & CONTACTS D'UNE ENTREPRISE -->
-    <!-- ========================================================= -->
     <div id="company-detail-overlay" onclick="closeCompanyDetailDrawer()" class="fixed inset-0 bg-slate-950/40 backdrop-blur-sm z-40 opacity-0 pointer-events-none transition-opacity duration-300"></div>
     <aside id="company-detail-drawer" class="fixed top-0 right-0 h-full w-full max-w-2xl bg-white z-50 shadow-2xl flex flex-col drawer-closed transition-transform duration-300 ease-out border-l border-slate-100">
       <div class="p-6 bg-navy-900 text-white flex items-center justify-between">
@@ -513,227 +436,211 @@
         </button>
       </div>
 
-      <div id="drawer-comp-body" class="p-6 flex-1 overflow-y-auto space-y-6">
-        <!-- Injecté dynamiquement par JS -->
-      </div>
+      <div id="drawer-comp-body" class="p-6 flex-1 overflow-y-auto space-y-6"></div>
     </aside>
 
-    <!-- CONTAINER TOAST -->
     <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
   </div>
 
-  <!-- Script JS -->
   <script>
     let currentProfAcademicYear = '2026-2027';
 
-    // Statistiques par année académique (format aaaa-aaaa)
+    // STATISTIQUES CALCULÉES DIRECTEMENT DEPUIS L'EXCEL
     const academicYearsStats = [
-      { year: '2026-2027', isCurrent: true, studentsTotal: 58, contactsTotal: 146, studentsFound: 42, companiesHosting: 34, rate: '72,4%', barWidth: '72%' },
-      { year: '2025-2026', isCurrent: false, studentsTotal: 64, contactsTotal: 210, studentsFound: 63, companiesHosting: 49, rate: '98,4%', barWidth: '98%' },
-      { year: '2024-2025', isCurrent: false, studentsTotal: 52, contactsTotal: 178, studentsFound: 52, companiesHosting: 41, rate: '100%', barWidth: '100%' }
+      { year: '2026-2027', isCurrent: true, studentsTotal: 6, contactsTotal: 18, studentsFound: 4, companiesHosting: 4, rate: '66,7%', barWidth: '67%' },
+      { year: '2025-2026', isCurrent: false, studentsTotal: 8, contactsTotal: 11, studentsFound: 6, companiesHosting: 3, rate: '75,0%', barWidth: '75%' },
+      { year: '2024-2025', isCurrent: false, studentsTotal: 8, contactsTotal: 10, studentsFound: 5, companiesHosting: 4, rate: '62,5%', barWidth: '63%' }
     ];
 
-    // 1. NOTIFICATIONS DES STAGES EN-DEHORS DES HEURES DE BUREAU (avec année aaaa-aaaa)
-    const offHoursStages = [
-      {
-        id: 'oh1',
-        academicYear: '2026-2027',
-        student: 'Tuasukama-Bongo William',
-        company: 'Infrabel',
-        subject: 'Développement API Java pour I-ICT Ring',
-        supervisor: 'Marc Willems (marc.willems@infrabel.be)',
-        timestamp: 'Dimanche 15 nov. 2026 à 22:41',
-        reasonTag: 'Week-end & Soirée (> 18h00)'
-      },
-      {
-        id: 'oh2',
-        academicYear: '2026-2027',
-        student: 'Dupont Camille',
-        company: 'Idealis Consulting',
-        subject: 'Consulting ERP Odoo & PostgreSQL',
-        supervisor: 'Claire Martin (c.martin@idealisconsulting.com)',
-        timestamp: 'Vendredi 13 nov. 2026 à 20:15',
-        reasonTag: 'Soirée (> 18h00)'
-      },
-      {
-        id: 'oh3',
-        academicYear: '2026-2027',
-        student: 'Peeters Thomas',
-        company: 'Assyst Europe',
-        subject: 'Administration système Linux & Réseau',
-        supervisor: 'Thomas Bernard (t.bernard@assyst-europe.com)',
-        timestamp: 'Lundi 16 nov. 2026 à 06:52',
-        reasonTag: 'Matin (< 08h00)'
-      },
-      {
-        id: 'oh4',
-        academicYear: '2025-2026',
-        student: 'Kouassi Kevin',
-        company: 'Infrabel',
-        subject: 'Supervision réseau ferroviaire & Python',
-        supervisor: 'Lucie Janssens (l.janssens@infrabel.be)',
-        timestamp: 'Samedi 14 mars 2026 à 19:20',
-        reasonTag: 'Week-end & Soirée (> 18h00)'
-      }
-    ];
-
-    // 2. ENTREPRISES + HISTORIQUE COMPLET DES STAGES VALIDÉS ET CONTACTS PRIS (format aaaa-aaaa)
+    // LES 10 ENTREPRISES EXACTES DE L'EXCEL + HISTORIQUE EXACT DES CONTACTS & STAGES
     const companiesWithHistory = [
       {
         id: '1',
-        name: 'Infrabel',
-        city: '1070 Bruxelles',
-        address: 'Rue Bara, 135',
-        phone: '02 525 22 11',
-        email: 'hr@infrabel.be',
-        pedagogicalNote: 'Partenaire régulier HE Vinci · Encadrement technique Java & Réseau très solide.',
+        name: 'Assyst Europe',
+        keyword: '',
+        city: "1420 Braine l'Alleud",
+        address: 'Avenue du Japon, 1/B9',
+        phone: '02 609.25.00',
+        email: '',
         acceptedStages: [
-          {
-            year: '2026-2027',
-            student: 'Tuasukama-Bongo William',
-            subject: 'Développement API Java pour I-ICT Ring',
-            supervisor: 'Marc Willems',
-            supervisorContact: 'marc.willems@infrabel.be · 02 525 22 11'
-          },
-          {
-            year: '2025-2026',
-            student: 'Kouassi Kevin',
-            subject: 'Supervision réseau ferroviaire & Python',
-            supervisor: 'Lucie Janssens',
-            supervisorContact: 'l.janssens@infrabel.be'
-          }
+          { year: '2026-2027', student: 'Basile Ile', subject: 'CRM : Microsoft Dynamics 365 For Sales', supervisor: 'Assal', dateConv: '12/10/26' },
+          { year: '2025-2026', student: 'Basile Demoulin', subject: 'CRM : Microsoft Dynamics 365 For Sales', supervisor: 'Assal', dateConv: '25/11/25' },
+          { year: '2024-2025', student: 'Cédric Dilot', subject: 'ERP : Microsoft Dynamics 365', supervisor: 'Assal', dateConv: '25/11/24' }
         ],
         contactsTaken: [
-          { year: '2026-2027', student: 'Tuasukama-Bongo William', referent: 'Marc Willems', status: 'Stage accepté', date: '15/11/2026', subject: 'Développement API Java pour I-ICT Ring' },
-          { year: '2026-2027', student: 'Benali Sara', referent: 'Marc Willems', status: 'Rencontre effectuée', date: '10/11/2026', subject: 'Analyse de données trafic' },
-          { year: '2025-2026', student: 'Kouassi Kevin', referent: 'Lucie Janssens', status: 'Stage accepté', date: '14/03/2026', subject: 'Supervision réseau ferroviaire & Python' }
+          { year: '2026-2027', student: 'Basile Ile', type: "Dans l'entreprise", subject: 'CRM : Microsoft Dynamics 365 For Sales', status: 'accepté' },
+          { year: '2025-2026', student: 'Basile Demoulin', type: 'A distance', subject: 'CRM : Microsoft Dynamics 365 For Sales', status: 'accepté' },
+          { year: '2024-2025', student: 'Cédric Dilot', type: "Dans l'entreprise", subject: 'ERP : Microsoft Dynamics 365', status: 'accepté' }
         ]
       },
       {
         id: '2',
-        name: 'Idealis Consulting',
-        city: '1348 Louvain-la-Neuve',
-        address: 'Fond Jean Pâques, 4',
-        phone: '010 45 82 10',
-        email: 'jobs@idealisconsulting.com',
-        pedagogicalNote: 'Spécialiste Odoo / Python · Bon accompagnement fonctionnel et technique.',
+        name: 'AXIS SRL',
+        keyword: '',
+        city: '1180 Uccle',
+        address: "Avenue de l'Hélianthe, 63",
+        phone: '02 752 17 60',
+        email: '',
         acceptedStages: [
-          {
-            year: '2026-2027',
-            student: 'Dupont Camille',
-            subject: 'Consulting ERP Odoo & PostgreSQL',
-            supervisor: 'Claire Martin',
-            supervisorContact: 'c.martin@idealisconsulting.com · 010 45 82 10'
-          }
+          { year: '2025-2026', student: 'Arthur Moulin', subject: 'Un métier : chef de projet', supervisor: 'Barn', dateConv: '19/10/25' },
+          { year: '2025-2026', student: 'Hugo Moulin', subject: 'Un métier : chef de projet', supervisor: 'Barn', dateConv: '19/10/25' },
+          { year: '2025-2026', student: 'Aurèle Mile', subject: 'Un métier : chef de projet', supervisor: 'Barn', dateConv: '19/10/25' },
+          { year: '2025-2026', student: 'Frank Mile', subject: 'Un métier : chef de projet', supervisor: 'Barn', dateConv: '19/10/25' }
         ],
         contactsTaken: [
-          { year: '2026-2027', student: 'Dupont Camille', referent: 'Claire Martin', status: 'Stage accepté', date: '13/11/2026', subject: 'Consulting ERP Odoo & PostgreSQL' }
+          { year: '2025-2026', student: 'Arthur Moulin', type: "Dans l'entreprise", subject: 'Un métier : chef de projet', status: 'accepté' },
+          { year: '2025-2026', student: 'Hugo Moulin', type: "Dans l'entreprise", subject: 'Un métier : chef de projet', status: 'accepté' },
+          { year: '2025-2026', student: 'Aurèle Mile', type: 'A distance', subject: 'Un métier : chef de projet', status: 'accepté' },
+          { year: '2025-2026', student: 'Frank Mile', type: 'A distance', subject: 'Un métier : chef de projet', status: 'accepté' },
+          { year: '2025-2026', student: 'Basile Dumoulin', type: "Dans l'entreprise", subject: '-', status: "refusé (Entretien n'a pas eu lieu)" }
         ]
       },
       {
         id: '3',
-        name: 'Assyst Europe',
-        city: "1420 Braine-l'Alleud",
-        address: 'Avenue du Japon, 1/B9',
-        phone: '02 609 25 00',
-        email: 'contact@assyst-europe.com',
-        pedagogicalNote: 'Stages axés infrastructure système & Linux.',
+        name: 'Infrabel',
+        keyword: '',
+        city: '1070 Bruxelles',
+        address: 'Rue Bara, 135',
+        phone: '02 525 22 11',
+        email: '',
         acceptedStages: [
-          {
-            year: '2026-2027',
-            student: 'Peeters Thomas',
-            subject: 'Administration système Linux & Réseau',
-            supervisor: 'Thomas Bernard',
-            supervisorContact: 't.bernard@assyst-europe.com · 02 609 25 00'
-          }
+          { year: '2024-2025', student: 'Auristelle Linot', subject: 'Entretien des rails', supervisor: 'Hibo', dateConv: '22/11/24' }
         ],
         contactsTaken: [
-          { year: '2026-2027', student: 'Peeters Thomas', referent: 'Thomas Bernard', status: 'Stage accepté', date: '16/11/2026', subject: 'Administration système Linux & Réseau' }
+          { year: '2026-2027', student: 'Basile Friot', type: '-', subject: '-> initié -> non suivi', status: 'initié -> non suivi' },
+          { year: '2026-2027', student: 'Basile Dumoulin', type: 'A distance', subject: 'Sécurité & Bien-être des équipes', status: 'pris -> accepté' },
+          { year: '2024-2025', student: 'Auristelle Linot', type: 'A distance', subject: 'Entretien des rails', status: 'accepté' }
         ]
       },
       {
         id: '4',
-        name: 'LetsBuild',
-        city: '1310 La Hulpe',
-        address: 'Chaussée de Bruxelles, 135A',
-        phone: '02 351 44 10',
-        email: 'hr@letsbuild.be',
-        pedagogicalNote: 'Équipe produit SaaS React / TypeScript.',
-        acceptedStages: [],
+        name: 'La route du papier',
+        keyword: '',
+        city: '1150 Woluwe-Saint-Pierre',
+        address: 'Avenue des Mimosas, 83',
+        phone: '02 586 16 65',
+        email: 'hr@laroutedupapier.com',
+        acceptedStages: [
+          { year: '2024-2025', student: 'Elie Skile', subject: 'Conservation et restauration d’œuvres d’art', supervisor: 'Ile', dateConv: '25/11/24' }
+        ],
         contactsTaken: [
-          { year: '2026-2027', student: 'El Amrani Yassine', referent: 'Sophie Laurent', status: 'Contact pris', date: '08/11/2026', subject: 'Développement Front-End React' },
-          { year: '2026-2027', student: 'Tuasukama-Bongo William', referent: 'Sophie Laurent', status: 'Suspendu (autre stage trouvé)', date: '04/11/2026', subject: 'Intégration Dashboard React' }
+          { year: '2026-2027', student: 'Basile Friot', type: '-', subject: '-> non suivi', status: 'pris' },
+          { year: '2024-2025', student: 'Elie Skile', type: 'A distance', subject: 'Conservation et restauration d’œuvres d’art', status: 'accepté' }
         ]
       },
       {
         id: '5',
-        name: 'Sopra Steria',
-        city: '1050 Bruxelles',
-        address: 'Avenue Arnaud Fraiteur, 15/23',
-        phone: '02 566 66 66',
-        email: 'stages.be@soprasteria.com',
-        pedagogicalNote: 'Grands projets Cloud & DevOps.',
-        acceptedStages: [],
+        name: 'LetsBuild',
+        keyword: '',
+        city: '1310 La Hulpe',
+        address: 'Chaussée de Bruxelles, 135A',
+        phone: '',
+        email: 'hr@letsbuild.be',
+        acceptedStages: [
+          { year: '2026-2027', student: 'Carole Skile', subject: 'Un ERP : Odoo', supervisor: 'Dossche', dateConv: '9/10/26' }
+        ],
         contactsTaken: [
-          { year: '2026-2027', student: 'El Amrani Yassine', referent: 'Antoine Dupont', status: 'Rencontre effectuée', date: '12/11/2026', subject: 'Architecture Cloud & DevOps Azure' },
-          { year: '2026-2027', student: 'Mertens Lucas', referent: 'Antoine Dupont', status: 'Refusé (Pas de place)', date: '02/11/2026', subject: 'Cyber-sécurité' }
+          { year: '2026-2027', student: 'Carole Skile', type: 'A distance', subject: 'Un ERP : Odoo', status: 'accepté' },
+          { year: '2026-2027', student: 'Basile Ile', type: 'A distance', subject: '-', status: 'suspendu' },
+          { year: '2026-2027', student: 'Caroline Line', type: 'A distance', subject: '-', status: 'pris' },
+          { year: '2026-2027', student: 'Théophile Ile', type: '-', subject: '-', status: 'initié' },
+          { year: '2026-2027', student: 'Basile Dumoulin', type: 'A distance', subject: '-', status: 'pris' }
         ]
       },
       {
         id: '6',
-        name: 'AXIS SRL',
-        city: '1180 Uccle',
-        address: "Avenue de l'Hélianthe, 63",
-        phone: '02 752 17 60',
-        email: 'info@axis.be',
-        pedagogicalNote: '',
+        name: 'Niboo',
+        keyword: '',
+        city: '1170 Watermael-Boitsfort',
+        address: 'Boulevard du Souverain, 24',
+        phone: '0487 02 79 13',
+        email: '',
         acceptedStages: [],
         contactsTaken: [
-          { year: '2026-2027', student: 'El Amrani Yassine', referent: 'Julie Mercier', status: 'Contact pris', date: '14/11/2026', subject: 'Refonte portail client Angular' }
+          { year: '2026-2027', student: 'Achille Ile', type: 'A distance', subject: '-', status: "refusé (N'ont pas accepté d'avoir un entretien)" },
+          { year: '2026-2027', student: 'Basile Ile', type: "Dans l'entreprise", subject: '-', status: "refusé (ne prennent qu'un seul étudiant)" },
+          { year: '2026-2027', student: 'Caroline Line', type: 'A distance', subject: '-', status: "refusé (Pas d'affinité avec l'ERP Odoo)" },
+          { year: '2026-2027', student: 'Théophile Ile', type: '-', subject: '-', status: 'initié' },
+          { year: '2026-2027', student: 'Basile Friot', type: '-', subject: '-', status: 'initié -> pris -> refusé' },
+          { year: '2025-2026', student: 'Basile Dumoulin', type: "Dans l'entreprise", subject: '-', status: "refusé (Entretien n'a pas eu lieu)" },
+          { year: '2024-2025', student: 'Auristelle Linot', type: 'A distance', subject: '-', status: 'refusé (Choix autre étudiant)' }
         ]
       },
       {
         id: '7',
-        name: 'Niboo',
-        city: '1170 Watermael-Boitsfort',
-        address: 'Boulevard du Souverain, 24',
-        phone: '0487 02 79 13',
-        email: 'hr@niboo.be',
-        pedagogicalNote: 'Développement Python & intégration ERP.',
+        name: 'Sopra Steria',
+        keyword: '',
+        city: '1050 Bruxelles',
+        address: 'Avenue Arnaud Fraiteur, 15/23',
+        phone: '02 566 66 66',
+        email: '',
         acceptedStages: [
-          {
-            year: '2026-2027',
-            student: 'Vandermeulen Chloé',
-            subject: 'Développement ERP Python & API REST',
-            supervisor: 'Luc Moreau',
-            supervisorContact: 'l.moreau@niboo.be · 0487 02 79 13'
-          }
+          { year: '2026-2027', student: 'Achille Ile', subject: 'sBMS project - a complex environment', supervisor: 'Alvarez Corchete', dateConv: '8/10/26' },
+          { year: '2025-2026', student: 'Axel Dumoulin', subject: 'sBMS project - Java Development', supervisor: 'Alvarez Corchete', dateConv: '17/10/25' },
+          { year: '2024-2025', student: 'Arnaud Dito', subject: "L'analyste au centre du développement", supervisor: 'Alvarez Corchete', dateConv: '17/11/24' },
+          { year: '2024-2025', student: 'Arnaud Dilo', subject: "L'analyste au centre du développement", supervisor: 'Alvarez Corchete', dateConv: '17/11/24' }
         ],
         contactsTaken: [
-          { year: '2026-2027', student: 'Vandermeulen Chloé', referent: 'Luc Moreau', status: 'Stage accepté', date: '09/11/2026', subject: 'Développement ERP Python & API REST' },
-          { year: '2026-2027', student: 'Dupont Camille', referent: 'Luc Moreau', status: 'Refusé', date: '03/11/2026', subject: 'Modules Python' }
+          { year: '2026-2027', student: 'Achille Ile', type: "Dans l'entreprise", subject: 'sBMS project - a complex environment', status: 'accepté' },
+          { year: '2026-2027', student: 'Basile Ile', type: '-', subject: '-', status: 'suspendu' },
+          { year: '2026-2027', student: 'Caroline Line', type: '-', subject: '-', status: 'non suivi' },
+          { year: '2026-2027', student: 'Théophile Ile', type: '-', subject: '-', status: 'initié' },
+          { year: '2026-2027', student: 'Achille Skile', type: '-', subject: '-', status: 'initié' },
+          { year: '2026-2027', student: 'Basile Dumoulin', type: "Dans l'entreprise", subject: '-', status: 'pris' },
+          { year: '2025-2026', student: 'Axel Dumoulin', type: 'A distance', subject: 'sBMS project - Java Development', status: 'accepté' },
+          { year: '2025-2026', student: 'Basile Dumoulin', type: 'A distance', subject: '-', status: "refusé (Entretien n'a pas eu lieu)" },
+          { year: '2025-2026', student: 'Basile Friot', type: 'A distance', subject: '-', status: 'refusé (Choix autre étudiant)' },
+          { year: '2025-2026', student: 'Basile Ilot', type: 'A distance', subject: '-', status: 'refusé (Choix autre étudiant)' },
+          { year: '2024-2025', student: 'Arnaud Dito', type: "Dans l'entreprise", subject: "L'analyste au centre du développement", status: 'accepté' },
+          { year: '2024-2025', student: 'Arnaud Dilo', type: "Dans l'entreprise", subject: "L'analyste au centre du développement", status: 'accepté' },
+          { year: '2024-2025', student: 'Cédric Dilot', type: "Dans l'entreprise", subject: '-', status: 'refusé (Choix autre étudiant)' },
+          { year: '2024-2025', student: 'Basile Ilot', type: '-', subject: '-', status: 'non suivi' },
+          { year: '2024-2025', student: 'Auristelle Linot', type: '-', subject: '-', status: 'suspendu' }
         ]
       },
       {
         id: '8',
         name: 'The Bayard Partnership',
+        keyword: '',
         city: '3001 Leuven',
         address: 'Grauwmeer, 1/57 bte 55',
         phone: '02 309 52 45',
-        email: 'contact@bayard-partnership.com',
-        pedagogicalNote: 'Stack TypeScript / Node.js.',
+        email: '',
+        acceptedStages: [],
+        contactsTaken: [
+          { year: '2024-2025', student: 'Basile Friot', type: 'A distance', subject: '-', status: 'refusé (ne prennent pas de stage)' }
+        ]
+      },
+      {
+        id: '9',
+        name: 'Infrabel',
+        keyword: 'I-ICT Ring station',
+        city: '1070 Bruxelles',
+        address: 'Rue des deux gares, 82',
+        phone: '02 212.88.88',
+        email: '',
         acceptedStages: [
-          {
-            year: '2026-2027',
-            student: 'De Smet Romain',
-            subject: 'Application Web Fullstack TypeScript / Node.js',
-            supervisor: 'David Van Der Berg',
-            supervisorContact: 'david@bayard-partnership.com · 02 309 52 45'
-          }
+          { year: '2026-2027', student: 'Théophile Ile', subject: '-', supervisor: 'Cordier Jean-Claude', dateConv: '9/10/26' },
+          { year: '2026-2027', student: 'Basile Ilotie', subject: '-', supervisor: 'Cordier Jean-Claude', dateConv: '9/10/26' },
+          { year: '2026-2027', student: 'Basile Ilot', subject: '-', supervisor: 'Cordier Jean-Claude', dateConv: '9/10/26' }
         ],
         contactsTaken: [
-          { year: '2026-2027', student: 'De Smet Romain', referent: 'David Van Der Berg', status: 'Stage accepté', date: '11/11/2026', subject: 'Application Web Fullstack TypeScript / Node.js' }
+          { year: '2026-2027', student: 'Théophile Ile', type: 'A distance', subject: '-', status: 'accepté' },
+          { year: '2026-2027', student: 'Basile Ilotie', type: 'A distance', subject: '-', status: 'accepté' },
+          { year: '2026-2027', student: 'Basile Ilot', type: 'A distance', subject: '-', status: 'accepté' },
+          { year: '2026-2027', student: 'Basile Friot', type: '-', subject: '-', status: 'initié' }
         ]
+      },
+      {
+        id: '10',
+        name: 'Idealis Consulting',
+        keyword: '',
+        city: '1348 Louvain-la-Neuve',
+        address: 'Fond Jean Pâques, 4',
+        phone: '',
+        email: '',
+        acceptedStages: [],
+        contactsTaken: []
       }
     ];
 
@@ -747,18 +654,8 @@
       currentProfAcademicYear = year;
       document.querySelectorAll('.current-year-label').forEach(el => el.textContent = year);
       renderDashboardStats();
-      renderOffHoursNotifications();
       renderProfCompaniesTable(document.getElementById('prof-company-search').value);
       showToast(`Affichage conditionné sur l'année ${year}`);
-    }
-
-    function formatBelgianPhone(input) {
-      let digits = input.value.replace(/\D/g, '').slice(0, 10);
-      if (digits.startsWith('04') && digits.length > 4) {
-        input.value = digits.replace(/(\d{4})(\d{2})(\d{2})(\d{0,2})/, '$1 $2 $3 $4').trim();
-      } else if (digits.length > 2) {
-        input.value = digits.replace(/(\d{2})(\d{3})(\d{2})(\d{0,2})/, '$1 $2 $3 $4').trim();
-      }
     }
 
     function loginAsProfessor() {
@@ -770,7 +667,6 @@
         mainApp.classList.remove('hidden');
         setTimeout(() => mainApp.classList.remove('opacity-0'), 50);
         renderDashboardStats();
-        renderOffHoursNotifications();
         renderProfCompaniesTable();
         setupSearch();
       }, 400);
@@ -802,18 +698,14 @@
       lucide.createIcons();
     }
 
-    // =========================================================
-    // TABLEAU DE BORD & STATISTIQUES CONDITIONNÉES SUR L'ANNÉE
-    // =========================================================
     function renderDashboardStats() {
       const currentStat = academicYearsStats.find(s => s.year === currentProfAcademicYear) || academicYearsStats[0];
       const acceptedCompaniesCount = companiesWithHistory.filter(c => c.acceptedStages.some(st => st.year === currentProfAcademicYear)).length;
-      const offHoursCount = offHoursStages.filter(o => o.academicYear === currentProfAcademicYear).length;
 
       document.getElementById('kpi-students-found').textContent = currentStat.studentsFound;
       document.getElementById('kpi-students-ratio').textContent = `/ ${currentStat.studentsTotal} étudiants (${currentStat.rate})`;
       document.getElementById('kpi-companies-accepted').textContent = acceptedCompaniesCount;
-      document.getElementById('kpi-offhours-count').textContent = offHoursCount;
+      document.getElementById('kpi-contacts-count').textContent = currentStat.contactsTotal;
 
       const tbody = document.getElementById('stats-years-tbody');
       tbody.innerHTML = '';
@@ -827,8 +719,8 @@
             ${st.year} ${st.isCurrent ? '<span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 text-[10px]">Courante</span>' : ''}
           </td>
           <td class="py-4 px-4 font-semibold text-slate-800">${st.studentsTotal}</td>
-          <td class="py-4 px-4 text-slate-600">${st.contactsTotal} démarches</td>
-          <td class="py-4 px-4 font-bold text-emerald-700">${st.studentsFound} étudiants</td>
+          <td class="py-4 px-4 text-slate-600">${st.contactsTotal} lignes</td>
+          <td class="py-4 px-4 font-bold text-emerald-700">${st.studentsFound} stages</td>
           <td class="py-4 px-4 text-slate-700">${st.companiesHosting} entreprises</td>
           <td class="py-4 px-4">
             <div class="flex items-center gap-2">
@@ -843,66 +735,6 @@
       });
     }
 
-    // =========================================================
-    // NOTIFICATIONS HORS HEURES DE BUREAU (FILTRÉES PAR ANNÉE)
-    // =========================================================
-    function renderOffHoursNotifications() {
-      const dropdownList = document.getElementById('dropdown-offhours-list');
-      const cardsContainer = document.getElementById('offhours-cards-container');
-      dropdownList.innerHTML = '';
-      cardsContainer.innerHTML = '';
-
-      const filteredOffHours = offHoursStages.filter(o => o.academicYear === currentProfAcademicYear);
-
-      document.getElementById('offhours-badge').textContent = filteredOffHours.length;
-      document.getElementById('dropdown-offhours-count').textContent = `${filteredOffHours.length} alerte${filteredOffHours.length > 1 ? 's' : ''}`;
-      document.getElementById('offhours-dot').classList.toggle('hidden', filteredOffHours.length === 0);
-
-      if (filteredOffHours.length === 0) {
-        dropdownList.innerHTML = `<p class="text-xs text-slate-400 italic py-2 text-center">Aucune alerte hors bureau pour ${currentProfAcademicYear}.</p>`;
-        cardsContainer.innerHTML = `<div class="bg-white p-6 rounded-2xl border border-slate-200 text-xs text-slate-500 italic">Aucun stage encodé en dehors des heures de bureau pour l'année académique ${currentProfAcademicYear}.</div>`;
-        return;
-      }
-
-      filteredOffHours.forEach(item => {
-        dropdownList.innerHTML += `
-          <div class="p-2.5 bg-rose-50/60 rounded-xl border border-rose-100 text-left">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-slate-900">${item.student}</span>
-              <span class="text-[10px] font-bold text-rose-600">${item.company}</span>
-            </div>
-            <p class="text-[11px] text-slate-600 mt-0.5 truncate">${item.subject}</p>
-            <p class="text-[10px] text-rose-700 font-semibold mt-1 flex items-center gap-1">
-              <i data-lucide="clock" class="w-3 h-3"></i> ${item.timestamp}
-            </p>
-          </div>
-        `;
-
-        cardsContainer.innerHTML += `
-          <div class="bg-white p-5 rounded-2xl border border-rose-200/80 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div class="space-y-1.5">
-              <div class="flex flex-wrap items-center gap-2">
-                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[10px] font-bold">${item.academicYear}</span>
-                <span class="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-700 text-[10px] font-bold">${item.reasonTag}</span>
-                <span class="text-xs font-mono font-semibold text-slate-500">${item.timestamp}</span>
-              </div>
-              <h3 class="text-sm font-extrabold text-slate-900">${item.student} → <span class="text-blue-600">${item.company}</span></h3>
-              <p class="text-xs text-slate-600 italic">"${item.subject}"</p>
-              <p class="text-[11px] text-slate-500">Responsable de stage : <span class="font-semibold text-slate-700">${item.supervisor}</span></p>
-            </div>
-            <div class="flex items-center gap-2 flex-shrink-0">
-              <span class="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold flex items-center gap-1.5">
-                <i data-lucide="check-circle-2" class="w-4 h-4"></i> Stage encodé
-              </span>
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    // =========================================================
-    // ENTREPRISES : FILTRAGE ACCEPTÉ / NON ACCEPTÉ PAR ANNÉE
-    // =========================================================
     function filterProfCompanies(filterType) {
       currentCompanyFilter = filterType;
       
@@ -929,7 +761,7 @@
         const matchFilter = currentCompanyFilter === 'all'
           || (currentCompanyFilter === 'accepted' && acceptedInYear)
           || (currentCompanyFilter === 'not_accepted' && !acceptedInYear);
-        const matchQuery = !q || c.name.toLowerCase().includes(q) || c.city.toLowerCase().includes(q);
+        const matchQuery = !q || c.name.toLowerCase().includes(q) || c.city.toLowerCase().includes(q) || c.keyword.toLowerCase().includes(q);
         return matchFilter && matchQuery;
       });
 
@@ -937,22 +769,21 @@
 
       filtered.forEach(c => {
         const stagesInYear = c.acceptedStages.filter(st => st.year === currentProfAcademicYear);
-        const contactsInYear = c.contactsTaken.filter(ct => ct.year === currentProfAcademicYear);
         const hasAccepted = stagesInYear.length > 0;
 
         const tr = document.createElement('tr');
         tr.className = "hover:bg-blue-50/40 transition-colors";
         tr.innerHTML = `
           <td class="py-4 px-6 font-bold text-slate-900">${c.name}</td>
+          <td class="py-4 px-4">${c.keyword ? `<span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-semibold text-[11px]">${c.keyword}</span>` : '-'}</td>
           <td class="py-4 px-4 text-slate-600 font-medium">${c.city}</td>
-          <td class="py-4 px-4 text-blue-600 font-medium">${c.email}</td>
+          <td class="py-4 px-4 text-blue-600 font-medium">${c.phone || c.email || '-'}</td>
           <td class="py-4 px-4">
             ${hasAccepted
               ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold text-[11px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Stage accepté (${stagesInYear.length})</span>`
               : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 font-bold text-[11px]"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Aucun stage accepté</span>`
             }
           </td>
-          <td class="py-4 px-4 text-slate-600 font-semibold">${contactsInYear.length} contact(s) pris</td>
           <td class="py-4 px-6 text-right">
             <button onclick="openCompanyDetailDrawer('${c.id}')" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white font-semibold text-[11px] border border-blue-200/60 transition-colors">
               <i data-lucide="eye" class="w-3.5 h-3.5"></i> Voir stages & contacts
@@ -964,12 +795,11 @@
       lucide.createIcons();
     }
 
-    // Drawer avec TOUTES les informations concernant les stages, contacts et note pédagogique modifiable rapidement
     function openCompanyDetailDrawer(companyId) {
       const comp = companiesWithHistory.find(c => c.id === companyId);
       if (!comp) return;
 
-      document.getElementById('drawer-comp-name').textContent = comp.name;
+      document.getElementById('drawer-comp-name').textContent = comp.keyword ? `${comp.name} (${comp.keyword})` : comp.name;
       const body = document.getElementById('drawer-comp-body');
 
       const stagesInYear = comp.acceptedStages.filter(st => st.year === currentProfAcademicYear);
@@ -981,10 +811,10 @@
           <div class="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-1.5">
             <div class="flex items-center justify-between">
               <span class="text-xs font-extrabold text-emerald-900">${st.student}</span>
-              <span class="px-2 py-0.5 rounded-full bg-emerald-600 text-white text-[10px] font-bold">${st.year}</span>
+              <span class="px-2 py-0.5 rounded-full bg-emerald-600 text-white text-[10px] font-bold">Convention : ${st.dateConv}</span>
             </div>
             <p class="text-xs text-slate-800 font-semibold">Sujet : "${st.subject}"</p>
-            <p class="text-[11px] text-slate-600">Responsable : <span class="font-bold">${st.supervisor}</span> (${st.supervisorContact})</p>
+            <p class="text-[11px] text-slate-600">Responsable stage : <span class="font-bold">${st.supervisor}</span></p>
           </div>
         `).join('');
       } else {
@@ -994,37 +824,24 @@
       const contactsHtml = contactsInYear.length > 0 ? contactsInYear.map(ct => `
         <tr class="border-b border-slate-100">
           <td class="py-3 px-3 font-bold text-slate-800">${ct.student}</td>
-          <td class="py-3 px-3 text-slate-600">${ct.referent}</td>
-          <td class="py-3 px-3 text-slate-500 italic">"${ct.subject}"</td>
+          <td class="py-3 px-3 text-slate-600">${ct.type}</td>
+          <td class="py-3 px-3 text-slate-500 italic">${ct.subject}</td>
           <td class="py-3 px-3 font-semibold text-blue-700">${ct.status}</td>
         </tr>
       `).join('') : `<tr><td colspan="4" class="py-3 px-3 text-slate-400 italic text-center">Aucun contact pris sur ${currentProfAcademicYear}.</td></tr>`;
 
       body.innerHTML = `
-        <!-- Coordonnées entreprise -->
         <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 grid grid-cols-2 gap-3 text-xs">
           <div>
             <span class="text-[10px] font-bold text-slate-400 uppercase block">Adresse</span>
             <span class="font-semibold text-slate-800">${comp.address}, ${comp.city}</span>
           </div>
           <div>
-            <span class="text-[10px] font-bold text-slate-400 uppercase block">Contact général</span>
-            <span class="font-semibold text-blue-600">${comp.email} · ${comp.phone}</span>
+            <span class="text-[10px] font-bold text-slate-400 uppercase block">Coordonnées</span>
+            <span class="font-semibold text-blue-600">${comp.phone || '-'} ${comp.email ? '· ' + comp.email : ''}</span>
           </div>
         </div>
 
-        <!-- Note pédagogique professeur (Modification rapide + Aide à l'encodage) -->
-        <div class="bg-indigo-50/50 p-4 rounded-2xl border border-indigo-100 space-y-2">
-          <label class="block text-[11px] font-bold text-indigo-900 uppercase">Note pédagogique de supervision (Modification rapide)</label>
-          <input type="text" list="pedagogical-note-suggestions" value="${comp.pedagogicalNote || ''}" onchange="quickUpdateCompanyNote('${comp.id}', this.value)" placeholder="Ajouter une observation pédagogique..." class="w-full bg-white border border-indigo-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-indigo-500">
-          <datalist id="pedagogical-note-suggestions">
-            <option value="Partenaire régulier HE Vinci · Très bon encadrement technique.">
-            <option value="Sujets orientés développement Fullstack / Cloud adaptés au Bloc 3.">
-            <option value="À valider avec le responsable technique avant signature.">
-          </datalist>
-        </div>
-
-        <!-- Stages validés avec cette entreprise -->
         <div class="space-y-3">
           <h4 class="text-sm font-bold text-slate-900 flex items-center gap-2">
             <i data-lucide="award" class="w-4 h-4 text-emerald-600"></i> Stages validés (${currentProfAcademicYear}) : ${stagesInYear.length}
@@ -1032,7 +849,6 @@
           ${stagesHtml}
         </div>
 
-        <!-- Tous les contacts pris par les étudiants -->
         <div class="space-y-3">
           <h4 class="text-sm font-bold text-slate-900 flex items-center gap-2">
             <i data-lucide="phone-call" class="w-4 h-4 text-blue-600"></i> Contacts pris (${currentProfAcademicYear}) : ${contactsInYear.length}
@@ -1042,9 +858,9 @@
               <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-[10px] font-bold text-slate-500 uppercase">
                   <th class="py-2.5 px-3">Étudiant</th>
-                  <th class="py-2.5 px-3">Référent</th>
+                  <th class="py-2.5 px-3">Type</th>
                   <th class="py-2.5 px-3">Sujet</th>
-                  <th class="py-2.5 px-3">Statut</th>
+                  <th class="py-2.5 px-3">État</th>
                 </tr>
               </thead>
               <tbody>${contactsHtml}</tbody>
@@ -1057,14 +873,6 @@
       document.getElementById('company-detail-drawer').classList.remove('drawer-closed');
       document.getElementById('company-detail-drawer').classList.add('drawer-open');
       lucide.createIcons();
-    }
-
-    function quickUpdateCompanyNote(companyId, newNote) {
-      const comp = companiesWithHistory.find(c => c.id === companyId);
-      if (comp) {
-        comp.pedagogicalNote = newNote;
-        showToast('Note pédagogique enregistrée !');
-      }
     }
 
     function saveProfProfileQuickEdit() {
@@ -1090,10 +898,8 @@
     }
 
     function toggleDropdown(id) {
-      ['notifications-dropdown', 'profile-dropdown'].forEach(d => {
-        if (d !== id) document.getElementById(d).classList.add('hidden');
-      });
-      document.getElementById(id).classList.toggle('hidden');
+      const target = document.getElementById(id);
+      if (target) target.classList.toggle('hidden');
     }
 
     function showToast(message) {

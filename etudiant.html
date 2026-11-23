@@ -5,16 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Connexion | HE Vinci - My Internship</title>
   
-  <!-- Feuilles de style & Fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   
-  <!-- Configuration Tailwind -->
   <script>
     tailwind.config = {
       theme: {
@@ -47,14 +44,11 @@
     }
   </script>
 
-  <!-- Fichier CSS externe -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-[#0b1220] text-slate-800 font-sans min-h-screen flex items-center justify-center p-3 sm:p-6 antialiased selection:bg-blue-500 selection:text-white">
 
-  <!-- ========================================== -->
-  <!-- ÉCRAN DE CONNEXION (ARRIÈRE-PLAN BLANC)    -->
-  <!-- ========================================== -->
+  <!-- ÉCRAN DE CONNEXION -->
   <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-white p-4 transition-opacity duration-500 overflow-y-auto select-none">
     <div class="absolute -top-24 -left-24 w-96 h-96 bg-blue-100 rounded-full glow-bg pointer-events-none"></div>
     <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-indigo-100 rounded-full glow-bg pointer-events-none"></div>
@@ -66,7 +60,7 @@
 
       <h1 class="text-2xl font-bold text-slate-900 tracking-tight mb-1">Connexion à HE Vinci</h1>
       <p class="text-xs text-slate-500 mb-6 max-w-xs leading-relaxed">
-        Membres HE Vinci et étudiants, utilisez votre compte Microsoft 365 (@student.vinci.be)[cite: 1].
+        Membres HE Vinci et étudiants, utilisez votre compte Microsoft 365 (@student.vinci.be).
       </p>
 
       <button 
@@ -98,19 +92,19 @@
             <tbody class="divide-y divide-slate-200 text-slate-700">
               <tr class="hover:bg-slate-100/60">
                 <td class="py-2 px-3 font-bold font-mono text-blue-600">25/09</td>
-                <td class="py-2 px-3">Présentation[cite: 5]</td>
+                <td class="py-2 px-3">Présentation</td>
               </tr>
               <tr class="hover:bg-slate-100/60">
                 <td class="py-2 px-3 font-bold font-mono text-blue-600">16/10</td>
-                <td class="py-2 px-3">Feedback sur la correction CV<br><span class="text-slate-500 italic">Correction lettres de motivation sur base volontaire</span>[cite: 5]</td>
+                <td class="py-2 px-3">Feedback sur la correction CV<br><span class="text-slate-500 italic">Correction lettres de motivation sur base volontaire</span></td>
               </tr>
               <tr class="hover:bg-slate-100/60">
                 <td class="py-2 px-3 font-bold font-mono text-blue-600">20/11</td>
-                <td class="py-2 px-3">Q&R - Etat de la recherche - plan d'attaque[cite: 5]</td>
+                <td class="py-2 px-3">Q&R - Etat de la recherche - plan d'attaque</td>
               </tr>
               <tr class="hover:bg-slate-100/60">
                 <td class="py-2 px-3 font-bold font-mono text-blue-600">11/12</td>
-                <td class="py-2 px-3 font-semibold text-amber-700">Présentation pour préparer le travail du 2<sup>ème</sup> quadri[cite: 5].</td>
+                <td class="py-2 px-3 font-semibold text-amber-700">Présentation pour préparer le travail du 2<sup>ème</sup> quadri.</td>
               </tr>
             </tbody>
           </table>
@@ -126,16 +120,13 @@
     </div>
   </div>
 
-  <!-- ========================================== -->
-  <!-- APPLICATION PRINCIPALE (RATIO 16/9 PC)     -->
-  <!-- ========================================== -->
+  <!-- APPLICATION PRINCIPALE (ÉTUDIANT : BASILE DUMOULIN) -->
   <div id="main-app" class="app-container hidden w-[min(96vw,calc(94vh*16/9))] aspect-video bg-white rounded-3xl overflow-hidden shadow-2xl flex relative border border-slate-800/10 opacity-0 transition-opacity duration-500">
 
     <!-- 1. SIDEBAR -->
     <aside class="sidebar w-72 sm:w-80 bg-navy-900 flex flex-col p-6 relative z-20 border-r border-slate-800/40 select-none flex-shrink-0">
       <div class="absolute -top-10 -left-10 w-48 h-48 bg-blue-600/20 rounded-full glow-bg pointer-events-none"></div>
       
-      <!-- Logo -->
       <div class="logo flex items-center gap-3.5 mb-8 relative z-10 cursor-pointer" onclick="switchTab('entreprises')">
         <div class="logo-icon-wrapper w-11 h-11 bg-gradient-to-br from-electric-500 to-electric-700 rounded-2xl flex items-center justify-center shadow-neon">
           <i data-lucide="box" class="logo-icon w-6 h-6 text-white"></i>
@@ -147,7 +138,6 @@
         </div>
       </div>
 
-      <!-- Recherche -->
       <div class="search-box relative mb-8 z-10">
         <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
         <input type="text" id="search-input" placeholder="Accès rapide entreprise..." class="w-full bg-slate-800/60 border border-slate-700/60 rounded-xl py-2.5 pl-10 pr-9 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-electric-500">
@@ -156,7 +146,6 @@
         </button>
       </div>
 
-      <!-- Navigation -->
       <nav class="sidebar-menu flex flex-col gap-2.5 z-10">
         <button id="nav-entreprises" onclick="switchTab('entreprises')" class="menu-item glass-sidebar-item active w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:text-white text-left">
           <i data-lucide="building-2" class="w-4 h-4 text-electric-400"></i>
@@ -167,7 +156,7 @@
         <button id="nav-contacts" onclick="switchTab('contacts')" class="menu-item glass-sidebar-item w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white text-left">
           <i data-lucide="phone-call" class="w-4 h-4"></i>
           <span class="flex-1">Contacts & Suivi</span>
-          <span id="active-contacts-badge" class="bg-amber-500/20 text-amber-400 border border-amber-500/30 text-[10px] font-bold px-2 py-0.5 rounded-full">2</span>
+          <span id="active-contacts-badge" class="bg-amber-500/20 text-amber-400 border border-amber-500/30 text-[10px] font-bold px-2 py-0.5 rounded-full">3</span>
         </button>
 
         <button onclick="openAddModal()" class="menu-item btn-add-company w-full flex items-center gap-3.5 px-4 py-3.5 mt-2 rounded-xl bg-gradient-to-r from-electric-600 to-electric-700 hover:from-electric-500 hover:to-electric-600 text-white text-sm font-semibold shadow-neon">
@@ -181,7 +170,7 @@
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           <span>Domaine Vinci actif</span>
         </div>
-        <span class="text-blue-400 font-mono font-bold">2026-2027</span>
+        <span class="current-year-label text-blue-400 font-mono font-bold">2026-2027</span>
       </div>
     </aside>
 
@@ -191,7 +180,6 @@
       <!-- TOPBAR -->
       <header class="topbar h-20 px-8 flex items-center justify-between bg-white/80 backdrop-blur-md border-b border-slate-100 z-10 gap-3">
         
-        <!-- Sélecteur Année Académique (format aaaa-aaaa, défaut année courante) -->
         <div class="flex items-center gap-2.5">
           <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 hidden sm:inline">Année académique :</span>
           <select id="academic-year-select" onchange="changeAcademicYear(this.value)" class="bg-blue-50 border border-blue-200 text-blue-700 font-extrabold text-xs rounded-xl px-3 py-2 focus:outline-none">
@@ -201,83 +189,22 @@
         </div>
 
         <div class="flex items-center gap-3">
-          <!-- Agenda -->
-          <div class="relative">
-            <button onclick="toggleDropdown('agenda-dropdown')" class="p-2.5 rounded-xl hover:bg-slate-100 text-slate-600 hover:text-blue-600 transition-colors border border-slate-200/60 flex items-center gap-2 text-xs font-semibold">
-              <i data-lucide="calendar" class="w-4 h-4"></i>
-              <span class="hidden md:inline">Agenda</span>
-            </button>
-
-            <div id="agenda-dropdown" class="hidden absolute right-0 mt-3 w-80 bg-white rounded-2xl shadow-xl border border-slate-100 p-4 z-50">
-              <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
-                <span class="font-bold text-xs text-slate-900 flex items-center gap-2">
-                  <i data-lucide="calendar-days" class="w-4 h-4 text-blue-600"></i> Prochains événements
-                </span>
-                <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full font-bold">2026-2027</span>
-              </div>
-              <div class="space-y-3">
-                <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-100">
-                  <p class="text-xs font-bold text-slate-800">Entretien Infrabel</p>
-                  <p class="text-[11px] text-slate-500">Mardi 10 nov. à 14:00 · Présentiel</p>
-                </div>
-                <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-100">
-                  <p class="text-xs font-bold text-slate-800">Relance LetsBuild</p>
-                  <p class="text-[11px] text-slate-500">Jeudi 12 nov. à 10:30 · Email</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Notifications -->
-          <div class="relative">
-            <button onclick="toggleDropdown('notifications-dropdown')" class="p-2.5 rounded-xl hover:bg-slate-100 text-slate-600 hover:text-blue-600 transition-colors border border-slate-200/60 relative">
-              <i data-lucide="bell" class="w-4 h-4"></i>
-              <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
-            </button>
-
-            <div id="notifications-dropdown" class="hidden absolute right-0 mt-3 w-80 bg-white rounded-2xl shadow-xl border border-slate-100 p-4 z-50">
-              <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
-                <span class="font-bold text-xs text-slate-900 flex items-center gap-2">
-                  <i data-lucide="bell-ring" class="w-4 h-4 text-blue-600"></i> Notifications
-                </span>
-                <span class="text-[10px] bg-rose-50 text-rose-600 px-2 py-0.5 rounded-full font-bold">2 nouvelles</span>
-              </div>
-              <div class="space-y-2.5">
-                <div class="p-2.5 bg-blue-50/50 rounded-xl border border-blue-100/50 flex gap-3">
-                  <i data-lucide="check-circle-2" class="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5"></i>
-                  <div>
-                    <p class="text-xs font-semibold text-slate-800">Nouveau statut d'entreprise</p>
-                    <p class="text-[11px] text-slate-500">Infrabel a confirmé la date de rencontre.</p>
-                  </div>
-                </div>
-                <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-100 flex gap-3">
-                  <i data-lucide="info" class="w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5"></i>
-                  <div>
-                    <p class="text-xs font-semibold text-slate-800">Rappel convention</p>
-                    <p class="text-[11px] text-slate-500">N'oubliez pas d'encoder vos fiches de suivi.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="h-6 w-px bg-slate-200 mx-1"></div>
-
-          <!-- Profil -->
           <div class="user-avatar relative">
             <button onclick="toggleDropdown('profile-dropdown')" class="flex items-center gap-3 p-1 rounded-full hover:bg-slate-100 transition-colors">
-              <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80" alt="Avatar William" class="w-10 h-10 rounded-full object-cover ring-2 ring-blue-500/30">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-indigo-700 text-white font-bold text-sm flex items-center justify-center ring-2 ring-blue-500/30">
+                BD
+              </div>
               <div class="hidden sm:flex flex-col text-left pr-1">
-                <span id="topbar-user-name" class="text-xs font-bold text-slate-800 leading-none">William</span>
+                <span id="topbar-user-name" class="text-xs font-bold text-slate-800 leading-none">Basile Dumoulin</span>
                 <span class="text-[11px] text-blue-600 font-medium mt-1">Étudiant</span>
               </div>
               <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 hidden sm:block"></i>
             </button>
 
-            <div id="profile-dropdown" class="hidden absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50">
+            <div id="profile-dropdown" class="hidden absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50">
               <div class="px-3 py-2 border-b border-slate-100 mb-1">
-                <p class="text-xs font-bold text-slate-800">William</p>
-                <p class="text-[11px] text-blue-600 font-semibold">william.tuasukama@student.vinci.be</p>
+                <p class="text-xs font-bold text-slate-800">Dumoulin Basile</p>
+                <p class="text-[11px] text-blue-600 font-semibold">Basile.Dumoulin@student.vinci.be</p>
               </div>
               <button onclick="switchTab('profile'); toggleDropdown('profile-dropdown');" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-blue-600 hover:bg-blue-50 rounded-xl transition-colors text-left">
                 <i data-lucide="user" class="w-3.5 h-3.5"></i> Mon Profil & Données
@@ -336,22 +263,20 @@
           <div class="flex items-center justify-between border-b border-slate-200 pb-4">
             <div>
               <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Contacts & Suivi (<span class="current-year-label">2026-2027</span>)</h1>
-              <p class="text-xs text-slate-500 mt-1">Modifiez rapidement le sujet de stage en ligne et gérez l'avancement de vos démarches.</p>
+              <p class="text-xs text-slate-500 mt-1">Démarches enregistrées sur votre profil étudiant (Basile Dumoulin).</p>
             </div>
           </div>
 
           <div>
             <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-              <i data-lucide="phone-call" class="w-4 h-4 text-blue-600"></i> Actions sur les contacts en cours
+              <i data-lucide="phone-call" class="w-4 h-4 text-blue-600"></i> Actions sur les contacts en cours (<span class="current-year-label">2026-2027</span>)
             </h2>
-            <p class="text-xs text-slate-500 font-medium mt-0.5 mb-3">Contacts récents (<span class="current-year-label">2026-2027</span>)</p>
-            
-            <div id="contacts-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            <div id="contacts-list" class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3"></div>
           </div>
 
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
             <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <i data-lucide="history" class="w-4 h-4 text-blue-600"></i> Historique des contacts pris (<span class="current-year-label">2026-2027</span>)
+              <i data-lucide="history" class="w-4 h-4 text-blue-600"></i> Historique complet des contacts (<span class="current-year-label">2026-2027</span>)
             </h2>
             <div class="overflow-x-auto">
               <table class="w-full text-left border-collapse text-xs">
@@ -359,10 +284,9 @@
                   <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase text-[10px] font-bold">
                     <th class="py-3 px-4">Année</th>
                     <th class="py-3 px-4">Entreprise</th>
-                    <th class="py-3 px-4">Référent</th>
                     <th class="py-3 px-4">Statut</th>
                     <th class="py-3 px-4">Type de rencontre</th>
-                    <th class="py-3 px-4">Motif / Sujet</th>
+                    <th class="py-3 px-4">Sujet / Détails</th>
                   </tr>
                 </thead>
                 <tbody id="contacts-history-table-body" class="divide-y divide-slate-100"></tbody>
@@ -371,12 +295,12 @@
           </div>
         </div>
 
-        <!-- Vue 3 : Mon Profil (avec modification rapide) -->
+        <!-- Vue 3 : Mon Profil -->
         <div id="view-profile" class="hidden space-y-6 max-w-4xl">
           <div class="flex items-center justify-between border-b border-slate-200 pb-4">
             <div>
               <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Mon Profil</h1>
-              <p class="text-xs text-slate-500 mt-1">Accès rapide et modification instantanée de vos données personnelles.</p>
+              <p class="text-xs text-slate-500 mt-1">Données issues du registre HE Vinci.</p>
             </div>
             <div class="flex items-center gap-2">
               <button onclick="saveProfileQuickEdit()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors">
@@ -389,68 +313,48 @@
           </div>
 
           <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-5">
-            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80" alt="Avatar William" class="w-20 h-20 rounded-2xl object-cover ring-4 ring-blue-500/10">
+            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white font-extrabold text-2xl flex items-center justify-center ring-4 ring-blue-500/10">
+              BD
+            </div>
             <div>
-              <h2 id="profile-header-name" class="text-xl font-bold text-slate-900">Tuasukama-Bongo William</h2>
+              <h2 id="profile-header-name" class="text-xl font-bold text-slate-900">Dumoulin Basile</h2>
               <div class="flex items-center gap-2 mt-1">
                 <span class="px-3 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-100 font-semibold text-xs">Étudiant</span>
-                <span class="text-xs text-slate-400">· Haute École Léonard de Vinci · 2026-2027</span>
+                <span class="text-xs text-slate-400">· Haute École Léonard de Vinci · 2025-2026 / 2026-2027</span>
               </div>
             </div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden flex flex-col justify-between">
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
+              <h3 class="font-bold text-sm text-slate-800 border-b border-slate-100 pb-3 flex items-center gap-2">
+                <i data-lucide="mail" class="w-4 h-4 text-blue-600"></i> Informations détaillées
+              </h3>
               <div>
-                <div class="px-6 py-4 bg-slate-50/80 border-b border-slate-100 flex items-center justify-between">
-                  <h3 class="font-bold text-sm text-slate-800 flex items-center gap-2">
-                    <i data-lucide="mail" class="w-4 h-4 text-blue-600"></i> Informations détaillées (Modification rapide)
-                  </h3>
-                </div>
-                <div class="p-6 space-y-4">
-                  <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Nom & Prénom</label>
-                    <input type="text" id="edit-profile-name" value="Tuasukama-Bongo William" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800">
-                  </div>
-                  <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Adresse de courriel (Domaine Vinci)</label>
-                    <p class="text-xs font-medium text-blue-600">william.tuasukama@student.vinci.be</p>
-                  </div>
-                  <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Téléphone mobile (formatage auto)</label>
-                    <input type="text" id="edit-profile-phone" oninput="formatBelgianPhone(this)" value="0472 18 45 90" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800">
-                  </div>
-                  <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Pays & Fuseau horaire</label>
-                    <p class="text-xs font-semibold text-slate-800">Belgique · Europe/Brussels</p>
-                  </div>
-                </div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Nom & Prénom</label>
+                <input type="text" id="edit-profile-name" value="Dumoulin Basile" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Adresse de courriel (Domaine Vinci)</label>
+                <p class="text-xs font-medium text-blue-600">Basile.Dumoulin@student.vinci.be</p>
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Rôle & Cohorte</label>
+                <p class="text-xs font-semibold text-slate-800">Étudiant · 2025-2026</p>
               </div>
             </div>
 
-            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden flex flex-col justify-between">
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
+              <h3 class="font-bold text-sm text-slate-800 border-b border-slate-100 pb-3 flex items-center gap-2">
+                <i data-lucide="clock" class="w-4 h-4 text-blue-600"></i> Informations de connexion
+              </h3>
               <div>
-                <div class="px-6 py-4 bg-slate-50/80 border-b border-slate-100 flex items-center justify-between">
-                  <h3 class="font-bold text-sm text-slate-800 flex items-center gap-2">
-                    <i data-lucide="clock" class="w-4 h-4 text-blue-600"></i> Informations de connexion
-                  </h3>
-                </div>
-                <div class="p-6 space-y-4">
-                  <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Année académique courante</label>
-                    <p class="text-xs font-extrabold text-blue-600">2026-2027</p>
-                  </div>
-                  <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Premier accès au site</label>
-                    <p class="text-xs font-semibold text-slate-800">dimanche 15 septembre 2024, 21:40</p>
-                    <span class="text-[10px] text-slate-400">(2 ans 54 jours)</span>
-                  </div>
-                  <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Dernier accès au site</label>
-                    <p id="profile-last-access" class="text-xs font-semibold text-slate-800">lundi 16 novembre 2026, 13:52</p>
-                    <span class="text-[10px] text-emerald-600 font-semibold">(maintenant)</span>
-                  </div>
-                </div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Date de première connexion</label>
+                <p class="text-xs font-semibold text-slate-800">26/09/25</p>
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Dernier accès au site</label>
+                <p id="profile-last-access" class="text-xs font-semibold text-slate-800">Maintenant</p>
               </div>
             </div>
           </div>
@@ -459,7 +363,7 @@
       </div>
     </main>
 
-    <!-- DRAWER & MODALES (AVEC AIDES À L'ENCODAGE) -->
+    <!-- DRAWER & MODALES -->
     <div id="contact-drawer-overlay" onclick="closeContactDrawer()" class="fixed inset-0 bg-slate-950/40 backdrop-blur-sm z-40 opacity-0 pointer-events-none transition-opacity duration-300"></div>
     <aside id="contact-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl flex flex-col drawer-closed transition-transform duration-300 ease-out border-l border-slate-100">
       <div class="p-6 bg-navy-900 text-white flex items-center justify-between">
@@ -472,24 +376,22 @@
       <form onsubmit="initiateContact(event)" class="p-6 flex-1 flex flex-col justify-between space-y-4">
         <div class="space-y-4">
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Nom du contact référent * <span class="text-[10px] text-blue-600 font-normal">(Suggestions auto)</span></label>
-            <input type="text" id="drawer-contact-person" list="referent-suggestions" required placeholder="ex: Jean Dupont ou Service RH" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs">
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Nom du contact référent *</label>
+            <input type="text" id="drawer-contact-person" list="referent-suggestions" required placeholder="ex: Jean-Claude Cordier" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs">
             <datalist id="referent-suggestions">
-              <option value="Service Ressources Humaines (RH)">
-              <option value="Marc Willems">
-              <option value="Sophie Laurent">
-              <option value="Claire Martin">
+              <option value="Dossche Stéphanie">
+              <option value="Alvarez Corchete Roberto">
+              <option value="Assal Farid">
+              <option value="Ile Emile">
+              <option value="Cordier Jean-Claude">
+              <option value="Barn Henri">
+              <option value="Lefever Sam">
+              <option value="Bokiau Louis">
             </datalist>
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Sujet de stage * <span class="text-[10px] text-blue-600 font-normal">(Modèles rapides)</span></label>
-            <div class="flex flex-wrap gap-1.5 mb-2">
-              <button type="button" onclick="applySubjectTemplate('Développement Fullstack React / Node.js')" class="px-2 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 text-[10px] font-semibold">+ Fullstack Web</button>
-              <button type="button" onclick="applySubjectTemplate('Développement Backend Java / Spring Boot')" class="px-2 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 text-[10px] font-semibold">+ Backend Java</button>
-              <button type="button" onclick="applySubjectTemplate('Administration Système, Cloud & DevOps')" class="px-2 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 text-[10px] font-semibold">+ Cloud / DevOps</button>
-              <button type="button" onclick="applySubjectTemplate('Consulting ERP Odoo & Base de données PostgreSQL')" class="px-2 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 text-[10px] font-semibold">+ ERP / SQL</button>
-            </div>
-            <textarea id="drawer-subject" required rows="3" placeholder="Cliquez sur un modèle ou décrivez le sujet..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs resize-none"></textarea>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Sujet de stage *</label>
+            <textarea id="drawer-subject" required rows="3" placeholder="Décrivez le sujet de stage..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs resize-none"></textarea>
           </div>
         </div>
         <div class="pt-4 border-t border-slate-100 flex gap-3">
@@ -505,8 +407,8 @@
         <div>
           <label class="block text-xs font-semibold text-slate-700 mb-1">Lieu de la rencontre</label>
           <select id="meeting-location-type" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs">
-            <option value="Dans l'entreprise">Dans l'entreprise (Présentiel)</option>
-            <option value="À distance (Visioconférence)">À distance (Visioconférence / Teams)</option>
+            <option value="Dans l'entreprise">Dans l'entreprise</option>
+            <option value="À distance">À distance</option>
           </select>
         </div>
         <div class="flex gap-3 pt-2">
@@ -521,7 +423,6 @@
         <h3 class="font-bold text-base text-slate-900">Valider l'acceptation du stage</h3>
         <div class="space-y-3">
           <input type="text" id="supervisor-name" required placeholder="Nom du responsable *" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs">
-          <input type="text" id="supervisor-contact" required placeholder="Email/Tél responsable *" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs">
           <textarea id="stage-final-subject" required rows="2" placeholder="Sujet final *" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs resize-none"></textarea>
         </div>
         <div class="flex gap-3 pt-2">
@@ -536,11 +437,13 @@
         <h3 class="font-bold text-base text-slate-900">Indiquer un refus</h3>
         <div>
           <select id="refusal-reason" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs mb-2">
-            <option value="Pas de place disponible">Pas de place disponible</option>
-            <option value="Profil ne correspondant pas">Profil ne correspondant pas</option>
-            <option value="Pas de réponse">Pas de réponse</option>
+            <option value="Entretien n'a pas eu lieu">Entretien n'a pas eu lieu</option>
+            <option value="Choix autre étudiant">Choix autre étudiant</option>
+            <option value="Ne prennent qu'un seul étudiant">Ne prennent qu'un seul étudiant</option>
+            <option value="Pas d'affinité avec l'ERP Odoo">Pas d'affinité avec l'ERP Odoo</option>
+            <option value="N'ont pas accepté d'avoir un entretien">N'ont pas accepté d'avoir un entretien</option>
+            <option value="Ne prennent pas de stage">Ne prennent pas de stage</option>
           </select>
-          <textarea id="refusal-details" placeholder="Détails..." rows="2" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs resize-none"></textarea>
         </div>
         <div class="flex gap-3 pt-2">
           <button onclick="closeRefuseModal()" class="flex-1 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold">Annuler</button>
@@ -552,7 +455,7 @@
     <div id="add-modal" class="fixed inset-0 bg-navy-950/60 backdrop-blur-md z-50 flex items-center justify-center p-4 modal-closed transition-all duration-300">
       <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden border border-slate-100">
         <div class="p-6 bg-navy-900 text-white flex items-center justify-between">
-          <h3 class="font-bold text-base">Ajouter une entreprise (Aide à l'encodage)</h3>
+          <h3 class="font-bold text-base">Ajouter une entreprise</h3>
           <button onclick="closeAddModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
         </div>
         <form id="add-company-form" onsubmit="handleAddCompany(event)" class="p-6 space-y-4">
@@ -562,24 +465,18 @@
               <input type="text" id="new-name" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-slate-700 mb-1">Mot-clé / Secteur</label>
-              <input type="text" id="new-keyword" list="sector-suggestions" placeholder="Choisir..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs">
-              <datalist id="sector-suggestions">
-                <option value="Développement Web">
-                <option value="Infrastructure & Cloud">
-                <option value="Consulting ERP">
-                <option value="Cybersécurité">
-              </datalist>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Mot-clé</label>
+              <input type="text" id="new-keyword" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs">
             </div>
           </div>
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-semibold text-slate-700 mb-1">Téléphone <span class="text-[10px] text-slate-400">(auto-formaté)</span></label>
-              <input type="text" id="new-phone" oninput="formatBelgianPhone(this)" placeholder="02 123 45 67" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs">
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Téléphone</label>
+              <input type="text" id="new-phone" oninput="formatBelgianPhone(this)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs">
             </div>
             <div>
               <label class="block text-xs font-semibold text-slate-700 mb-1">Email</label>
-              <input type="email" id="new-email" placeholder="hr@entreprise.be" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs">
+              <input type="email" id="new-email" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs">
             </div>
           </div>
           <div class="grid grid-cols-3 gap-3">
@@ -588,15 +485,8 @@
               <input type="text" id="new-address" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-slate-700 mb-1">Code postal & Ville *</label>
-              <input type="text" id="new-city" list="city-suggestions" required placeholder="1000 Bruxelles" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs">
-              <datalist id="city-suggestions">
-                <option value="1000 Bruxelles">
-                <option value="1070 Bruxelles">
-                <option value="1348 Louvain-la-Neuve">
-                <option value="1420 Braine-l'Alleud">
-                <option value="1310 La Hulpe">
-              </datalist>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Ville *</label>
+              <input type="text" id="new-city" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs">
             </div>
           </div>
           <div class="pt-3 flex gap-3">
@@ -607,33 +497,36 @@
       </div>
     </div>
 
-    <!-- CONTAINER TOAST -->
     <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
   </div>
 
-  <!-- Script JS -->
   <script>
     let currentAcademicYear = '2026-2027';
 
+    // 1. ENTREPRISES EXACTES DU FICHIER EXCEL
     let companies = [
-      { id: '1', name: 'Assyst Europe', keyword: '', phone: '02.609.25.00', email: '', address: 'Avenue du Japon, 1/B9', city: "1420 Braine-l'Alleud", domain: 'assyst-europe.com' },
+      { id: '1', name: 'Assyst Europe', keyword: '', phone: '02 609.25.00', email: '', address: 'Avenue du Japon, 1/B9', city: "1420 Braine l'Alleud", domain: 'assyst-europe.com' },
       { id: '2', name: 'AXIS SRL', keyword: '', phone: '02 752 17 60', email: '', address: "Avenue de l'Hélianthe, 63", city: '1180 Uccle', domain: 'axis.be' },
-      { id: '3', name: 'Infrabel', keyword: 'Infrastructure', phone: '02 525 22 11', email: 'hr@infrabel.be', address: 'Rue Bara, 135', city: '1070 Bruxelles', domain: 'infrabel.be' },
+      { id: '3', name: 'Infrabel', keyword: '', phone: '02 525 22 11', email: '', address: 'Rue Bara, 135', city: '1070 Bruxelles', domain: 'infrabel.be' },
       { id: '4', name: 'La route du papier', keyword: '', phone: '02 586 16 65', email: 'hr@laroutedupapier.com', address: 'Avenue des Mimosas, 83', city: '1150 Woluwe-Saint-Pierre', domain: 'laroutedupapier.com' },
       { id: '5', name: 'LetsBuild', keyword: '', phone: '', email: 'hr@letsbuild.be', address: 'Chaussée de Bruxelles, 135A', city: '1310 La Hulpe', domain: 'letsbuild.com' },
       { id: '6', name: 'Niboo', keyword: '', phone: '0487 02 79 13', email: '', address: 'Boulevard du Souverain, 24', city: '1170 Watermael-Boitsfort', domain: 'niboo.be' },
       { id: '7', name: 'Sopra Steria', keyword: '', phone: '02 566 66 66', email: '', address: 'Avenue Arnaud Fraiteur, 15/23', city: '1050 Bruxelles', domain: 'soprasteria.com' },
       { id: '8', name: 'The Bayard Partnership', keyword: '', phone: '02 309 52 45', email: '', address: 'Grauwmeer, 1/57 bte 55', city: '3001 Leuven', domain: 'bayard-partnership.com' },
-      { id: '9', name: 'Infrabel', keyword: 'I-ICT Ring station', phone: '02.212.88.88', email: '', address: 'Rue des deux gares, 82', city: '1070 Bruxelles', domain: 'infrabel.be' },
+      { id: '9', name: 'Infrabel', keyword: 'I-ICT Ring station', phone: '02 212.88.88', email: '', address: 'Rue des deux gares, 82', city: '1070 Bruxelles', domain: 'infrabel.be' },
       { id: '10', name: 'Idealis Consulting', keyword: '', phone: '', email: '', address: 'Fond Jean Pâques, 4', city: '1348 Louvain-la-Neuve', domain: 'idealisconsulting.com' }
     ];
 
+    // 2. CONTACTS EXACTS DE BASILE DUMOULIN DANS L'EXCEL
     let userContacts = [
-      { id: 'c1', academicYear: '2026-2027', companyId: '3', companyName: 'Infrabel', person: 'Marc Willems', subject: 'Développement API Java pour I-ICT Ring', status: 'rencontre', locationType: 'Dans l\'entreprise', refusalReason: '', refusalDetails: '' },
-      { id: 'c2', academicYear: '2026-2027', companyId: '5', companyName: 'LetsBuild', person: 'Sophie Laurent', subject: 'Intégration Dashboard React', status: 'initie', locationType: '', refusalReason: '', refusalDetails: '' },
-      { id: 'c3', academicYear: '2026-2027', companyId: '7', companyName: 'Sopra Steria', person: 'Antoine Dupont', subject: 'Cyber-sécurité & audit infrastructure', status: 'refuse', locationType: '', refusalReason: 'Pas de place disponible', refusalDetails: 'Équipe complète' },
-      { id: 'c4', academicYear: '2026-2027', companyId: '10', companyName: 'Idealis Consulting', person: 'Claire Martin', subject: 'Consulting ERP Odoo & PostgreSQL', status: 'pris', locationType: '', refusalReason: '', refusalDetails: '' },
-      { id: 'c5', academicYear: '2025-2026', companyId: '1', companyName: 'Assyst Europe', person: 'Thomas Bernard', subject: 'Support système & Administration réseau', status: 'suspendu', locationType: '', refusalReason: '', refusalDetails: '' }
+      // 2026-2027 (lignes jaunes de Basile Dumoulin)
+      { id: 'bd1', academicYear: '2026-2027', companyId: '3', companyName: 'Infrabel', person: 'Cordier Jean-Claude', subject: 'Sécurité & Bien-être des équipes (pris -> A distance -> accepté)', status: 'pris', locationType: 'À distance', refusalReason: '', refusalDetails: '' },
+      { id: 'bd2', academicYear: '2026-2027', companyId: '5', companyName: 'LetsBuild', person: 'Dossche Stéphanie', subject: '', status: 'pris', locationType: 'À distance', refusalReason: '', refusalDetails: '' },
+      { id: 'bd3', academicYear: '2026-2027', companyId: '7', companyName: 'Sopra Steria', person: 'Alvarez Corchete Roberto', subject: '', status: 'pris', locationType: "Dans l'entreprise", refusalReason: '', refusalDetails: '' },
+      // 2025-2026 (lignes bleues de Basile Dumoulin)
+      { id: 'bd4', academicYear: '2025-2026', companyId: '2', companyName: 'AXIS SRL', person: 'Barn Henri', subject: '', status: 'refuse', locationType: "Dans l'entreprise", refusalReason: "Entretien n'a pas eu lieu", refusalDetails: '' },
+      { id: 'bd5', academicYear: '2025-2026', companyId: '6', companyName: 'Niboo', person: 'Lefever Sam', subject: '', status: 'refuse', locationType: "Dans l'entreprise", refusalReason: "Entretien n'a pas eu lieu", refusalDetails: '' },
+      { id: 'bd6', academicYear: '2025-2026', companyId: '7', companyName: 'Sopra Steria', person: 'Alvarez Corchete Roberto', subject: '', status: 'refuse', locationType: 'À distance', refusalReason: "Entretien n'a pas eu lieu", refusalDetails: '' }
     ];
 
     let selectedContactId = null;
@@ -674,10 +567,6 @@
       renderTable();
       renderContactsView();
       showToast(`Affichage conditionné sur l'année ${year}`, 'info');
-    }
-
-    function applySubjectTemplate(text) {
-      document.getElementById('drawer-subject').value = text;
     }
 
     function formatBelgianPhone(input) {
@@ -744,21 +633,19 @@
       container.innerHTML = '';
       historyTable.innerHTML = '';
 
-      // Filtrage par défaut sur l'année académique sélectionnée (courante : 2026-2027)
       const filteredContacts = userContacts.filter(c => c.academicYear === currentAcademicYear);
 
       document.getElementById('active-contacts-badge').textContent = filteredContacts.filter(c => c.status !== 'refuse' && c.status !== 'suspendu').length;
 
-      // Cartes d'action (les 2 plus récents de l'année)
-      filteredContacts.slice(0, 2).forEach(c => {
+      filteredContacts.forEach(c => {
         const card = document.createElement('div');
         card.className = "bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between gap-4";
         
         let statusBadge = '';
         if (c.status === 'initie') statusBadge = '<span class="bg-blue-50 text-blue-600 border border-blue-200 px-2.5 py-0.5 rounded-full font-bold text-[10px]">Initié</span>';
-        else if (c.status === 'pris') statusBadge = '<span class="bg-amber-50 text-amber-600 border border-amber-200 px-2.5 py-0.5 rounded-full font-bold text-[10px]">Contact pris</span>';
+        else if (c.status === 'pris') statusBadge = '<span class="bg-amber-50 text-amber-600 border border-amber-200 px-2.5 py-0.5 rounded-full font-bold text-[10px]">Pris</span>';
         else if (c.status === 'rencontre') statusBadge = `<span class="bg-indigo-50 text-indigo-600 border border-indigo-200 px-2.5 py-0.5 rounded-full font-bold text-[10px]">Rencontre (${c.locationType})</span>`;
-        else if (c.status === 'accepte') statusBadge = '<span class="bg-emerald-50 text-emerald-600 border border-emerald-200 px-2.5 py-0.5 rounded-full font-bold text-[10px]">Stage Accepté</span>';
+        else if (c.status === 'accepte') statusBadge = '<span class="bg-emerald-50 text-emerald-600 border border-emerald-200 px-2.5 py-0.5 rounded-full font-bold text-[10px]">Accepté</span>';
         else if (c.status === 'refuse') statusBadge = '<span class="bg-rose-50 text-rose-600 border border-rose-200 px-2.5 py-0.5 rounded-full font-bold text-[10px]">Refusé</span>';
         else if (c.status === 'suspendu') statusBadge = '<span class="bg-slate-100 text-slate-500 border border-slate-200 px-2.5 py-0.5 rounded-full font-bold text-[10px]">Suspendu</span>';
 
@@ -768,38 +655,34 @@
               <span class="font-bold text-slate-900 text-sm">${c.companyName}</span>
               ${statusBadge}
             </div>
-            <p class="text-xs font-semibold text-slate-700 mb-2">Référent : ${c.person}</p>
-            <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Sujet de stage (modification rapide) :</label>
-            <input type="text" value="${c.subject}" onchange="quickUpdateSubject('${c.id}', this.value)" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:border-blue-500 focus:outline-none">
-            ${c.refusalReason ? `<p class="text-xs text-rose-600 mt-2 bg-rose-50 p-2 rounded-lg">Raison refus : ${c.refusalReason} (${c.refusalDetails})</p>` : ''}
+            <p class="text-xs text-slate-500 mb-2">Type : <span class="font-semibold text-slate-700">${c.locationType || '-'}</span></p>
+            <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Sujet de stage :</label>
+            <input type="text" value="${c.subject}" onchange="quickUpdateSubject('${c.id}', this.value)" placeholder="À compléter..." class="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:border-blue-500 focus:outline-none">
+            ${c.refusalReason ? `<p class="text-xs text-rose-600 mt-2 bg-rose-50 p-2 rounded-lg">Raison refus : ${c.refusalReason}</p>` : ''}
           </div>
 
           <div class="pt-3 border-t border-slate-100 flex flex-wrap gap-2 text-xs">
             ${c.status !== 'accepte' && c.status !== 'refuse' && c.status !== 'suspendu' ? `
-              <button onclick="updateContactStatus('${c.id}', 'pris')" class="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium">Contact pris</button>
+              <button onclick="updateContactStatus('${c.id}', 'pris')" class="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium">Pris</button>
               <button onclick="openMeetingModal('${c.id}')" class="px-2.5 py-1 rounded-md bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-medium">Rencontre</button>
-              <button onclick="openAcceptStageModal('${c.id}')" class="px-2.5 py-1 rounded-md bg-emerald-500 hover:bg-emerald-600 text-white font-semibold">Stage Accepté</button>
+              <button onclick="openAcceptStageModal('${c.id}')" class="px-2.5 py-1 rounded-md bg-emerald-500 hover:bg-emerald-600 text-white font-semibold">Accepté</button>
               <button onclick="openRefuseModal('${c.id}')" class="px-2.5 py-1 rounded-md bg-rose-50 hover:bg-rose-100 text-rose-600 font-medium">Refusé</button>
             ` : ''}
             <button onclick="deleteContact('${c.id}')" class="ml-auto text-slate-400 hover:text-rose-600 font-medium flex items-center gap-1">
-              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Ne plus suivre
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Supprimer
             </button>
           </div>
         `;
         container.appendChild(card);
-      });
 
-      // Historique de l'année sélectionnée
-      filteredContacts.forEach(c => {
         const tr = document.createElement('tr');
         tr.className = "border-b border-slate-100 hover:bg-slate-50/60 transition-colors";
         tr.innerHTML = `
           <td class="py-3 px-4 font-mono font-bold text-blue-600">${c.academicYear}</td>
           <td class="py-3 px-4 font-bold text-slate-800">${c.companyName}</td>
-          <td class="py-3 px-4 text-slate-600">${c.person}</td>
           <td class="py-3 px-4 font-semibold">${c.status.toUpperCase()}</td>
           <td class="py-3 px-4 text-slate-500">${c.locationType || '-'}</td>
-          <td class="py-3 px-4 text-slate-500">${c.refusalReason ? `${c.refusalReason}` : c.subject}</td>
+          <td class="py-3 px-4 text-slate-500">${c.refusalReason ? `refusé (${c.refusalReason})` : (c.subject || '-')}</td>
         `;
         historyTable.appendChild(tr);
       });
@@ -820,7 +703,7 @@
       const newName = document.getElementById('edit-profile-name').value.trim();
       if (newName) {
         document.getElementById('profile-header-name').textContent = newName;
-        document.getElementById('topbar-user-name').textContent = newName.split(' ').pop();
+        document.getElementById('topbar-user-name').textContent = newName;
         showToast('Données personnelles mises à jour !');
       }
     }
@@ -844,15 +727,7 @@
         renderContactsView();
       } else if (tab === 'profile') {
         document.getElementById('view-profile').classList.remove('hidden');
-        updateProfileLastAccess();
       }
-    }
-
-    function updateProfileLastAccess() {
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-      const now = new Date().toLocaleDateString('fr-FR', options);
-      const el = document.getElementById('profile-last-access');
-      if (el) el.textContent = `${now}`;
     }
 
     function openContactDrawer(companyId) {
@@ -919,6 +794,7 @@
     function openAcceptStageModal(id) {
       selectedContactId = id;
       const contact = userContacts.find(c => c.id === id);
+      document.getElementById('supervisor-name').value = contact.person;
       document.getElementById('stage-final-subject').value = contact.subject;
       document.getElementById('accept-stage-modal').classList.remove('modal-closed');
       document.getElementById('accept-stage-modal').classList.add('modal-open');
@@ -938,7 +814,7 @@
 
       closeAcceptStageModal();
       renderContactsView();
-      showToast(`Stage accepté (${currentAcademicYear}) ! Les autres contacts ont été suspendus.`);
+      showToast(`Stage accepté (${currentAcademicYear}) !`);
     }
 
     function openRefuseModal(id) {
@@ -954,7 +830,6 @@
       const contact = userContacts.find(c => c.id === selectedContactId);
       contact.status = 'refuse';
       contact.refusalReason = document.getElementById('refusal-reason').value;
-      contact.refusalDetails = document.getElementById('refusal-details').value;
       closeRefuseModal();
       renderContactsView();
       showToast('Refus enregistré', 'info');
@@ -1003,13 +878,6 @@
     }
 
     function toggleDropdown(id) {
-      const dropdowns = ['profile-dropdown', 'notifications-dropdown', 'agenda-dropdown'];
-      dropdowns.forEach(d => {
-        if (d !== id) {
-          const el = document.getElementById(d);
-          if (el) el.classList.add('hidden');
-        }
-      });
       const target = document.getElementById(id);
       if (target) target.classList.toggle('hidden');
     }

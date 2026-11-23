@@ -5,16 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Administration | HE Vinci - My Internship</title>
   
-  <!-- Feuilles de style & Fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   
-  <!-- Configuration Tailwind -->
   <script>
     tailwind.config = {
       theme: {
@@ -47,14 +44,11 @@
     }
   </script>
 
-  <!-- Fichier CSS externe -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-[#0b1220] text-slate-800 font-sans min-h-screen flex items-center justify-center p-3 sm:p-6 antialiased selection:bg-blue-500 selection:text-white">
 
-  <!-- ========================================== -->
-  <!-- ÉCRAN DE CONNEXION (SYNCHRONISÉ AVEC UE)   -->
-  <!-- ========================================== -->
+  <!-- ÉCRAN DE CONNEXION -->
   <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-white p-4 transition-opacity duration-500 overflow-y-auto select-none">
     <div class="absolute -top-24 -left-24 w-96 h-96 bg-blue-100 rounded-full glow-bg pointer-events-none"></div>
     <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-indigo-100 rounded-full glow-bg pointer-events-none"></div>
@@ -77,7 +71,7 @@
         <span>Accéder à l'espace Administration</span>
       </button>
 
-      <!-- Encart U.E & Planning dynamique (Année au format aaaa-aaaa) -->
+      <!-- Encart U.E & Planning dynamique -->
       <div class="w-full bg-slate-50 rounded-2xl p-4 sm:p-5 text-left border border-slate-200 space-y-3 mb-6 shadow-sm">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-2">
           <div>
@@ -95,9 +89,7 @@
                 <th class="py-2 px-3 rounded-r-lg">Pendant le cours</th>
               </tr>
             </thead>
-            <tbody id="login-planning-tbody" class="divide-y divide-slate-200 text-slate-700">
-              <!-- Injecté dynamiquement par JS -->
-            </tbody>
+            <tbody id="login-planning-tbody" class="divide-y divide-slate-200 text-slate-700"></tbody>
           </table>
         </div>
       </div>
@@ -111,16 +103,13 @@
     </div>
   </div>
 
-  <!-- ========================================== -->
-  <!-- APPLICATION PRINCIPALE (ADMINISTRATION)    -->
-  <!-- ========================================== -->
+  <!-- APPLICATION PRINCIPALE (ADMINISTRATION : ANNOUCK LANCASTER) -->
   <div id="main-app" class="app-container hidden w-[min(96vw,calc(94vh*16/9))] aspect-video bg-white rounded-3xl overflow-hidden shadow-2xl flex relative border border-slate-800/10 opacity-0 transition-opacity duration-500">
 
     <!-- 1. SIDEBAR -->
     <aside class="sidebar w-72 sm:w-80 bg-navy-900 flex flex-col p-6 relative z-20 border-r border-slate-800/40 select-none flex-shrink-0">
       <div class="absolute -top-10 -left-10 w-48 h-48 bg-blue-600/20 rounded-full glow-bg pointer-events-none"></div>
       
-      <!-- Logo -->
       <div class="logo flex items-center gap-3.5 mb-6 relative z-10 cursor-pointer" onclick="switchTab('etudiants')">
         <div class="logo-icon-wrapper w-11 h-11 bg-gradient-to-br from-electric-500 to-electric-700 rounded-2xl flex items-center justify-center shadow-neon">
           <i data-lucide="box" class="logo-icon w-6 h-6 text-white"></i>
@@ -133,24 +122,22 @@
         </div>
       </div>
 
-      <!-- Recherche rapide utilisateur -->
       <div class="search-box relative mb-6 z-10">
         <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
         <input type="text" id="global-user-search" placeholder="Accès rapide étudiant..." class="w-full bg-slate-800/60 border border-slate-700/60 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-electric-500">
       </div>
 
-      <!-- Navigation -->
       <nav class="sidebar-menu flex flex-col gap-2.5 z-10">
         <button id="nav-etudiants" onclick="switchTab('etudiants')" class="menu-item glass-sidebar-item active w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:text-white text-left">
           <i data-lucide="users" class="w-4 h-4 text-electric-400"></i>
           <span class="flex-1">Utilisateurs & Étudiants</span>
-          <span id="students-count-badge" class="badge bg-gradient-to-r from-electric-500 to-electric-700 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">4</span>
+          <span id="students-count-badge" class="badge bg-gradient-to-r from-electric-500 to-electric-700 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">7</span>
         </button>
 
         <button id="nav-responsables" onclick="switchTab('responsables')" class="menu-item glass-sidebar-item w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white text-left">
           <i data-lucide="briefcase" class="w-4 h-4"></i>
           <span class="flex-1">Responsables de stage</span>
-          <span id="supervisors-count-badge" class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold px-2 py-0.5 rounded-full">3</span>
+          <span id="supervisors-count-badge" class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold px-2 py-0.5 rounded-full">8</span>
         </button>
 
         <button id="nav-ue-planning" onclick="switchTab('ue-planning')" class="menu-item glass-sidebar-item w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white text-left">
@@ -180,37 +167,36 @@
       <header class="topbar h-20 px-8 flex items-center justify-between bg-white/80 backdrop-blur-md border-b border-slate-100 z-10 gap-3">
         <div class="flex items-center gap-3">
           <span class="px-2.5 py-1 rounded-lg bg-amber-50 text-amber-700 border border-amber-200/70 font-bold text-xs flex items-center gap-1.5">
-            <i data-lucide="shield" class="w-3.5 h-3.5"></i> Secrétariat & Gestion
+            <i data-lucide="shield" class="w-3.5 h-3.5"></i> Administratif
           </span>
 
-          <!-- Sélecteur Année Académique (format aaaa-aaaa, défaut année courante) -->
           <div class="flex items-center gap-2">
             <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 hidden md:inline">Année académique :</span>
             <select id="admin-academic-year-select" onchange="changeAdminAcademicYear(this.value)" class="bg-blue-50 border border-blue-200 text-blue-700 font-extrabold text-xs rounded-xl px-3 py-1.5 focus:outline-none">
               <option value="2026-2027" selected>2026-2027 (Courante)</option>
               <option value="2025-2026">2025-2026</option>
+              <option value="2024-2025">2024-2025</option>
             </select>
           </div>
         </div>
 
         <div class="flex items-center gap-3">
-          <!-- Profil Admin (Utilisateur connecté) -->
           <div class="user-avatar relative">
             <button onclick="toggleDropdown('profile-dropdown')" class="flex items-center gap-3 p-1 rounded-full hover:bg-slate-100 transition-colors">
               <div class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 text-white font-bold text-sm flex items-center justify-center ring-2 ring-amber-500/30">
-                CV
+                AL
               </div>
               <div class="hidden sm:flex flex-col text-left pr-1">
-                <span id="topbar-admin-name" class="text-xs font-bold text-slate-800 leading-none">Claire Vandenberghe</span>
-                <span class="text-[11px] text-amber-600 font-semibold mt-1">Équipe Administrative</span>
+                <span id="topbar-admin-name" class="text-xs font-bold text-slate-800 leading-none">Lancaster Annouck</span>
+                <span class="text-[11px] text-amber-600 font-semibold mt-1">Administratif</span>
               </div>
               <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 hidden sm:block"></i>
             </button>
 
-            <div id="profile-dropdown" class="hidden absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50">
+            <div id="profile-dropdown" class="hidden absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50">
               <div class="px-3 py-2 border-b border-slate-100 mb-1">
-                <p class="text-xs font-bold text-slate-800">Claire Vandenberghe</p>
-                <p class="text-[11px] text-amber-600 font-semibold">claire.vandenberghe@vinci.be</p>
+                <p class="text-xs font-bold text-slate-800">Lancaster Annouck</p>
+                <p class="text-[11px] text-amber-600 font-semibold">Annouck.Lancaster@vinci.be</p>
               </div>
               <button onclick="switchTab('profile'); toggleDropdown('profile-dropdown');" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-blue-600 hover:bg-blue-50 rounded-xl transition-colors text-left">
                 <i data-lucide="user" class="w-3.5 h-3.5"></i> Mes données personnelles
@@ -227,22 +213,20 @@
       <!-- VUES DYNAMIQUES -->
       <div class="flex-1 p-8 overflow-y-auto">
 
-        <!-- ========================================================= -->
-        <!-- VUE 1 : RECHERCHE UTILISATEURS & GESTION DOSSIER ÉTUDIANT -->
-        <!-- ========================================================= -->
+        <!-- VUE 1 : ANNUAIRE DES ÉTUDIANTS -->
         <div id="view-etudiants" class="space-y-6">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
                 Annuaire des étudiants (<span class="current-year-label">2026-2027</span>)
-                <span id="students-results-count" class="text-xs font-semibold px-3 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-100">4 étudiants</span>
+                <span id="students-results-count" class="text-xs font-semibold px-3 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-100">7 étudiants</span>
               </h1>
-              <p class="text-xs text-slate-500 mt-1">Accès rapide aux dossiers de l'année académique sélectionnée et modification instantanée.</p>
+              <p class="text-xs text-slate-500 mt-1">Accès aux dossiers étudiants et démarches issues du tableau Excel.</p>
             </div>
 
             <div class="flex items-center gap-2">
               <button onclick="filterStudents('all')" class="student-filter px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white">Tous</button>
-              <button onclick="filterStudents('accepted')" class="student-filter px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-slate-200 text-slate-600">Stage validé</button>
+              <button onclick="filterStudents('accepted')" class="student-filter px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-slate-200 text-slate-600">Stage accepté</button>
               <button onclick="filterStudents('searching')" class="student-filter px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-slate-200 text-slate-600">En recherche</button>
             </div>
           </div>
@@ -255,9 +239,10 @@
                     <th class="py-4 px-6">Année</th>
                     <th class="py-4 px-4">Étudiant</th>
                     <th class="py-4 px-4">Email HE Vinci</th>
-                    <th class="py-4 px-4">Contacts pris</th>
+                    <th class="py-4 px-4">1ère connexion</th>
+                    <th class="py-4 px-4">Contacts</th>
                     <th class="py-4 px-4">État du stage</th>
-                    <th class="py-4 px-6 text-right">Dossier & Encodage</th>
+                    <th class="py-4 px-6 text-right">Dossier</th>
                   </tr>
                 </thead>
                 <tbody id="students-table-body" class="divide-y divide-slate-100 text-xs"></tbody>
@@ -266,9 +251,7 @@
           </div>
         </div>
 
-        <!-- ========================================================= -->
-        <!-- VUE 1B : DÉTAIL D'UN ÉTUDIANT & MODIFICATION RAPIDE       -->
-        <!-- ========================================================= -->
+        <!-- VUE 1B : DÉTAIL D'UN ÉTUDIANT -->
         <div id="view-student-detail" class="hidden space-y-6">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
             <div class="flex items-center gap-4">
@@ -290,57 +273,48 @@
             </button>
           </div>
 
-          <!-- Bloc Profil (modification rapide) + Stage Validé -->
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Profil étudiant avec édition rapide -->
             <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
               <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                 <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-                  <i data-lucide="user-check" class="w-4 h-4 text-blue-600"></i> Profil (Modification rapide)
+                  <i data-lucide="user-check" class="w-4 h-4 text-blue-600"></i> Profil Utilisateur
                 </h2>
               </div>
               <div class="space-y-3 text-xs">
                 <div>
-                  <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Section / Bloc</label>
-                  <input type="text" id="detail-student-section-input" onchange="quickUpdateStudentField('section', this.value)" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 font-semibold text-slate-800 focus:border-blue-500 focus:outline-none">
+                  <span class="text-[10px] font-bold text-slate-400 uppercase block">Rôle</span>
+                  <span class="font-semibold text-slate-800">Étudiant</span>
                 </div>
                 <div>
-                  <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Téléphone (Formatage auto)</label>
-                  <input type="text" id="detail-student-phone-input" oninput="formatBelgianPhone(this)" onchange="quickUpdateStudentField('phone', this.value)" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 font-semibold text-slate-800 focus:border-blue-500 focus:outline-none">
+                  <span class="text-[10px] font-bold text-slate-400 uppercase block">Cohorte (Issu)</span>
+                  <span id="detail-student-issu" class="font-semibold text-slate-800">2026-2027</span>
                 </div>
                 <div>
-                  <span class="text-[10px] font-bold text-slate-400 uppercase block">Dernière connexion</span>
-                  <span id="detail-student-lastlogin" class="text-slate-600">16 novembre 2026, 12:45</span>
+                  <span class="text-[10px] font-bold text-slate-400 uppercase block">Date de première connexion</span>
+                  <span id="detail-student-firstlogin" class="text-slate-600">25/09/26</span>
                 </div>
               </div>
             </div>
 
-            <!-- Stage de l'étudiant -->
-            <div id="detail-stage-card" class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
-              <!-- Injecté dynamiquement -->
-            </div>
+            <div id="detail-stage-card" class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between"></div>
           </div>
 
-          <!-- Liste des contacts pris par l'étudiant (avec modification rapide du sujet et substitution) -->
           <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
-            <div class="flex items-center justify-between">
-              <div>
-                <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-                  <i data-lucide="phone-call" class="w-4 h-4 text-blue-600"></i> Contacts pris & Encodage administratif
-                </h2>
-                <p class="text-xs text-slate-500 mt-0.5">Cliquez sur un sujet pour le modifier instantanément ou mettez à jour le statut.</p>
-              </div>
-            </div>
+            <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="phone-call" class="w-4 h-4 text-blue-600"></i> Contacts & Stages enregistrés
+            </h2>
 
             <div class="overflow-x-auto">
               <table class="w-full text-left border-collapse text-xs">
                 <thead>
                   <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase text-[10px] font-bold">
                     <th class="py-3 px-4">Entreprise</th>
-                    <th class="py-3 px-4">Référent</th>
-                    <th class="py-3 px-4">Sujet de stage (Modif. rapide)</th>
-                    <th class="py-3 px-4">Statut actuel</th>
-                    <th class="py-3 px-4 text-right">Action Admin (Substitution)</th>
+                    <th class="py-3 px-4">État contact / Raison refus</th>
+                    <th class="py-3 px-4">Type de contact</th>
+                    <th class="py-3 px-4">Sujet stage</th>
+                    <th class="py-3 px-4">Date convention</th>
+                    <th class="py-3 px-4">Responsable stage</th>
+                    <th class="py-3 px-4 text-right">Action Admin</th>
                   </tr>
                 </thead>
                 <tbody id="detail-contacts-tbody" class="divide-y divide-slate-100"></tbody>
@@ -349,17 +323,15 @@
           </div>
         </div>
 
-        <!-- ========================================================= -->
-        <!-- VUE 2 : LISTE DES COORDONNÉES DES RESPONSABLES DE STAGE   -->
-        <!-- ========================================================= -->
+        <!-- VUE 2 : LISTE DES COORDONNÉES DES RESPONSABLES DE STAGE (TABLE RESPONSABLES EXCEL) -->
         <div id="view-responsables" class="hidden space-y-6">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
-                Responsables de stage (<span class="current-year-label">2026-2027</span>)
-                <span id="supervisors-total-badge" class="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">3 responsables</span>
+                Responsables en entreprise
+                <span id="supervisors-total-badge" class="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">8 responsables</span>
               </h1>
-              <p class="text-xs text-slate-500 mt-1">Répertoire des maîtres de stage désignés pour les stages validés de l'année sélectionnée.</p>
+              <p class="text-xs text-slate-500 mt-1">Liste exacte des responsables issus de votre fichier Excel.</p>
             </div>
 
             <div class="relative w-full sm:w-72">
@@ -373,13 +345,11 @@
               <table class="w-full text-left border-collapse">
                 <thead>
                   <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                    <th class="py-4 px-6">Année</th>
-                    <th class="py-4 px-4">Responsable de stage</th>
-                    <th class="py-4 px-4">Entreprise</th>
+                    <th class="py-4 px-6">Nom</th>
+                    <th class="py-4 px-4">Prénom</th>
+                    <th class="py-4 px-4">Tél</th>
                     <th class="py-4 px-4">Email</th>
-                    <th class="py-4 px-4">Téléphone</th>
-                    <th class="py-4 px-4">Étudiant encadré</th>
-                    <th class="py-4 px-6">Sujet du stage</th>
+                    <th class="py-4 px-6">Entreprise</th>
                   </tr>
                 </thead>
                 <tbody id="supervisors-table-body" class="divide-y divide-slate-100 text-xs"></tbody>
@@ -388,9 +358,7 @@
           </div>
         </div>
 
-        <!-- ========================================================= -->
-        <!-- VUE 3 : MISE À JOUR DU PLANNING & DE LA FICHE UE          -->
-        <!-- ========================================================= -->
+        <!-- VUE 3 : MISE À JOUR DU PLANNING & DE LA FICHE UE -->
         <div id="view-ue-planning" class="hidden space-y-6 max-w-5xl">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
             <div>
@@ -402,10 +370,9 @@
             </button>
           </div>
 
-          <!-- Extrait de la fiche UE -->
           <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
             <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <i data-lucide="file-text" class="w-4 h-4 text-blue-600"></i> Extrait de la fiche UE de l'année académique
+              <i data-lucide="file-text" class="w-4 h-4 text-blue-600"></i> Extrait de la fiche UE
             </h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -424,12 +391,11 @@
             </div>
 
             <div>
-              <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Description / Acquis d'apprentissage (Extrait fiche UE)</label>
+              <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Description / Acquis d'apprentissage</label>
               <textarea id="edit-ue-description" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-700 leading-relaxed"></textarea>
             </div>
           </div>
 
-          <!-- Planning des séances -->
           <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
             <div class="flex items-center justify-between">
               <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
@@ -456,14 +422,12 @@
           </div>
         </div>
 
-        <!-- ========================================================= -->
-        <!-- VUE 4 : MES DONNÉES PERSONNELLES (MODIFICATION RAPIDE)    -->
-        <!-- ========================================================= -->
+        <!-- VUE 4 : MES DONNÉES PERSONNELLES -->
         <div id="view-profile" class="hidden space-y-6 max-w-4xl">
           <div class="flex items-center justify-between border-b border-slate-200 pb-4">
             <div>
               <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Mes données personnelles</h1>
-              <p class="text-xs text-slate-500 mt-1">Accès rapide et modification instantanée de vos coordonnées administratives.</p>
+              <p class="text-xs text-slate-500 mt-1">Compte administratif HE Vinci.</p>
             </div>
             <div class="flex items-center gap-2">
               <button onclick="saveAdminProfileQuickEdit()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors">
@@ -477,74 +441,47 @@
 
           <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-5">
             <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 text-white font-extrabold text-2xl flex items-center justify-center ring-4 ring-amber-500/15">
-              CV
+              AL
             </div>
             <div>
-              <h2 id="admin-profile-header-name" class="text-xl font-bold text-slate-900">Claire Vandenberghe</h2>
+              <h2 id="admin-profile-header-name" class="text-xl font-bold text-slate-900">Lancaster Annouck</h2>
               <div class="flex items-center gap-2 mt-1">
-                <span class="px-3 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 font-semibold text-xs">Membre de l'équipe administrative</span>
-                <span class="text-xs text-slate-400">· Haute École Léonard de Vinci · 2026-2027</span>
+                <span class="px-3 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 font-semibold text-xs">Administratif</span>
+                <span class="text-xs text-slate-400">· Haute École Léonard de Vinci</span>
               </div>
             </div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Informations détaillées (éditables rapidement) -->
-            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden flex flex-col justify-between">
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
+              <h3 class="font-bold text-sm text-slate-800 border-b border-slate-100 pb-3 flex items-center gap-2">
+                <i data-lucide="mail" class="w-4 h-4 text-blue-600"></i> Coordonnées institutionnelles
+              </h3>
               <div>
-                <div class="px-6 py-4 bg-slate-50/80 border-b border-slate-100 flex items-center justify-between">
-                  <h3 class="font-bold text-sm text-slate-800 flex items-center gap-2">
-                    <i data-lucide="mail" class="w-4 h-4 text-blue-600"></i> Coordonnées institutionnelles (Modif. rapide)
-                  </h3>
-                </div>
-                <div class="p-6 space-y-4">
-                  <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Nom & Prénom</label>
-                    <input type="text" id="edit-admin-name" value="Claire Vandenberghe" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800">
-                  </div>
-                  <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Adresse de courriel</label>
-                    <p class="text-xs font-medium text-blue-600">claire.vandenberghe@vinci.be</p>
-                  </div>
-                  <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Service / Département</label>
-                    <input type="text" id="edit-admin-dept" value="Secrétariat des Étudiants & Cellule Stages (Informatique)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800">
-                  </div>
-                  <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Téléphone interne (formatage auto)</label>
-                    <input type="text" id="edit-admin-phone" oninput="formatBelgianPhone(this)" value="02 773 67 42" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800">
-                  </div>
-                </div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Nom & Prénom</label>
+                <input type="text" id="edit-admin-name" value="Lancaster Annouck" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Adresse de courriel</label>
+                <p class="text-xs font-medium text-blue-600">Annouck.Lancaster@vinci.be</p>
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Rôle</label>
+                <p class="text-xs font-semibold text-slate-800">Administratif</p>
               </div>
             </div>
 
-            <!-- Informations de connexion -->
-            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden flex flex-col justify-between">
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
+              <h3 class="font-bold text-sm text-slate-800 border-b border-slate-100 pb-3 flex items-center gap-2">
+                <i data-lucide="clock" class="w-4 h-4 text-blue-600"></i> Informations de session
+              </h3>
               <div>
-                <div class="px-6 py-4 bg-slate-50/80 border-b border-slate-100 flex items-center justify-between">
-                  <h3 class="font-bold text-sm text-slate-800 flex items-center gap-2">
-                    <i data-lucide="clock" class="w-4 h-4 text-blue-600"></i> Informations de session
-                  </h3>
-                </div>
-                <div class="p-6 space-y-4">
-                  <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Année académique courante</label>
-                    <p class="text-xs font-extrabold text-blue-600">2026-2027</p>
-                  </div>
-                  <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Droits d'accès</label>
-                    <p class="text-xs font-semibold text-slate-800">Équipe Administrative (Substitution encodage, Gestion UE & Planning)</p>
-                  </div>
-                  <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Premier accès au site</label>
-                    <p class="text-xs font-semibold text-slate-800">lundi 2 septembre 2024, 08:30</p>
-                  </div>
-                  <div>
-                    <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Dernier accès au site</label>
-                    <p id="admin-last-access" class="text-xs font-semibold text-slate-800">lundi 16 novembre 2026, 14:01</p>
-                    <span class="text-[10px] text-emerald-600 font-semibold">(connecté maintenant)</span>
-                  </div>
-                </div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Date de première connexion</label>
+                <p class="text-xs font-semibold text-slate-800">10/10/24</p>
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Dernier accès au site</label>
+                <p id="admin-last-access" class="text-xs font-semibold text-slate-800">Maintenant</p>
               </div>
             </div>
           </div>
@@ -553,9 +490,7 @@
       </div>
     </main>
 
-    <!-- ========================================================= -->
-    <!-- MODALE 1 : ENCODER UN CONTACT (AVEC AIDES À L'ENCODAGE)   -->
-    <!-- ========================================================= -->
+    <!-- MODALE 1 : ENCODER UN CONTACT -->
     <div id="admin-contact-modal" class="fixed inset-0 bg-navy-950/60 backdrop-blur-md z-50 flex items-center justify-center p-4 modal-closed transition-all duration-300">
       <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden border border-slate-100">
         <div class="p-6 bg-navy-900 text-white flex items-center justify-between">
@@ -567,47 +502,41 @@
         </div>
         <form onsubmit="submitAdminContactForStudent(event)" class="p-6 space-y-4">
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Entreprise * <span class="text-[10px] text-blue-600 font-normal">(Suggestions réseau Vinci)</span></label>
-            <input type="text" id="admin-c-company" list="admin-company-suggestions" required placeholder="Choisir ou saisir une entreprise..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs">
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Entreprise *</label>
+            <input type="text" id="admin-c-company" list="admin-company-suggestions" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs">
             <datalist id="admin-company-suggestions">
-              <option value="Infrabel">
-              <option value="Idealis Consulting">
-              <option value="Sopra Steria">
-              <option value="LetsBuild">
               <option value="Assyst Europe">
-              <option value="Niboo">
               <option value="AXIS SRL">
+              <option value="Infrabel">
+              <option value="La route du papier">
+              <option value="LetsBuild">
+              <option value="Niboo">
+              <option value="Sopra Steria">
+              <option value="The Bayard Partnership">
+              <option value="Infrabel I-ICT Ring station">
+              <option value="Idealis Consulting">
             </datalist>
           </div>
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-semibold text-slate-700 mb-1">Nom du référent *</label>
-              <input type="text" id="admin-c-person" list="admin-referent-suggestions" required placeholder="ex: Marc Willems" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs">
-              <datalist id="admin-referent-suggestions">
-                <option value="Service Ressources Humaines (RH)">
-                <option value="Marc Willems">
-                <option value="Sophie Laurent">
-                <option value="Claire Martin">
-              </datalist>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Type de contact</label>
+              <select id="admin-c-type" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs">
+                <option value="Dans l'entreprise">Dans l'entreprise</option>
+                <option value="A distance">A distance</option>
+              </select>
             </div>
             <div>
               <label class="block text-xs font-semibold text-slate-700 mb-1">État initial</label>
               <select id="admin-c-status" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs">
-                <option value="initie">Contact initié</option>
-                <option value="pris">Contact pris</option>
-                <option value="rencontre">Rencontre effectuée</option>
+                <option value="initié">initié</option>
+                <option value="pris">pris</option>
+                <option value="accepté">accepté</option>
               </select>
             </div>
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Sujet de stage * <span class="text-[10px] text-blue-600 font-normal">(Modèles rapides)</span></label>
-            <div class="flex flex-wrap gap-1.5 mb-2">
-              <button type="button" onclick="applyAdminSubjectTemplate('Développement Fullstack React / Node.js')" class="px-2 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 text-[10px] font-semibold">+ Fullstack Web</button>
-              <button type="button" onclick="applyAdminSubjectTemplate('Développement Backend Java / Spring Boot')" class="px-2 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 text-[10px] font-semibold">+ Backend Java</button>
-              <button type="button" onclick="applyAdminSubjectTemplate('Administration Système, Cloud & DevOps')" class="px-2 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 text-[10px] font-semibold">+ Cloud / DevOps</button>
-              <button type="button" onclick="applyAdminSubjectTemplate('Consulting ERP Odoo & Base de données PostgreSQL')" class="px-2 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 text-[10px] font-semibold">+ ERP / SQL</button>
-            </div>
-            <textarea id="admin-c-subject" required rows="2" placeholder="Cliquez sur un modèle ou saisissez le sujet..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs resize-none"></textarea>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Sujet de stage</label>
+            <textarea id="admin-c-subject" rows="2" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs resize-none"></textarea>
           </div>
           <div class="pt-2 flex gap-3">
             <button type="button" onclick="closeAdminAddContactModal()" class="flex-1 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600">Annuler</button>
@@ -617,9 +546,7 @@
       </div>
     </div>
 
-    <!-- ========================================================= -->
-    <!-- MODALE 2 : VALIDER LE STAGE AU NOM DE L'ÉTUDIANT          -->
-    <!-- ========================================================= -->
+    <!-- MODALE 2 : VALIDER LE STAGE AU NOM DE L'ÉTUDIANT -->
     <div id="admin-accept-modal" class="fixed inset-0 bg-navy-950/60 backdrop-blur-md z-50 flex items-center justify-center p-4 modal-closed transition-all duration-300">
       <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -628,21 +555,25 @@
         </div>
         <div class="space-y-3">
           <div>
-            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Nom du responsable de stage *</label>
-            <input type="text" id="admin-sup-name" required placeholder="ex: Marc Willems" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs">
-          </div>
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Email responsable *</label>
-              <input type="email" id="admin-sup-email" required placeholder="marc.willems@entreprise.be" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs">
-            </div>
-            <div>
-              <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Téléphone <span class="text-[9px] text-slate-400">(auto-formaté)</span> *</label>
-              <input type="text" id="admin-sup-phone" oninput="formatBelgianPhone(this)" required placeholder="02 525 22 11" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs">
-            </div>
+            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Responsable stage *</label>
+            <input type="text" id="admin-sup-name" list="admin-sup-suggestions" required class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs">
+            <datalist id="admin-sup-suggestions">
+              <option value="Dossche">
+              <option value="Alvarez Corchete">
+              <option value="Assal">
+              <option value="Ile">
+              <option value="Cordier Jean-Claude">
+              <option value="Barn">
+              <option value="Lefever">
+              <option value="Bokiau">
+            </datalist>
           </div>
           <div>
-            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Sujet définitif du stage *</label>
+            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Date signature convention *</label>
+            <input type="text" id="admin-conv-date" required placeholder="ex: 9/10/26" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs">
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Sujet stage *</label>
             <textarea id="admin-final-subject" required rows="2" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs resize-none"></textarea>
           </div>
         </div>
@@ -653,15 +584,13 @@
       </div>
     </div>
 
-    <!-- CONTAINER TOAST -->
     <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
   </div>
 
-  <!-- Script JS -->
   <script>
     let currentAdminAcademicYear = '2026-2027';
 
-    // 1. DONNÉES FICHE UE & PLANNING (Format aaaa-aaaa)
+    // 1. FICHE UE & PLANNING
     let ueData = {
       title: 'BINV2160-1 Analyse et modélisation - Cahier des charges',
       year: '2026-2027',
@@ -675,80 +604,197 @@
       ]
     };
 
-    // 2. DONNÉES ÉTUDIANTS, CONTACTS & STAGES (Avec année académique aaaa-aaaa)
+    // 2. RESPONSABLES EXACTS DU FICHIER EXCEL (TABLE 2)
+    const supervisorsExcel = [
+      { nom: 'Dossche', prenom: 'Stéphanie', tel: '014.54.67.54', email: 'stephanie.dossche@letsbuild.com', entreprise: 'LetsBuild' },
+      { nom: 'Alvarez Corchete', prenom: 'Roberto', tel: '02.566.60.14', email: 'roberto.alvarez@soprasteria.com', entreprise: 'Sopra Steria' },
+      { nom: 'Assal', prenom: 'Farid', tel: '0474 39 69 09', email: 'f.assal@assyst-europe.com', entreprise: 'Assyst Europe' },
+      { nom: 'Ile', prenom: 'Emile', tel: '0489 32 16 54', email: 'emile.ile@laroutedupapier.com', entreprise: 'La route du papier' },
+      { nom: 'Cordier', prenom: 'Jean-Claude', tel: '0456 678 567', email: 'jeanclaude.cordier@INFRABEL.BE', entreprise: 'Infrabel' },
+      { nom: 'Barn', prenom: 'Henri', tel: '02 752 17 60', email: 'h.barn@axis.be', entreprise: 'AXIS SRL' },
+      { nom: 'Lefever', prenom: 'Sam', tel: '0487 02 79 13', email: 'sam@niboo.com', entreprise: 'Niboo' },
+      { nom: 'Bokiau', prenom: 'Louis', tel: '0456687765', email: 'louis.bokiau@infrabel.be', entreprise: 'Infrabel' }
+    ];
+
+    // 3. LES 24 ÉTUDIANTS EXACTS DE L'EXCEL & LEURS CONTACTS / STAGES
     let studentsData = [
+      // --- COHORTE 2024-2025 ---
       {
-        id: 'stu1',
-        academicYear: '2026-2027',
-        name: 'Tuasukama-Bongo William',
-        email: 'william.tuasukama@student.vinci.be',
-        section: 'Bloc 3 - Informatique de gestion',
-        phone: '0472 18 45 90',
-        lastLogin: '16 novembre 2026, 12:45',
+        id: 's1', academicYear: '2024-2025', name: 'Skile Elie', email: 'Elie.Skile@student.vinci.be', firstLogin: '25/09/24',
         contacts: [
-          { id: 'c101', company: 'Infrabel', person: 'Marc Willems', subject: 'Développement API Java pour I-ICT Ring', status: 'accepte' },
-          { id: 'c102', company: 'LetsBuild', person: 'Sophie Laurent', subject: 'Intégration Dashboard React', status: 'suspendu' }
+          { id: 'ct1', company: 'La route du papier', status: 'accepté', type: 'A distance', subject: 'Conservation et restauration d’œuvres d’art', dateConv: '25/11/24', supervisor: 'Ile' }
         ],
-        stage: {
-          company: 'Infrabel',
-          subject: 'Développement API Java pour I-ICT Ring',
-          supervisorName: 'Marc Willems',
-          supervisorEmail: 'marc.willems@infrabel.be',
-          supervisorPhone: '02 525 22 11'
-        }
+        stage: { company: 'La route du papier', subject: 'Conservation et restauration d’œuvres d’art', dateConv: '25/11/24', supervisorName: 'Ile' }
       },
       {
-        id: 'stu2',
-        academicYear: '2026-2027',
-        name: 'Dupont Camille',
-        email: 'camille.dupont@student.vinci.be',
-        section: 'Bloc 3 - Informatique de gestion',
-        phone: '0485 62 11 04',
-        lastLogin: '15 novembre 2026, 19:10',
+        id: 's2', academicYear: '2024-2025', name: 'Ilotie Basile', email: 'Basile.Ilotie@student.vinci.be', firstLogin: '25/09/24',
         contacts: [
-          { id: 'c201', company: 'Idealis Consulting', person: 'Claire Martin', subject: 'Consulting ERP Odoo & PostgreSQL', status: 'accepte' },
-          { id: 'c202', company: 'Niboo', person: 'Luc Moreau', subject: 'Développement modules Python', status: 'refuse' }
-        ],
-        stage: {
-          company: 'Idealis Consulting',
-          subject: 'Consulting ERP Odoo & PostgreSQL',
-          supervisorName: 'Claire Martin',
-          supervisorEmail: 'c.martin@idealisconsulting.com',
-          supervisorPhone: '010 45 82 10'
-        }
-      },
-      {
-        id: 'stu3',
-        academicYear: '2026-2027',
-        name: 'El Amrani Yassine',
-        email: 'yassine.elamrani@student.vinci.be',
-        section: 'Bloc 3 - Informatique de gestion',
-        phone: '0491 33 78 21',
-        lastLogin: '14 novembre 2026, 10:05',
-        contacts: [
-          { id: 'c301', company: 'Sopra Steria', person: 'Antoine Dupont', subject: 'Architecture Cloud & DevOps Azure', status: 'rencontre' },
-          { id: 'c302', company: 'AXIS SRL', person: 'Julie Mercier', subject: 'Refonte portail client Angular', status: 'pris' }
+          { id: 'ct2', company: 'Sopra Steria', status: 'non suivi', type: '', subject: '', dateConv: '', supervisor: '' }
         ],
         stage: null
       },
       {
-        id: 'stu4',
-        academicYear: '2025-2026',
-        name: 'Peeters Thomas',
-        email: 'thomas.peeters@student.vinci.be',
-        section: 'Bloc 3 - Informatique de gestion',
-        phone: '0478 90 12 34',
-        lastLogin: '12 juin 2026, 16:30',
+        id: 's3', academicYear: '2024-2025', name: 'Friot Basile', email: 'Basile.Friot@student.vinci.be', firstLogin: '25/09/24',
         contacts: [
-          { id: 'c401', company: 'Assyst Europe', person: 'Thomas Bernard', subject: 'Administration système Linux & Réseau', status: 'accepte' }
+          { id: 'ct3', company: 'The Bayard Partnership', status: 'refusé (ne prennent pas de stage)', type: 'A distance', subject: '', dateConv: '', supervisor: '' }
         ],
-        stage: {
-          company: 'Assyst Europe',
-          subject: 'Administration système Linux & Réseau',
-          supervisorName: 'Thomas Bernard',
-          supervisorEmail: 't.bernard@assyst-europe.com',
-          supervisorPhone: '02 609 25 00'
-        }
+        stage: null
+      },
+      {
+        id: 's4', academicYear: '2024-2025', name: 'Ilot Basile', email: 'Basile.Ilot@student.vinci.be', firstLogin: '25/09/24',
+        contacts: [],
+        stage: null
+      },
+      {
+        id: 's5', academicYear: '2024-2025', name: 'Dito Arnaud', email: 'Arnaud.Dito@student.vinci.be', firstLogin: '25/09/24',
+        contacts: [
+          { id: 'ct4', company: 'Sopra Steria', status: 'accepté', type: "Dans l'entreprise", subject: "L'analyste au centre du développement", dateConv: '17/11/24', supervisor: 'Alvarez Corchete' }
+        ],
+        stage: { company: 'Sopra Steria', subject: "L'analyste au centre du développement", dateConv: '17/11/24', supervisorName: 'Alvarez Corchete' }
+      },
+      {
+        id: 's6', academicYear: '2024-2025', name: 'Dilo Arnaud', email: 'Arnaud.Dilo@student.vinci.be', firstLogin: '25/09/24',
+        contacts: [
+          { id: 'ct5', company: 'Sopra Steria', status: 'accepté', type: "Dans l'entreprise", subject: "L'analyste au centre du développement", dateConv: '17/11/24', supervisor: 'Alvarez Corchete' }
+        ],
+        stage: { company: 'Sopra Steria', subject: "L'analyste au centre du développement", dateConv: '17/11/24', supervisorName: 'Alvarez Corchete' }
+      },
+      {
+        id: 's7', academicYear: '2024-2025', name: 'Dilot Cédric', email: 'Cedric.Dilot@student.vinci.be', firstLogin: '25/09/24',
+        contacts: [
+          { id: 'ct6', company: 'Assyst Europe', status: 'accepté', type: "Dans l'entreprise", subject: 'ERP : Microsoft Dynamics 365', dateConv: '25/11/24', supervisor: 'Assal' },
+          { id: 'ct7', company: 'Sopra Steria', status: 'refusé (Choix autre étudiant)', type: "Dans l'entreprise", subject: '', dateConv: '', supervisor: '' }
+        ],
+        stage: { company: 'Assyst Europe', subject: 'ERP : Microsoft Dynamics 365', dateConv: '25/11/24', supervisorName: 'Assal' }
+      },
+      {
+        id: 's8', academicYear: '2024-2025', name: 'Linot Auristelle', email: 'Auristelle.Linot@student.vinci.be', firstLogin: '25/09/24',
+        contacts: [
+          { id: 'ct8', company: 'Infrabel', status: 'accepté', type: 'A distance', subject: 'Entretien des rails', dateConv: '22/11/24', supervisor: 'Hibo' },
+          { id: 'ct9', company: 'Sopra Steria', status: 'suspendu', type: '', subject: '', dateConv: '', supervisor: '' },
+          { id: 'ct10', company: 'Niboo', status: 'refusé (Choix autre étudiant)', type: 'A distance', subject: '', dateConv: '', supervisor: '' }
+        ],
+        stage: { company: 'Infrabel', subject: 'Entretien des rails', dateConv: '22/11/24', supervisorName: 'Hibo' }
+      },
+
+      // --- COHORTE 2025-2026 ---
+      {
+        id: 's9', academicYear: '2025-2026', name: 'Demoulin Basile', email: 'Basile.Demoulin@student.vinci.be', firstLogin: '26/09/25',
+        contacts: [
+          { id: 'ct11', company: 'Assyst Europe', status: 'accepté', type: 'A distance', subject: 'CRM : Microsoft Dynamics 365 For Sales', dateConv: '25/11/25', supervisor: 'Assal' }
+        ],
+        stage: { company: 'Assyst Europe', subject: 'CRM : Microsoft Dynamics 365 For Sales', dateConv: '25/11/25', supervisorName: 'Assal' }
+      },
+      {
+        id: 's10', academicYear: '2025-2026', name: 'Moulin Arthur', email: 'Arthur.Moulin@student.vinci.be', firstLogin: '26/09/25',
+        contacts: [
+          { id: 'ct12', company: 'AXIS SRL', status: 'accepté', type: "Dans l'entreprise", subject: 'Un métier : chef de projet', dateConv: '19/10/25', supervisor: 'Barn' }
+        ],
+        stage: { company: 'AXIS SRL', subject: 'Un métier : chef de projet', dateConv: '19/10/25', supervisorName: 'Barn' }
+      },
+      {
+        id: 's11', academicYear: '2025-2026', name: 'Moulin Hugo', email: 'Hugo.Moulin@student.vinci.be', firstLogin: '26/09/25',
+        contacts: [
+          { id: 'ct13', company: 'AXIS SRL', status: 'accepté', type: "Dans l'entreprise", subject: 'Un métier : chef de projet', dateConv: '19/10/25', supervisor: 'Barn' }
+        ],
+        stage: { company: 'AXIS SRL', subject: 'Un métier : chef de projet', dateConv: '19/10/25', supervisorName: 'Barn' }
+      },
+      {
+        id: 's12', academicYear: '2025-2026', name: 'Demoulin Jeremy', email: 'Jeremy.Demoulin@student.vinci.be', firstLogin: '26/09/25',
+        contacts: [],
+        stage: null
+      },
+      {
+        id: 's13', academicYear: '2025-2026', name: 'Mile Aurèle', email: 'Aurèle.Mile@student.vinci.be', firstLogin: '26/09/25',
+        contacts: [
+          { id: 'ct14', company: 'AXIS SRL', status: 'accepté', type: 'A distance', subject: 'Un métier : chef de projet', dateConv: '19/10/25', supervisor: 'Barn' }
+        ],
+        stage: { company: 'AXIS SRL', subject: 'Un métier : chef de projet', dateConv: '19/10/25', supervisorName: 'Barn' }
+      },
+      {
+        id: 's14', academicYear: '2025-2026', name: 'Mile Frank', email: 'Frank.Mile@student.vinci.be', firstLogin: '26/09/25',
+        contacts: [
+          { id: 'ct15', company: 'AXIS SRL', status: 'accepté', type: 'A distance', subject: 'Un métier : chef de projet', dateConv: '19/10/25', supervisor: 'Barn' }
+        ],
+        stage: { company: 'AXIS SRL', subject: 'Un métier : chef de projet', dateConv: '19/10/25', supervisorName: 'Barn' }
+      },
+      {
+        id: 's15', academicYear: '2025-2026', name: 'Dumoulin Basile', email: 'Basile.Dumoulin@student.vinci.be', firstLogin: '26/09/25',
+        contacts: [
+          { id: 'ct16', company: 'AXIS SRL', status: "refusé (Entretien n'a pas eu lieu)", type: "Dans l'entreprise", subject: '', dateConv: '', supervisor: '' },
+          { id: 'ct17', company: 'Niboo', status: "refusé (Entretien n'a pas eu lieu)", type: "Dans l'entreprise", subject: '', dateConv: '', supervisor: '' },
+          { id: 'ct18', company: 'Sopra Steria', status: "refusé (Entretien n'a pas eu lieu)", type: 'A distance', subject: '', dateConv: '', supervisor: '' }
+        ],
+        stage: null
+      },
+      {
+        id: 's16', academicYear: '2025-2026', name: 'Dumoulin Axel', email: 'Axel.Dumoulin@student.vinci.be', firstLogin: '26/09/25',
+        contacts: [
+          { id: 'ct19', company: 'Sopra Steria', status: 'accepté', type: 'A distance', subject: 'sBMS project - Java Development', dateConv: '17/10/25', supervisor: 'Alvarez Corchete' }
+        ],
+        stage: { company: 'Sopra Steria', subject: 'sBMS project - Java Development', dateConv: '17/10/25', supervisorName: 'Alvarez Corchete' }
+      },
+
+      // --- COHORTE 2026-2027 ---
+      {
+        id: 's17', academicYear: '2026-2027', name: 'Line Caroline', email: 'Caroline.Line@student.vinci.be', firstLogin: '25/09/26',
+        contacts: [
+          { id: 'ct20', company: 'Niboo', status: "refusé (Pas d'affinité avec l'ERP Odoo)", type: 'A distance', subject: '', dateConv: '', supervisor: '' },
+          { id: 'ct21', company: 'Sopra Steria', status: 'non suivi', type: '', subject: '', dateConv: '', supervisor: '' },
+          { id: 'ct22', company: 'LetsBuild', status: 'pris', type: 'A distance', subject: '', dateConv: '', supervisor: '' }
+        ],
+        stage: null
+      },
+      {
+        id: 's18', academicYear: '2026-2027', name: 'Ile Achille', email: 'Achille.Ile@student.vinci.be', firstLogin: '25/09/26',
+        contacts: [
+          { id: 'ct23', company: 'Sopra Steria', status: 'accepté', type: "Dans l'entreprise", subject: 'sBMS project - a complex environment', dateConv: '8/10/26', supervisor: 'Alvarez Corchete' },
+          { id: 'ct24', company: 'Niboo', status: "refusé (N'ont pas accepté d'avoir un entretien)", type: 'A distance', subject: '', dateConv: '', supervisor: '' }
+        ],
+        stage: { company: 'Sopra Steria', subject: 'sBMS project - a complex environment', dateConv: '8/10/26', supervisorName: 'Alvarez Corchete' }
+      },
+      {
+        id: 's19', academicYear: '2026-2027', name: 'Ile Basile', email: 'Basile.Ile@student.vinci.be', firstLogin: '25/09/26',
+        contacts: [
+          { id: 'ct25', company: 'Assyst Europe', status: 'accepté', type: "Dans l'entreprise", subject: 'CRM : Microsoft Dynamics 365 For Sales', dateConv: '12/10/26', supervisor: 'Assal' },
+          { id: 'ct26', company: 'LetsBuild', status: 'suspendu', type: 'A distance', subject: '', dateConv: '', supervisor: '' },
+          { id: 'ct27', company: 'Sopra Steria', status: 'suspendu', type: '', subject: '', dateConv: '', supervisor: '' },
+          { id: 'ct28', company: 'Niboo', status: "refusé (ne prennent qu'un seul étudiant)", type: "Dans l'entreprise", subject: '', dateConv: '', supervisor: '' }
+        ],
+        stage: { company: 'Assyst Europe', subject: 'CRM : Microsoft Dynamics 365 For Sales', dateConv: '12/10/26', supervisorName: 'Assal' }
+      },
+      {
+        id: 's20', academicYear: '2026-2027', name: 'Skile Achille', email: 'Achille.Skile@student.vinci.be', firstLogin: '25/09/26',
+        contacts: [
+          { id: 'ct29', company: 'Sopra Steria', status: 'initié', type: '', subject: '', dateConv: '', supervisor: '' }
+        ],
+        stage: null
+      },
+      {
+        id: 's21', academicYear: '2026-2027', name: 'Skile Carole', email: 'Carole.Skile@student.vinci.be', firstLogin: '25/09/26',
+        contacts: [
+          { id: 'ct30', company: 'LetsBuild', status: 'accepté', type: 'A distance', subject: 'Un ERP : Odoo', dateConv: '9/10/26', supervisor: 'Dossche' }
+        ],
+        stage: { company: 'LetsBuild', subject: 'Un ERP : Odoo', dateConv: '9/10/26', supervisorName: 'Dossche' }
+      },
+      {
+        id: 's22', academicYear: '2026-2027', name: 'Ile Théophile', email: 'Théophile.Ile@student.vinci.be', firstLogin: '25/09/26',
+        contacts: [
+          { id: 'ct31', company: 'Sopra Steria', status: 'initié', type: '', subject: '', dateConv: '', supervisor: '' },
+          { id: 'ct32', company: 'Niboo', status: 'initié', type: '', subject: '', dateConv: '', supervisor: '' },
+          { id: 'ct33', company: 'LetsBuild', status: 'initié', type: '', subject: '', dateConv: '', supervisor: '' },
+          { id: 'ct34', company: 'Infrabel I-ICT Ring station', status: 'accepté', type: 'A distance', subject: '', dateConv: '9/10/26', supervisor: 'Cordier Jean-Claude' }
+        ],
+        stage: { company: 'Infrabel I-ICT Ring station', subject: '-', dateConv: '9/10/26', supervisorName: 'Cordier Jean-Claude' }
+      },
+      {
+        id: 's23', academicYear: '2026-2027', name: 'Dumoulin Basile (2026-2027)', email: 'Basile.Dumoulin@student.vinci.be', firstLogin: '26/09/25',
+        contacts: [
+          { id: 'ct35', company: 'Infrabel', status: 'pris (A distance -> accepté)', type: 'A distance', subject: 'Sécurité & Bien-être des équipes', dateConv: '', supervisor: '' },
+          { id: 'ct36', company: 'LetsBuild', status: 'pris', type: 'A distance', subject: '', dateConv: '', supervisor: '' },
+          { id: 'ct37', company: 'Sopra Steria', status: 'pris', type: "Dans l'entreprise", subject: '', dateConv: '', supervisor: '' }
+        ],
+        stage: null
       }
     ];
 
@@ -765,24 +811,9 @@
       currentAdminAcademicYear = year;
       document.querySelectorAll('.current-year-label').forEach(el => el.textContent = year);
       renderStudentsTable(document.getElementById('global-user-search').value);
-      renderSupervisorsTable(document.getElementById('supervisor-search').value);
       showToast(`Affichage conditionné sur l'année ${year}`);
     }
 
-    function applyAdminSubjectTemplate(text) {
-      document.getElementById('admin-c-subject').value = text;
-    }
-
-    function formatBelgianPhone(input) {
-      let digits = input.value.replace(/\D/g, '').slice(0, 10);
-      if (digits.startsWith('04') && digits.length > 4) {
-        input.value = digits.replace(/(\d{4})(\d{2})(\d{2})(\d{0,2})/, '$1 $2 $3 $4').trim();
-      } else if (digits.length > 2) {
-        input.value = digits.replace(/(\d{2})(\d{3})(\d{2})(\d{0,2})/, '$1 $2 $3 $4').trim();
-      }
-    }
-
-    // CONNEXION / DÉCONNEXION
     function loginAsAdmin() {
       const loginScreen = document.getElementById('login-screen');
       const mainApp = document.getElementById('main-app');
@@ -810,7 +841,6 @@
       }, 400);
     }
 
-    // NAVIGATION ENTRE ONGLETS
     function switchTab(tab) {
       ['view-etudiants', 'view-student-detail', 'view-responsables', 'view-ue-planning', 'view-profile'].forEach(v => {
         document.getElementById(v).classList.add('hidden');
@@ -835,27 +865,15 @@
       } else if (tab === 'profile') {
         document.getElementById('view-profile').classList.remove('hidden');
         document.getElementById('nav-profile').classList.add('active');
-        updateAdminLastAccess();
       }
       lucide.createIcons();
     }
 
-    function updateAdminLastAccess() {
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-      const now = new Date().toLocaleDateString('fr-FR', options);
-      const el = document.getElementById('admin-last-access');
-      if (el) el.textContent = now;
-    }
-
-    // =========================================================
-    // 1. RECHERCHE & TABLEAU DES UTILISATEURS (ÉTUDIANTS)
-    // =========================================================
     function renderStudentsTable(query = '') {
       const tbody = document.getElementById('students-table-body');
       tbody.innerHTML = '';
       const q = query.toLowerCase();
 
-      // Conditionner par défaut à l'année académique courante (2026-2027)
       const byYear = studentsData.filter(s => s.academicYear === currentAdminAcademicYear);
 
       const filtered = byYear.filter(s => {
@@ -876,10 +894,11 @@
           <td class="py-4 px-6 font-mono font-bold text-blue-600">${s.academicYear}</td>
           <td class="py-4 px-4 font-bold text-slate-900">${s.name}</td>
           <td class="py-4 px-4 text-blue-600 font-medium">${s.email}</td>
-          <td class="py-4 px-4 font-semibold text-slate-700">${s.contacts.length} démarche(s)</td>
+          <td class="py-4 px-4 text-slate-600">${s.firstLogin}</td>
+          <td class="py-4 px-4 font-semibold text-slate-700">${s.contacts.length} contact(s)</td>
           <td class="py-4 px-4">
             ${s.stage 
-              ? `<span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold text-[11px]">Validé (${s.stage.company})</span>`
+              ? `<span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold text-[11px]">Accepté (${s.stage.company})</span>`
               : `<span class="px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 font-bold text-[11px]">En recherche</span>`
             }
           </td>
@@ -899,9 +918,6 @@
       renderStudentsTable(document.getElementById('global-user-search').value);
     }
 
-    // =========================================================
-    // 2. VUE DÉTAILLÉE ÉTUDIANT & MODIFICATION RAPIDE
-    // =========================================================
     function openStudentDetail(studentId) {
       currentStudentId = studentId;
       const student = studentsData.find(s => s.id === studentId);
@@ -913,35 +929,23 @@
       document.getElementById('detail-student-name').textContent = student.name;
       document.getElementById('detail-student-year').textContent = student.academicYear;
       document.getElementById('detail-student-email').textContent = student.email;
-      document.getElementById('detail-student-section-input').value = student.section;
-      document.getElementById('detail-student-phone-input').value = student.phone;
-      document.getElementById('detail-student-lastlogin').textContent = student.lastLogin;
+      document.getElementById('detail-student-issu').textContent = student.academicYear;
+      document.getElementById('detail-student-firstlogin').textContent = student.firstLogin;
 
-      // Bloc Stage
       const stageCard = document.getElementById('detail-stage-card');
       if (student.stage) {
         stageCard.innerHTML = `
           <div>
             <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
               <h2 class="text-sm font-bold text-emerald-700 flex items-center gap-2">
-                <i data-lucide="award" class="w-4 h-4"></i> Stage Validé (${student.academicYear}) : ${student.stage.company}
+                <i data-lucide="award" class="w-4 h-4"></i> Stage Accepté (${student.academicYear}) : ${student.stage.company}
               </h2>
-              <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Convention prête</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Convention : ${student.stage.dateConv}</span>
             </div>
             <p class="text-xs text-slate-700 font-semibold mb-3">Sujet : "${student.stage.subject}"</p>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200/70 text-xs">
-              <div>
-                <span class="text-[10px] font-bold text-slate-400 uppercase block">Responsable de stage</span>
-                <span class="font-bold text-slate-800">${student.stage.supervisorName}</span>
-              </div>
-              <div>
-                <span class="text-[10px] font-bold text-slate-400 uppercase block">Email responsable</span>
-                <span class="text-blue-600 font-medium">${student.stage.supervisorEmail}</span>
-              </div>
-              <div>
-                <span class="text-[10px] font-bold text-slate-400 uppercase block">Téléphone</span>
-                <span class="font-semibold text-slate-800">${student.stage.supervisorPhone}</span>
-              </div>
+            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200/70 text-xs">
+              <span class="text-[10px] font-bold text-slate-400 uppercase block">Responsable stage</span>
+              <span class="font-bold text-slate-800">${student.stage.supervisorName}</span>
             </div>
           </div>
         `;
@@ -951,13 +955,11 @@
             <div class="w-10 h-10 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mb-2">
               <i data-lucide="clock" class="w-5 h-5"></i>
             </div>
-            <h3 class="text-sm font-bold text-slate-800">Aucun stage validé pour ${student.academicYear}</h3>
-            <p class="text-xs text-slate-500 max-w-md mt-1">Vous pouvez valider un stage directement depuis la liste des contacts pris ci-dessous si l'étudiant n'a pas encore encodé sa confirmation.</p>
+            <h3 class="text-sm font-bold text-slate-800">Aucun stage accepté pour ${student.academicYear}</h3>
           </div>
         `;
       }
 
-      // Tableau des contacts pris avec modification rapide du sujet
       const tbody = document.getElementById('detail-contacts-tbody');
       tbody.innerHTML = '';
 
@@ -966,18 +968,17 @@
         tr.className = "hover:bg-slate-50/80";
         tr.innerHTML = `
           <td class="py-3.5 px-4 font-bold text-slate-900">${c.company}</td>
-          <td class="py-3.5 px-4 text-slate-700">${c.person}</td>
+          <td class="py-3.5 px-4 font-semibold text-slate-700">${c.status}</td>
+          <td class="py-3.5 px-4 text-slate-600">${c.type || '-'}</td>
           <td class="py-3.5 px-4">
             <input type="text" value="${c.subject}" onchange="quickUpdateAdminContactSubject('${c.id}', this.value)" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-800 focus:border-blue-500 focus:outline-none">
           </td>
-          <td class="py-3.5 px-4 font-bold uppercase text-[11px]">${c.status}</td>
+          <td class="py-3.5 px-4 text-slate-600">${c.dateConv || '-'}</td>
+          <td class="py-3.5 px-4 text-slate-700 font-medium">${c.supervisor || '-'}</td>
           <td class="py-3.5 px-4 text-right space-x-1">
-            ${c.status !== 'accepte' ? `
-              <button onclick="adminUpdateContactStatus('${c.id}', 'pris')" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-[11px]">Contact pris</button>
-              <button onclick="adminUpdateContactStatus('${c.id}', 'rencontre')" class="px-2 py-1 rounded bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold text-[11px]">Rencontre</button>
+            ${c.status !== 'accepté' ? `
               <button onclick="openAdminAcceptModal('${c.id}')" class="px-2.5 py-1 rounded bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-[11px]">Valider Stage</button>
-              <button onclick="adminUpdateContactStatus('${c.id}', 'refuse')" class="px-2 py-1 rounded bg-rose-50 hover:bg-rose-100 text-rose-600 font-semibold text-[11px]">Refus</button>
-            ` : '<span class="text-emerald-600 font-semibold text-[11px]">Stage confirmé</span>'}
+            ` : '<span class="text-emerald-600 font-semibold text-[11px]">Validé</span>'}
           </td>
         `;
         tbody.appendChild(tr);
@@ -986,22 +987,13 @@
       lucide.createIcons();
     }
 
-    function quickUpdateStudentField(field, value) {
-      const student = studentsData.find(s => s.id === currentStudentId);
-      if (student) {
-        student[field] = value;
-        showToast('Données étudiant mises à jour instantanément !');
-      }
-    }
-
     function quickUpdateAdminContactSubject(contactId, newSubject) {
       const student = studentsData.find(s => s.id === currentStudentId);
       const contact = student.contacts.find(c => c.id === contactId);
       if (contact) {
         contact.subject = newSubject;
-        if (contact.status === 'accepte' && student.stage) {
+        if (contact.status === 'accepté' && student.stage) {
           student.stage.subject = newSubject;
-          renderSupervisorsTable();
         }
         showToast('Sujet de stage mis à jour !');
       }
@@ -1016,7 +1008,6 @@
       }
     }
 
-    // Substitution : Encoder un nouveau contact pour l'étudiant
     function openAdminAddContactModal() {
       const student = studentsData.find(s => s.id === currentStudentId);
       document.getElementById('modal-student-target').textContent = `Encodage (${student.academicYear}) pour : ${student.name}`;
@@ -1033,32 +1024,23 @@
       e.preventDefault();
       const student = studentsData.find(s => s.id === currentStudentId);
       student.contacts.unshift({
-        id: 'c' + Date.now(),
+        id: 'ct' + Date.now(),
         company: document.getElementById('admin-c-company').value,
-        person: document.getElementById('admin-c-person').value,
+        type: document.getElementById('admin-c-type').value,
         subject: document.getElementById('admin-c-subject').value,
-        status: document.getElementById('admin-c-status').value
+        status: document.getElementById('admin-c-status').value,
+        dateConv: '',
+        supervisor: ''
       });
       closeAdminAddContactModal();
       openStudentDetail(currentStudentId);
-      showToast(`Contact encodé pour ${student.name} (${student.academicYear})`);
+      showToast(`Contact encodé pour ${student.name}`);
     }
 
-    // Substitution : Changer le statut d'un contact
-    function adminUpdateContactStatus(contactId, newStatus) {
-      const student = studentsData.find(s => s.id === currentStudentId);
-      const contact = student.contacts.find(c => c.id === contactId);
-      if (contact) contact.status = newStatus;
-      openStudentDetail(currentStudentId);
-      showToast(`Statut mis à jour (${newStatus.toUpperCase()}) au nom de l'étudiant`);
-    }
-
-    // Substitution : Valider un stage et enregistrer le responsable
     function openAdminAcceptModal(contactId) {
       currentContactIdForAccept = contactId;
       const student = studentsData.find(s => s.id === currentStudentId);
       const contact = student.contacts.find(c => c.id === contactId);
-      document.getElementById('admin-sup-name').value = contact.person;
       document.getElementById('admin-final-subject').value = contact.subject;
       document.getElementById('admin-accept-modal').classList.remove('modal-closed');
       document.getElementById('admin-accept-modal').classList.add('modal-open');
@@ -1073,64 +1055,57 @@
       const student = studentsData.find(s => s.id === currentStudentId);
       const contact = student.contacts.find(c => c.id === currentContactIdForAccept);
       
-      contact.status = 'accepte';
+      contact.status = 'accepté';
+      contact.subject = document.getElementById('admin-final-subject').value;
+      contact.dateConv = document.getElementById('admin-conv-date').value;
+      contact.supervisor = document.getElementById('admin-sup-name').value;
+
       student.contacts.forEach(c => {
-        if (c.id !== contact.id && c.status !== 'refuse') c.status = 'suspendu';
+        if (c.id !== contact.id && !c.status.startsWith('refusé')) c.status = 'suspendu';
       });
 
       student.stage = {
         company: contact.company,
-        subject: document.getElementById('admin-final-subject').value,
-        supervisorName: document.getElementById('admin-sup-name').value,
-        supervisorEmail: document.getElementById('admin-sup-email').value,
-        supervisorPhone: document.getElementById('admin-sup-phone').value
+        subject: contact.subject,
+        dateConv: contact.dateConv,
+        supervisorName: contact.supervisor
       };
 
       closeAdminAcceptModal();
       openStudentDetail(currentStudentId);
-      renderSupervisorsTable();
-      showToast(`Stage validé pour ${student.name} (${student.academicYear}) !`);
+      showToast(`Stage validé pour ${student.name} !`);
     }
 
-    // =========================================================
-    // 3. LISTE DES COORDONNÉES DES RESPONSABLES DE STAGE
-    // =========================================================
     function renderSupervisorsTable(query = '') {
       const tbody = document.getElementById('supervisors-table-body');
       tbody.innerHTML = '';
       const q = query.toLowerCase();
 
-      const byYearWithStage = studentsData.filter(s => s.academicYear === currentAdminAcademicYear && s.stage !== null);
-
-      const withStage = byYearWithStage.filter(s => {
+      const filtered = supervisorsExcel.filter(s => {
         return !q 
-          || s.stage.supervisorName.toLowerCase().includes(q)
-          || s.stage.company.toLowerCase().includes(q)
-          || s.name.toLowerCase().includes(q);
+          || s.nom.toLowerCase().includes(q)
+          || s.prenom.toLowerCase().includes(q)
+          || s.entreprise.toLowerCase().includes(q)
+          || s.email.toLowerCase().includes(q);
       });
 
-      document.getElementById('supervisors-count-badge').textContent = byYearWithStage.length;
-      document.getElementById('supervisors-total-badge').textContent = `${withStage.length} responsable${withStage.length > 1 ? 's' : ''}`;
+      document.getElementById('supervisors-count-badge').textContent = supervisorsExcel.length;
+      document.getElementById('supervisors-total-badge').textContent = `${filtered.length} responsable${filtered.length > 1 ? 's' : ''}`;
 
-      withStage.forEach(s => {
+      filtered.forEach(s => {
         const tr = document.createElement('tr');
         tr.className = "hover:bg-blue-50/40 transition-colors";
         tr.innerHTML = `
-          <td class="py-4 px-6 font-mono font-bold text-blue-600">${s.academicYear}</td>
-          <td class="py-4 px-4 font-bold text-slate-900">${s.stage.supervisorName}</td>
-          <td class="py-4 px-4 font-semibold text-blue-700">${s.stage.company}</td>
-          <td class="py-4 px-4"><a href="mailto:${s.stage.supervisorEmail}" class="text-blue-600 hover:underline font-medium">${s.stage.supervisorEmail}</a></td>
-          <td class="py-4 px-4 font-semibold text-slate-700">${s.stage.supervisorPhone}</td>
-          <td class="py-4 px-4 text-slate-700 font-medium">${s.name}</td>
-          <td class="py-4 px-6 text-slate-500 italic">"${s.stage.subject}"</td>
+          <td class="py-4 px-6 font-bold text-slate-900">${s.nom}</td>
+          <td class="py-4 px-4 font-semibold text-slate-800">${s.prenom}</td>
+          <td class="py-4 px-4 font-semibold text-blue-600">${s.tel}</td>
+          <td class="py-4 px-4"><a href="mailto:${s.email}" class="text-blue-600 hover:underline font-medium">${s.email}</a></td>
+          <td class="py-4 px-6 font-bold text-slate-700">${s.entreprise}</td>
         `;
         tbody.appendChild(tr);
       });
     }
 
-    // =========================================================
-    // 4. MISE À JOUR DU PLANNING & DE LA FICHE UE
-    // =========================================================
     function renderUeEditor() {
       document.getElementById('edit-ue-title').value = ueData.title;
       document.getElementById('edit-ue-year').value = ueData.year;
@@ -1207,7 +1182,6 @@
       });
     }
 
-    // RECHERCHE & UTILITAIRES
     function setupSearchListeners() {
       document.getElementById('global-user-search').addEventListener('input', (e) => {
         switchTab('etudiants');
